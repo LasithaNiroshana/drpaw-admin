@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Add New Institute</h2>
+<mat-dialog-content class="mat-typography">
+ <form class="add-vet">
+  <mat-stepper #stepper>
+
+    <mat-step label="Personal Details">
+      
+    </mat-step>
+
+    <mat-step label="Professional Details">P
+      rofessional Details
+    </mat-step>
+
+    <mat-step label="Contact Details">Contact Details</mat-step>
+   </mat-stepper>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Save</button>
+</mat-dialog-actions>
+
+    
+

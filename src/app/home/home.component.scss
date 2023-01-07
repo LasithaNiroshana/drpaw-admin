@@ -1,0 +1,68 @@
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.drawer {
+  background: #6739B7;
+  color: white;
+}
+
+.mat-drawer {
+  width: 240px;
+}
+
+.mat-drawer-container {
+  height: 100%;
+}
+
+.mat-drawer-content {
+  padding: 20px;
+}
+
+.panel {
+  background: #263238;
+  color: white;
+}
+
+.paneltitle {
+  color: white;
+}
+
+.listitems {
+  margin-top: 20px;
+  overflow: 4000px;
+}
+
+.listitem {
+  background: #6739B7;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mat-list-item {
+  color: white;
+}
+
+.profile-card {
+  text-align: center;
+  padding: 0 20px 20px 20px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.list-icon {
+  color: white;
+}

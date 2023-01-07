@@ -1,0 +1,120 @@
+<h2 mat-dialog-title>Add New Vet</h2>
+<mat-dialog-content class="mat-typography">
+
+  <mat-stepper #stepper>
+
+    <!-- Personal details step -->
+   <mat-step label="Personal Details">
+    <h4>
+      Name
+    </h4>
+    <mat-form-field class="add-vet-field">
+      <mat-label>First Name</mat-label>
+      <input type="text" matInput placeholder="John" name="first_name">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Last Name</mat-label>
+      <input type="text" matInput placeholder="John" name="last_name">
+    </mat-form-field>
+    <br>
+    <h4>
+      Address
+    </h4>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Address Line 1</mat-label>
+      <input type="text" matInput placeholder="123" name="address_ln1">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Street</mat-label>
+      <input type="text" matInput placeholder="Highlevel Rd" name="address_ln2">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>City</mat-label>
+      <input type="text" matInput placeholder="Nugegoda" name="address_ln3">
+    </mat-form-field>
+    <br>
+   
+    <h4>
+      Bank Details
+    </h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Bank</mat-label>
+      <mat-select>
+        <mat-option value="HNB">HNB</mat-option>
+        <mat-option value="BOC">BOC</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Mobile Number</mat-label>
+      <input type="tel" matInput placeholder="0711234567" name="mobile_no">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Landline</mat-label>
+      <input type="tel" matInput placeholder="0111234567" name="landline">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="abc@gmail.com" name="email">
+    </mat-form-field>
+    <br>
+   </mat-step>
+
+   <!-- Proffesssional details step -->
+   <mat-step label="Professional Details">
+    <mat-form-field class="add-vet-field">
+      <mat-label>NIC</mat-label>
+      <input type="text" matInput placeholder="941631616V" name="id_no">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="add-vet-field">
+      <mat-label>SLVA Number</mat-label>
+      <input type="text" matInput placeholder="941631616V" name="slva_no">
+    </mat-form-field>
+   </mat-step>
+
+   <!-- Monertary details step -->
+   <mat-step label="Monetary Details">
+    <h4>
+      Channeling Fees(LKR)
+    </h4>
+    <mat-form-field class="add-vet-field">
+      <mat-label>e-pet channeling</mat-label>
+      <input type="text" matInput placeholder="1250" name="pet_channeling">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Home Visit</mat-label>
+      <input type="text" matInput placeholder="3000" name="home_visit">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Telemedicine</mat-label>
+      <input type="text" matInput placeholder="2000" name="telemedicine">
+    </mat-form-field>
+    <br>
+   
+    <h4>
+      Contact Details
+    </h4>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Mobile Number</mat-label>
+      <input type="tel" matInput placeholder="0711234567" name="mobile_no">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Landline</mat-label>
+      <input type="tel" matInput placeholder="0111234567" name="landline">
+    </mat-form-field>
+    <mat-form-field class="add-vet-field">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="abc@gmail.com" name="email">
+    </mat-form-field>
+    <br>
+   </mat-step>
+
+  </mat-stepper>
+  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Save</button>
+</mat-dialog-actions>
+
+

@@ -1,0 +1,65 @@
+<mat-toolbar color="accent">Add New Clinic</mat-toolbar>
+<mat-dialog-content class="add-clinic">
+
+    <form (ngSubmit)="addClinic()" class="add-clinic">
+
+        <mat-stepper #stepper>
+
+            <!-- Personal details step -->
+           <mat-step label="Clinic Details">
+            <h4>
+              Name
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Clinic Name</mat-label>
+              <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.name" name="name">
+            </mat-form-field>
+            <br>
+            <h4>
+              Address
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Address</mat-label>
+              <input type="text" matInput placeholder="123" [(ngModel)]="clinic.address" name="address_ln1">
+            </mat-form-field>
+            <!-- <mat-form-field class="add-clinic-field">
+              <mat-label>Street</mat-label>
+              <input type="text" matInput placeholder="Highlevel Rd" name="address_ln2">
+            </mat-form-field> -->
+            <mat-form-field class="add-clinic-field">
+              <mat-label>City</mat-label>
+              <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="address_ln3">
+            </mat-form-field>
+            <br>
+           
+           </mat-step>
+        
+           <!-- Contact details step -->
+           <mat-step label="Contact Details">
+            <h4>
+              Contact Details
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Mobile Number</mat-label>
+              <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile_no">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Website</mat-label>
+              <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="clinic.website" name="website">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email">
+            </mat-form-field>
+            <br>
+           </mat-step>
+        
+          </mat-stepper>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial color="primary" (click)="addClinic()">Save</button>
+</mat-dialog-actions>

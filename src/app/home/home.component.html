@@ -1,0 +1,103 @@
+<!-- Toolbar starts here -->
+<mat-toolbar color="primary">
+  <button mat-icon-button class="menu-icon" (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>DrPaw ADMIN</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button class="settings-icon favorite-icon">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-icon-button class="person-icon">
+    <mat-icon>person</mat-icon>
+  </button>
+</mat-toolbar>
+<!-- Toolbar ends here -->
+
+<!-- Drawer starts here -->
+<mat-drawer-container class="drawer-container">
+  <mat-drawer #drawer class="drawer" mode="side" [opened]="true">
+    <mat-nav-list class="sidenav">
+      <div class="profile-card">
+        <div class="header">
+          <h2>
+            Username
+          </h2>
+          <!-- <mat-label class="profile-label">
+            User Email
+          </mat-label> -->
+          <h4>User Role</h4>
+        </div>
+        <img class="img-responsive" src="../../assets/istockphoto-1209654046-612x612.jpeg">
+      </div>
+
+      <mat-divider color="accent"></mat-divider>
+
+      <!-- Admin menu list items -->
+      <div class="listitems">
+        
+        <!-- <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="dashboard">
+          <div class="listitem">
+            <p>Dashboard</p>
+            <mat-icon matSuffix>dashboard</mat-icon>
+          </div>
+        </a> -->
+
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="doctors">
+          <div class="listitem">
+            <p>Veterinarians & Clinics</p>
+            <mat-icon matSuffix>medication</mat-icon>
+          </div>
+        </a>
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="payments">
+          <div class="listitem">
+            <p>Payments & Settlements</p>
+            <mat-icon matSuffix>paid</mat-icon>
+          </div>
+        </a>
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="petowners">
+          <div class="listitem">
+            <p>Pet Owners</p>
+            <mat-icon matSuffix>pets</mat-icon>
+          </div>
+        </a>
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="services">
+          <div class="listitem">
+            <p>Services</p>
+            <mat-icon matSuffix>medical_services</mat-icon>
+          </div>
+        </a>
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="stores">
+          <div class="listitem">
+            <p>Stores</p>
+            <mat-icon matSuffix>shop</mat-icon>
+          </div>
+        </a>
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="users">
+          <div class="listitem">
+            <p>Users & Permissions</p>
+            <mat-icon matSuffix>person</mat-icon>
+          </div>
+        </a>
+      </div>
+
+      <!-- <mat-selection-list>
+        <mat-list-option>
+          Shoe
+        </mat-list-option>
+      </mat-selection-list> -->
+      <!-- <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="/viewinvoices">Invoices</a> -->
+      <!-- <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="/viewdrivers">Drivers</a>
+      <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="/viewsalesagents">Sales Agents</a>
+      <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="/viewvehicles">Vehicles</a>
+      <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="/viewdisroutes">Routes</a>  -->
+
+
+    </mat-nav-list>
+  </mat-drawer>
+
+  <!-- Admin home content goes here -->
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

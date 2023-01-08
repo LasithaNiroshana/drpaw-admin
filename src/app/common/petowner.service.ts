@@ -9,12 +9,11 @@ import { GlobalService } from './global.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class PetownerService {
 
   constructor(private httpClient: HttpClient, public globalService: GlobalService) { }
 
-   //Handling http error
-   handleError(error: HttpErrorResponse) {
+  handleError(error: HttpErrorResponse) {
     let errorMessage = {"type":"unknown", "code":0, "message":"unknown"};
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
@@ -27,9 +26,9 @@ export class PaymentService {
     return throwError(errorMessage);
   }
 
-  //Get payment list
-  public getPaymentsList(){
-    const url = this.globalService.apiURL + 'pet_appointment/';
+  //Get pet owner list
+  public GetPetOwners(){
+    const url = this.globalService.apiURL + 'customer/';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");
     // .set("Authorization", "token " + APIStore.token);

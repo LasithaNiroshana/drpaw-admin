@@ -1,7 +1,7 @@
 <mat-toolbar color="accent">Add New Clinic</mat-toolbar>
 <mat-dialog-content class="add-clinic">
 
-    <form (ngSubmit)="addClinic()" class="add-clinic">
+    <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" class="add-clinic">
 
         <mat-stepper #stepper>
 
@@ -12,7 +12,7 @@
             </h4>
             <mat-form-field class="add-clinic-field">
               <mat-label>Clinic Name</mat-label>
-              <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.name" name="name">
+              <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.name" name="name" value="{{clinic.name}}">
             </mat-form-field>
             <br>
             <h4>
@@ -20,7 +20,7 @@
             </h4>
             <mat-form-field class="add-clinic-field">
               <mat-label>Address</mat-label>
-              <input type="text" matInput placeholder="123" [(ngModel)]="clinic.address" name="address_ln1">
+              <input type="text" matInput placeholder="123" [(ngModel)]="clinic.address" name="address_ln1" value="{{clinic.address}}">
             </mat-form-field>
             <!-- <mat-form-field class="add-clinic-field">
               <mat-label>Street</mat-label>
@@ -28,7 +28,7 @@
             </mat-form-field> -->
             <mat-form-field class="add-clinic-field">
               <mat-label>City</mat-label>
-              <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="address_ln3">
+              <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="address_ln3" value="{{clinic.city}}">
             </mat-form-field>
             <br>
            
@@ -41,15 +41,15 @@
             </h4>
             <mat-form-field class="add-clinic-field">
               <mat-label>Mobile Number</mat-label>
-              <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile_no">
+              <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile_no" value="{{clinic.mobile}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
               <mat-label>Website</mat-label>
-              <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="clinic.website" name="website">
+              <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="clinic.website" name="website" value="{{clinic.website}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
               <mat-label>Email</mat-label>
-              <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email">
+              <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email" value="{{clinic.email}}">
             </mat-form-field>
             <br>
            </mat-step>
@@ -61,5 +61,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button cdkFocusInitial color="primary" (click)="addClinic()">Save</button>
+  <button mat-button cdkFocusInitial color="primary" (click)="onSubmit(form.value)" mat-dialog-close>Save</button>
 </mat-dialog-actions>

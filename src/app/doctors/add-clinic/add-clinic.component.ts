@@ -4,7 +4,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 //Interface for payment details
 export interface ClinicDetails {
-  id:string;
   name: string;
   address:string;
   mobile: string;
@@ -12,6 +11,7 @@ export interface ClinicDetails {
   website:string;
   city:string;
   logo:string;
+  active:number;
 }
 
 @Component({
@@ -21,34 +21,36 @@ export interface ClinicDetails {
 })
 export class AddClinicComponent {
   clinic:ClinicDetails={
-    id:'10',
-    name: '',
-    address: '',
-    mobile: '',
-    email: '',
-    website: '',
-    city: '',
-    logo: '',
+    name: "",
+    address: "",
+    mobile: "",
+    email: "",
+    website: "",
+    city: "",
+    logo: "",
+    active:0
   }
 
   constructor(private clinicService:ClinicService,private snackbar:MatSnackBar){}
 
   //Adding a clinic
-  addClinic(){
+  addClinic(formValues: JSON){
     if(
-      this.clinic.name!=''
+      this.clinic.name!=""
       &&
-      this.clinic.address!=''
+      this.clinic.address!=""
       &&
-      this.clinic.mobile!=''
+      this.clinic.mobile!=""
       &&
-      this.clinic.email!=''
+      this.clinic.email!=""
       &&
-      this.clinic.website!=''
+      this.clinic.website!=""
       &&
-      this.clinic.city!=''
+      this.clinic.city!=""
     ){
-      this.clinicService.SaveClinic(this.clinic);
+      // this.clinicService.SaveClinic(this.clinic).subscribe(res=>{
+      //   console.log(res);
+      // })
     }
     else
      this.openSnackBar('One or more fields missing!','Ok'); 
@@ -58,4 +60,29 @@ export class AddClinicComponent {
   openSnackBar(message: string, action: string) {
     this.snackbar.open(message, action);
   }
+
+  onSubmit(formValues: JSON){
+    if(
+      this.clinic.name!=""
+      &&
+      this.clinic.address!=""
+      &&
+      this.clinic.mobile!=""
+      &&
+      this.clinic.email!=""
+      &&
+      this.clinic.website!=""
+      &&
+      this.clinic.city!=""
+    ){
+      this.clinicService.SaveClinic(formValues).subscribe(res=>{
+        console.log(res);
+       
+      })
+      // console.log(formValues);
+    }
+    else
+     this.openSnackBar('One or more fields missing!','Ok'); 
+  }
+  
 }

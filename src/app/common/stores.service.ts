@@ -24,7 +24,7 @@ export class StoresService {
       errorMessage = {"type":"server", "code":error.status, "message":error.message};
     }
 
-    return throwError(errorMessage);
+    return throwError(() => error);
   }
 
   //Get store list

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import {  throwError } from 'rxjs';
+import {  throwError,Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { GlobalService } from './global.service';
@@ -24,11 +24,21 @@ export class PaymentService {
       errorMessage = {"type":"server", "code":error.status, "message":error.message};
     }
 
-    return throwError(errorMessage);
+    return throwError(() => error);
   }
 
   //Get payment list
   public getPaymentsList(){
+    const url = this.globalService.apiURL + 'pet_appointment/';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
+
+  //Get payment list
+  public getPaymentsClinic(cid:any,stdt:Date,endt:Date){
     const url = this.globalService.apiURL + 'pet_appointment/';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");

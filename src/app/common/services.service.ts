@@ -14,7 +14,7 @@ export class ServicesService {
 
   constructor(private httpClient: HttpClient, public globalService: GlobalService) { }
 
-  //HAndle network errors
+  //Handle network errors
   handleError(error: HttpErrorResponse) {
     let errorMessage = {"type":"unknown", "code":0, "message":"unknown"};
     if (error.error instanceof ErrorEvent) {

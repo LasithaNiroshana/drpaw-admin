@@ -26,7 +26,7 @@ export class ClinicService {
       errorMessage = {"type":"server", "code":error.status, "message":error.message};
     }
 
-    return throwError(errorMessage);
+    return throwError(() => error);
   }
 
   //Save Clinic

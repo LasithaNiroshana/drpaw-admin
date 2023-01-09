@@ -14,6 +14,7 @@ import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.
 import { EditClinicComponent } from './doctors/edit-clinic/edit-clinic.component';
 import { AddClinicComponent } from './doctors/add-clinic/add-clinic.component';
 import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
+import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
 
 
 
@@ -27,6 +28,7 @@ import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component
     EditClinicComponent,
     AddClinicComponent,
     ClinicInfoComponent,
+    ConfirmCancelComponent,
   ],
   imports: [
     BrowserModule,

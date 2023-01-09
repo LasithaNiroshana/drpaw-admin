@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {ClinicService} from '../../common/clinic.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-
+import { MatDialog } from '@angular/material/dialog';
+import {ConfirmCancelComponent} from '../../doctors/confirm-cancel/confirm-cancel.component';
 //Interface for payment details
 export interface ClinicDetails {
   name: string;
@@ -31,30 +32,30 @@ export class AddClinicComponent {
     active:0
   }
 
-  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar){}
+  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog){}
 
   //Adding a clinic
-  addClinic(formValues: JSON){
-    if(
-      this.clinic.name!=""
-      &&
-      this.clinic.address!=""
-      &&
-      this.clinic.mobile!=""
-      &&
-      this.clinic.email!=""
-      &&
-      this.clinic.website!=""
-      &&
-      this.clinic.city!=""
-    ){
-      // this.clinicService.SaveClinic(this.clinic).subscribe(res=>{
-      //   console.log(res);
-      // })
-    }
-    else
-     this.openSnackBar('One or more fields missing!','Ok'); 
-  }
+  // addClinic(formValues: JSON){
+  //   if(
+  //     this.clinic.name!=""
+  //     &&
+  //     this.clinic.address!=""
+  //     &&
+  //     this.clinic.mobile!=""
+  //     &&
+  //     this.clinic.email!=""
+  //     &&
+  //     this.clinic.website!=""
+  //     &&
+  //     this.clinic.city!=""
+  //   ){
+  //     this.clinicService.SaveClinic(this.clinic).subscribe(res=>{
+  //       console.log(res);
+  //     })
+  //   }
+  //   else
+  //    this.openSnackBar('One or more fields missing!','Ok'); 
+  // }
 
   //Open snackbar 
   openSnackBar(message: string, action: string) {
@@ -74,15 +75,20 @@ export class AddClinicComponent {
       this.clinic.website!=""
       &&
       this.clinic.city!=""
+      &&
+      this.clinic.active!=null
     ){
-      this.clinicService.SaveClinic(formValues).subscribe(res=>{
-        console.log(res);
-       
-      })
+      this.clinicService.SaveClinic(formValues).subscribe((result: any)=>{
+      });
       // console.log(formValues);
+      this.openSnackBar('New clinic added successfully','');
     }
     else
      this.openSnackBar('One or more fields missing!','Ok'); 
+  }
+
+  cancelConfirm(){
+    this.dialog.open(ConfirmCancelComponent);
   }
   
 }

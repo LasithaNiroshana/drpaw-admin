@@ -24,7 +24,7 @@ export class AccessService {
       errorMessage = {"type":"server", "code":error.status, "message":error.message};
     }
 
-    return throwError(errorMessage);
+    return throwError(() => error);
   }
 
   //Create a new user

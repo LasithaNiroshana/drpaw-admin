@@ -7,7 +7,6 @@ import {MatSort, SortDirection} from '@angular/material/sort';
 import {ClinicService} from '../common/clinic.service';
 import { MatDialog } from '@angular/material/dialog';
 import {AddClinicComponent} from '../doctors/add-clinic/add-clinic.component';
-import {ClinicInfoComponent} from '../doctors/clinic-info/clinic-info.component';
 
 //Interface for payment details
 // export interface ClinicDetails {
@@ -61,8 +60,12 @@ export class DoctorsComponent implements OnInit{
   }
 
   //More Info
-  moreInfo(id:any){
-    this.dialog.open(ClinicInfoComponent);
+  moreInfo(clinic:string){
+    // this.dialog.open(ClinicInfoComponent);
+    this.clinicService.getUsers(clinic).subscribe(res=>{
+      this.router.navigate(['home/clinicinfo'],{state:{clinicid:clinic}});
+    });
+    // console.log(clinic);
   }
 
 }

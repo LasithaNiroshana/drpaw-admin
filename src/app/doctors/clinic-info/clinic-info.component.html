@@ -1,1 +1,109 @@
-<p>clinic-info works!</p>
+
+<!-- Clnics and veterinarians page -->
+<div class="clinic-users-component" *ngIf="this.userList?.length>0;else noUsers">
+    <br>
+    <button mat-raised-button color="primary" (click)="addUser()"><mat-icon>add_circle</mat-icon>Add New User</button>
+  <br><br>
+  
+      <!-- Clinic table starts here -->
+  <div class="clinic-user-table">
+    <table mat-table matSort [dataSource]="this.userList" class="mat-elevation-z8" id="content">
+  
+      <!-- <ng-container matColumnDef="logo">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let clinic"> 
+          <div class="img-logo">
+            <img src={{clinic.logo}}>
+          </div>
+        </td>
+      </ng-container> -->
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Mobile </th>
+        <td mat-cell *matCellDef="let user"> {{user.mobile}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="speciality">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Speciality</th>
+        <td mat-cell *matCellDef="let user"> {{user.speciality}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="email">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="on_leave">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>On Leave</th>
+        <td mat-cell *matCellDef="let user"> {{user.on_leave}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="direct_vsc">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Direct VSC(Lkr)</th>
+        <td mat-cell *matCellDef="let user"> {{user.direct_visit_service_charge}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="home_vsc">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Home VSC(Lkr)</th>
+        <td mat-cell *matCellDef="let user"> {{user.home_visit_service_charge}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="virtual_vsc">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Virtual Visit SC(Lkr)</th>
+        <td mat-cell *matCellDef="let user"> {{user.virtual_visit_service_charge}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="user_type">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>User Type</th>
+        <td mat-cell *matCellDef="let user"> {{user.user_type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="capacity">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Capacity</th>
+        <td mat-cell *matCellDef="let user"> {{user.capacity}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="info">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let user"> 
+          <button mat-icon-button class="info-button" (click)="moreInfo(clinic.id)">
+            <mat-icon>info</mat-icon>
+          </button>  
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let clinic"> 
+          <button mat-icon-button class="edit-button" (click)="editClinic(clinic.id)" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>  
+        </td>
+      </ng-container>
+   -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  
+  <!-- Doctors and Institutes Tabs -->
+  <!-- <mat-tab-group>
+      <mat-tab label="Veterinarians"><app-veterinarians></app-veterinarians></mat-tab>
+      <mat-tab label="Institutes"><app-institutes></app-institutes></mat-tab>
+    </mat-tab-group> -->
+  
+  </div>
+
+  <ng-template #noUsers>
+    <br>
+    <button mat-raised-button color="primary" (click)="addUser()"><mat-icon>add_circle</mat-icon>Add New User</button>
+  <br><br>
+    <hr>
+    <h3>There are no users registered with this clinic</h3>
+  </ng-template>
+  

@@ -81,6 +81,7 @@ export class AddClinicComponent {
       this.clinicService.SaveClinic(formValues).subscribe((result: any)=>{
       });
       // console.log(formValues);
+      this.dialog.closeAll();
       this.openSnackBar('New clinic added successfully','');
     }
     else
@@ -88,7 +89,7 @@ export class AddClinicComponent {
   }
 
   cancelConfirm(){
-    this.dialog.open(ConfirmCancelComponent);
+    // this.dialog.open(ConfirmCancelComponent);
   }
   
 }

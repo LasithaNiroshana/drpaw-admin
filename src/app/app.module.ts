@@ -13,8 +13,8 @@ import { AddVetComponent } from './doctors/add-vet/add-vet.component';
 import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.component';
 import { EditClinicComponent } from './doctors/edit-clinic/edit-clinic.component';
 import { AddClinicComponent } from './doctors/add-clinic/add-clinic.component';
-import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
 import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
+
 
 
 
@@ -27,7 +27,6 @@ import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.
     AddInstitutesComponent,
     EditClinicComponent,
     AddClinicComponent,
-    ClinicInfoComponent,
     ConfirmCancelComponent,
   ],
   imports: [

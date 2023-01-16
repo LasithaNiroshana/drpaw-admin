@@ -70,9 +70,9 @@ export class PaymentsComponent implements OnInit{
   constructor(private _httpClient: HttpClient,private dialog:MatDialog,private paymentsService:PaymentService) {}
 
   ngOnInit(){
-    this.paymentsService.getPaymentsList().subscribe(res=>{
-      console.log(res);
-    })
+    // this.paymentsService.getPaymentsList().subscribe(res=>{
+    //   console.log(res);
+    // });
   }
 
   //Make download pdf

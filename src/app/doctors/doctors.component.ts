@@ -7,6 +7,7 @@ import {MatSort, SortDirection} from '@angular/material/sort';
 import {ClinicService} from '../common/clinic.service';
 import { MatDialog } from '@angular/material/dialog';
 import {AddClinicComponent} from '../doctors/add-clinic/add-clinic.component';
+import { ClinicInfoComponent } from './clinic-info/clinic-info.component';
 
 //Interface for payment details
 // export interface ClinicDetails {
@@ -34,6 +35,7 @@ export class DoctorsComponent implements OnInit{
   paginator!: MatPaginator;
   @ViewChild(MatSort)!
   sort!: MatSort;
+  userList:any=[];
 
   constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog){}
 
@@ -60,12 +62,30 @@ export class DoctorsComponent implements OnInit{
   }
 
   //More Info
-  moreInfo(clinic:string){
-    // this.dialog.open(ClinicInfoComponent);
-    this.clinicService.getUsers(clinic).subscribe(res=>{
-      this.router.navigate(['home/clinicinfo'],{state:{clinicid:clinic}});
+  // moreInfo(clinic:string){
+  //   this.clinicService.getUsers(clinic).subscribe(res=>{
+  //     this.router.navigate(['home/clinicinfo'],{state:{clinicid:clinic}});
+  //   });
+  // }
+
+  // clickMoreInfo(clinic:string){
+  //   this.dialog.open(ClinicInfoComponent,{data:})
+  // }
+
+  //More Info
+  moreInfo(clinicID:string,clinicName:string){
+      //Subscribing to clinic service and obtaining available users
+  this.clinicService.getUsers(clinicID).subscribe((res:any)=>{
+    this.userList=res;
+    // console.log(this.userList);
+  });
+    this.dialog.open(ClinicInfoComponent,{
+      data:{
+        userListData:this.userList,
+        name:clinicName
+      }
     });
-    // console.log(clinic);
+   
   }
 
 }

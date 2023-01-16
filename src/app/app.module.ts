@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {DatePipe} from '@angular/common';
 import { AppRoutingModule,routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,8 +14,8 @@ import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.
 import { EditClinicComponent } from './doctors/edit-clinic/edit-clinic.component';
 import { AddClinicComponent } from './doctors/add-clinic/add-clinic.component';
 import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
-
-
+import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
+import { AddUserComponent } from './doctors/add-user/add-user.component';
 
 
 @NgModule({
@@ -26,7 +26,9 @@ import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.
     AddVetComponent,
     AddInstitutesComponent,
     EditClinicComponent,
+    ClinicInfoComponent,
     AddClinicComponent,
+    AddUserComponent,
     ConfirmCancelComponent,
   ],
   imports: [
@@ -38,7 +40,7 @@ import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.
     HttpClientModule,
     NgxMatSelectSearchModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

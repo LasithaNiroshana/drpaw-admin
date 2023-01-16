@@ -1,64 +1,164 @@
-<h2 mat-dialog-title>Install Angular</h2>
-<mat-dialog-content class="mat-typography">
-  <h3>Develop across all platforms</h3>
-  <p>Learn one way to build applications with Angular and reuse your code and abilities to build
-    apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
+<mat-toolbar color="accent">
+ View Payment History
+</mat-toolbar>
+<mat-dialog-content class="payment-history">
 
-  <h3>Speed &amp; Performance</h3>
-  <p>Achieve the maximum speed possible on the Web Platform today, and take it further, via Web
-    Workers and server-side rendering. Angular puts you in control over scalability. Meet huge
-    data requirements by building data models on RxJS, Immutable.js or another push-model.</p>
+  <!-- Form fields -->
+  <mat-form-field class="payment-history-field">
+    <mat-label>Clinic ID</mat-label>
+    <input type="text" matInput placeholder="5" [(ngModel)]="this.clinicID" name="clinic_id" value="{{this.clinicID}}">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="payment-history-field">
+    <mat-label>Choose a starting date</mat-label>
+    <input matInput [max]="maxDate1" [matDatepicker]="picker" [(ngModel)]="this.startDate" name="start_date">
+    <mat-hint>YYYY-MM-DD</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="payment-history-field">
+    <mat-label>Choose an end date</mat-label>
+    <input matInput [min]="minDate2" [max]="maxDate2" [matDatepicker]="picker1" [(ngModel)]="this.endDate" name="end_id">
+    <mat-hint>YYYY-MM-DD</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button (click)="getPaymentHistory(this.clinicID,this.startDate,this.endDate)" color="accent" class="payment-history-button">View History</button>
+  <button mat-raised-button (click)="resetForm()" color="warn">Reset</button>
 
-  <h3>Incredible tooling</h3>
-  <p>Build features quickly with simple, declarative templates. Extend the template language with
-    your own components and use a wide array of existing components. Get immediate Angular-specific
-    help and feedback with nearly every IDE and editor. All this comes together so you can focus
-    on building amazing apps rather than trying to make the code work.</p>
 
-  <h3>Loved by millions</h3>
-  <p>From prototype through global deployment, Angular delivers the productivity and scalable
-    infrastructure that supports Google's largest applications.</p>
+<!-- Payment hitory table -->
+<div class="clinic-users-component" *ngIf="paymentHistory?.length>0;else noPaymentHistory">
+  <!-- <mat-card class="length-card">
+    <mat-card-title>
+      {{paymentHistory.length}}
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        No. of Payments Completed
+      </p>
+    </mat-card-content>
+  </mat-card> -->
+  <mat-card>
+    <mat-card-content>
+      <p color="warning">
+        Appointment Type:
+        0-Pending appointment/1-Wait for confirmation/2-Waiting for payment/3-Paid/4-Complete/5-Declined by doctor/6 - Online not paid
+      </p>
+      <p>
+        Appointment Sub Type:
+        0-Clinic/1-Home/2-remote
+      </p>
+    </mat-card-content>
+  </mat-card>
+  <br><br>
+  <table mat-table matSort [dataSource]="paymentHistory" class="mat-elevation-z8" id="paymentHistory">
+  
+    <!-- <ng-container matColumnDef="logo">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let clinic"> 
+        <div class="img-logo">
+          <img src={{clinic.logo}}>
+        </div>
+      </td>
+    </ng-container> -->
 
-  <h3>What is Angular?</h3>
+    <ng-container matColumnDef="clinic_name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Clinic Name </th>
+      <td mat-cell *matCellDef="let payment"> {{payment.clinic_name}} </td>
+    </ng-container>
 
-  <p>Angular is a platform that makes it easy to build applications with the web. Angular
-    combines declarative templates, dependency injection, end to end tooling, and integrated
-    best practices to solve development challenges. Angular empowers developers to build
-    applications that live on the web, mobile, or the desktop</p>
+    <ng-container matColumnDef="doctor_name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Veterinarians Name </th>
+      <td mat-cell *matCellDef="let payment"> {{payment.doctor_name}} </td>
+    </ng-container>
 
-  <h3>Architecture overview</h3>
+    <ng-container matColumnDef="appointment_type">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Type</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.a_type}} </td>
+    </ng-container>
 
-  <p>Angular is a platform and framework for building client applications in HTML and TypeScript.
-  Angular is itself written in TypeScript. It implements core and optional functionality as a
-  set of TypeScript libraries that you import into your apps.</p>
+    <ng-container matColumnDef="appointment_subtype">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Sub Type</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.a_sub_type}} </td>
+    </ng-container>
 
-  <p>The basic building blocks of an Angular application are NgModules, which provide a compilation
-  context for components. NgModules collect related code into functional sets; an Angular app is
-  defined by a set of NgModules. An app always has at least a root module that enables
-  bootstrapping, and typically has many more feature modules.</p>
+    <ng-container matColumnDef="animal_name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Animal Name</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.animal_name}} </td>
+    </ng-container>
 
-  <p>Components define views, which are sets of screen elements that Angular can choose among and
-  modify according to your program logic and data. Every app has at least a root component.</p>
+    <ng-container matColumnDef="animal_type">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Animal Type</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.animal_type}} </td>
+    </ng-container>
 
-  <p>Components use services, which provide specific functionality not directly related to views.
-  Service providers can be injected into components as dependencies, making your code modular,
-  reusable, and efficient.</p>
+    <ng-container matColumnDef="owner_name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Owner Name</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.owner_name}} </td>
+    </ng-container>
 
-  <p>Both components and services are simply classes, with decorators that mark their type and
-  provide metadata that tells Angular how to use them.</p>
+    <ng-container matColumnDef="mobile">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Mobile</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.mobile}} </td>
+    </ng-container>
 
-  <p>The metadata for a component class associates it with a template that defines a view. A
-  template combines ordinary HTML with Angular directives and binding markup that allow Angular
-  to modify the HTML before rendering it for display.</p>
+    <ng-container matColumnDef="owner_address">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Owner Address</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.owner_address}} </td>
+    </ng-container>
 
-  <p>The metadata for a service class provides the information Angular needs to make it available
-  to components through Dependency Injection (DI).</p>
+    <ng-container matColumnDef="owner_city">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Owner City</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.owner_city}} </td>
+    </ng-container>
 
-  <p>An app's components typically define many views, arranged hierarchically. Angular provides
-  the Router service to help you define navigation paths among views. The router provides
-  sophisticated in-browser navigational capabilities.</p>
+    <ng-container matColumnDef="a_date">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Date</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.a_date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="a_time">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Time</th>
+      <td mat-cell *matCellDef="let payment"> {{payment.a_time}} </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="info">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let user"> 
+        <button mat-icon-button class="info-button" (click)="moreInfo(clinic.id)">
+          <mat-icon>info</mat-icon>
+        </button>  
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let clinic"> 
+        <button mat-icon-button class="edit-button" (click)="editClinic(clinic.id)" color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>  
+      </td>
+    </ng-container>
+ -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <br><br>
+  <button mat-raised-button (click)="downloadDoc()" color="primary" class="payment-history-button">Download Payment History</button>
+</div>
+
+<!-- If there is no data -->
+<ng-template #noPaymentHistory>
+  <hr>
+  <mat-card class="no-payments">
+    <mat-card-content class="no-payments-content">
+      <h3>Select Clinic ID, starting and ending dates to view payment history</h3>
+    </mat-card-content>
+  </mat-card>
+  
+</ng-template>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Download PDF</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="primary">OK</button>
 </mat-dialog-actions>

@@ -13,12 +13,12 @@ import { ServicesComponent } from './services/services.component';
 import { StoresComponent } from './stores/stores.component';
 import { VeterinariansComponent } from './doctors/veterinarians/veterinarians.component';
 import { InstitutesComponent } from './doctors/institutes/institutes.component';
-import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
-import { AddUserComponent } from './doctors/add-user/add-user.component';
+import { OtppageComponent } from './otppage/otppage.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
   {path:'login',component:LoginpageComponent},
+  {path:'otp',component:OtppageComponent},
   {path:'toolbar',component:ToolbarComponent},
   {path:'footer',component:FooterComponent},
   {path:'home',component:HomeComponent,
@@ -31,8 +31,6 @@ const routes: Routes = [
       {path:'institutes',component:InstitutesComponent},
     ]
   },
-  {path:'clinicinfo',component:ClinicInfoComponent},
-  {path:'adduser',component:AddUserComponent},
     {path:'payments',component:PaymentsComponent},
     {path:'petowners',component:PetownersComponent},
     {path:'services',component:ServicesComponent},
@@ -63,6 +61,5 @@ export const routingComponents=[
   StoresComponent,
   VeterinariansComponent,
   InstitutesComponent,
-  ClinicInfoComponent,
-  AddUserComponent
+  OtppageComponent
 ]

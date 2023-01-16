@@ -1,0 +1,43 @@
+<div class="center-content">
+
+    <!-- Sign in card -->
+      <mat-card class="welcome-card">
+        <!-- Header title and image  -->
+          <div>
+              <h1>
+                  DrPaw Admin
+              </h1>
+              <h2>
+                  Welcome!
+              </h2>
+              <img class="image" src="../../assets/Dr.paw_app_icon.png">
+          </div>
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+            <!-- <mat-card-title>DrPaw Admin</mat-card-title>
+          <mat-card-subtitle>Welcome!</mat-card-subtitle> -->
+        </mat-card-header>
+        
+        <mat-card-content>
+          <form class="signin-form">
+              <mat-form-field class="signin-full-width">
+                <mat-label>Enter OTP:</mat-label>
+                  <input matInput type="text" placeholder="Ex. 428646">
+                </mat-form-field>
+            
+              <!-- <mat-form-field class="signin-full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" name="password">
+                <mat-icon matSuffix>lock</mat-icon>
+              </mat-form-field>
+              
+              <br><br> -->
+              <button mat-raised-button class="loginbtn" target="_blank" color="primary" (click)="signIn()">LOGIN</button>
+              <br><br>
+              <button mat-button (click)="resendOTP()" class="resend-btn"><p class="resend-btn-txt">Didn't recieve OTP? Resend OTP</p></button>
+              <br>
+            </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  

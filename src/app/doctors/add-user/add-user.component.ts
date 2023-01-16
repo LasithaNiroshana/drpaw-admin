@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 
 //Interface for payment details
 export interface ClinicDetails {
@@ -30,7 +31,11 @@ export class AddUserComponent {
     logo: "",
     active:0
   }
+  constructor(private dialog:MatDialog){}
 
   onSubmit(userId:any){}
   cancelConfirm(){}
+  closeAll(){
+    this.dialog.closeAll();
+  }
 }

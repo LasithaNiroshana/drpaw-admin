@@ -27,7 +27,7 @@ export class PaymentService {
     return throwError(() => error);
   }
 
-  //Get payment list
+  //Get payment history of all the clinics
   public getPaymentsList(){
     const url = this.globalService.apiURL + 'pet_appointment/';
     
@@ -37,9 +37,9 @@ export class PaymentService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
-  //Get payment list
-  public getPaymentsClinic(cid:any,stdt:Date,endt:Date){
-    const url = this.globalService.apiURL + 'pet_appointment/';
+  //Get payment history of a clinic
+  public getPaymentsClinic(stdt:string,endt:string){
+    const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=0' + '&stdt=' + stdt + '&endt=' + endt;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");
     // .set("Authorization", "token " + APIStore.token);

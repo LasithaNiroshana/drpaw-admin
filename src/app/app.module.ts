@@ -14,7 +14,6 @@ import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.
 import { EditClinicComponent } from './doctors/edit-clinic/edit-clinic.component';
 import { AddClinicComponent } from './doctors/add-clinic/add-clinic.component';
 import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
-import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
 import { AddUserComponent } from './doctors/add-user/add-user.component';
 
 
@@ -26,7 +25,6 @@ import { AddUserComponent } from './doctors/add-user/add-user.component';
     AddVetComponent,
     AddInstitutesComponent,
     EditClinicComponent,
-    ClinicInfoComponent,
     AddClinicComponent,
     AddUserComponent,
     ConfirmCancelComponent,

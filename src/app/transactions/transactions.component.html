@@ -1,0 +1,29 @@
+<mat-tab-group>   
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="transactions-tab-icon">event_upcoming</mat-icon>
+      Appointments
+    </ng-template>
+    <br>
+    <app-appointment-transactions></app-appointment-transactions>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="transactions-tab-icon">medical_services</mat-icon>
+      Services
+    </ng-template>
+    <br>
+    <app-service-transactions></app-service-transactions>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="transactions-tab-icon">shop</mat-icon>
+      Stores
+    </ng-template>
+    <br>
+    <app-store-transactions></app-store-transactions>
+  </mat-tab>
+</mat-tab-group>

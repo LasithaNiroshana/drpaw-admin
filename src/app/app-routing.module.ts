@@ -8,12 +8,21 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersComponent } from './users/users.component';
 import { DoctorsComponent } from './doctors/doctors.component';
+import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
 import { PetownersComponent } from './petowners/petowners.component';
 import { ServicesComponent } from './services/services.component';
 import { StoresComponent } from './stores/stores.component';
 import { VeterinariansComponent } from './doctors/veterinarians/veterinarians.component';
 import { InstitutesComponent } from './doctors/institutes/institutes.component';
 import { OtppageComponent } from './otppage/otppage.component';
+import { ClientsComponent } from './clients/clients.component';
+import { RefundsComponent } from './refunds/refunds.component';
+import { ServiceTransactionsComponent } from './service-transactions/service-transactions.component';
+import { SettlementsComponent } from './settlements/settlements.component';
+import { StoreTransactionsComponent } from './store-transactions/store-transactions.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { AppointmentTransactionsComponent } from './appointment-transactions/appointment-transactions.component';
+import { AllAppointmentsComponent } from './all-appointments/all-appointments.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -23,18 +32,34 @@ const routes: Routes = [
   {path:'footer',component:FooterComponent},
   {path:'home',component:HomeComponent,
   children:[
-    {path:'',component:DoctorsComponent},
+    {path:'',component:ClientsComponent},
     {path:'dashboard',component:DashboardComponent},
-    {path:'doctors',component:DoctorsComponent,
+    {path:'clients',component:ClientsComponent,
     children:[
-      {path:'veterinarians',component:VeterinariansComponent},
-      {path:'institutes',component:InstitutesComponent},
+      {path:'doctors',component:DoctorsComponent},
+      {path:'clinicinfo',component:ClinicInfoComponent},
+      {path:'services',component:ServicesComponent},
+      {path:'stores',component:StoresComponent},
     ]
   },
+    {path:'transactions',component:TransactionsComponent,
+    children:[
+      {path:'appointments',component:AppointmentTransactionsComponent,
+      children:[
+        {path:'',component:AllAppointmentsComponent},
+        {path:'allappointments',component:AllAppointmentsComponent}
+      ]
+    },
+      {path:'servicetransactions',component:ServiceTransactionsComponent},
+      {path:'storestransactions',component:StoreTransactionsComponent},
+    ]
+  },
+  {path:'veterinarians',component:VeterinariansComponent},
+  {path:'institutes',component:InstitutesComponent},
+  {path:'refunds',component:RefundsComponent},
     {path:'payments',component:PaymentsComponent},
     {path:'petowners',component:PetownersComponent},
-    {path:'services',component:ServicesComponent},
-    {path:'stores',component:StoresComponent},
+    {path:'settlements',component:SettlementsComponent},
     {path:'users',component:UsersComponent},
   ]
 },
@@ -56,10 +81,19 @@ export const routingComponents=[
   PaymentsComponent,
   UsersComponent,
   DoctorsComponent,
+  ClinicInfoComponent,
   PetownersComponent,
   ServicesComponent,
   StoresComponent,
   VeterinariansComponent,
   InstitutesComponent,
-  OtppageComponent
+  OtppageComponent,
+  ClientsComponent,
+  TransactionsComponent,
+  SettlementsComponent,
+  AppointmentTransactionsComponent,
+  AllAppointmentsComponent,
+  ServiceTransactionsComponent,
+  StoreTransactionsComponent,
+  RefundsComponent
 ]

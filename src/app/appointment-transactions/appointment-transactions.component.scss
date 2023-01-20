@@ -1,0 +1,22 @@
+.appointment-transactions{
+    height: 10000px;
+    overflow:auto;
+}
+td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.input-fields-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 4px;
+  }
+
+.payment-history-field{
+    margin:10px;
+}
+
+.payment-history-button{
+    margin:10px;
+}

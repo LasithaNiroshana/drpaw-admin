@@ -6,7 +6,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {ClinicService} from '../common/clinic.service';
 import { MatDialog } from '@angular/material/dialog';
-import {AddClinicComponent} from '../doctors/add-clinic/add-clinic.component';
 import { ClinicInfoComponent } from './clinic-info/clinic-info.component';
 
 //Interface for payment details
@@ -29,7 +28,7 @@ import { ClinicInfoComponent } from './clinic-info/clinic-info.component';
 export class DoctorsComponent implements OnInit{
 
   clinicList:any=[];
-  displayedColumns: string[] = ['logo','clinicName','address','mobile','email','website','city','active','info','edit'];
+  displayedColumns: string[] = ['logo','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','active','info','edit'];
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -49,11 +48,6 @@ export class DoctorsComponent implements OnInit{
 
   pageNavigate(){
     this.router.navigate(['home/petowners']);
-  }
-
-  //Open more payment information about clinic
-  addClinic(){
-      this.dialog.open(AddClinicComponent);
   }
 
   //Edit Clinic

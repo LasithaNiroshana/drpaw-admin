@@ -27,8 +27,8 @@ export class PaymentService {
     return throwError(() => error);
   }
 
-  //Get payment history of all the clinics
-  public getPaymentsList(){
+  //Get appointment history of all the clinics
+  public getAppointmentList(){
     const url = this.globalService.apiURL + 'pet_appointment/';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");

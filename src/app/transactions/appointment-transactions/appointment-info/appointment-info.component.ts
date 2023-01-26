@@ -8,7 +8,7 @@ import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 const doc = new jsPDF({
-  orientation: "portrait",
+  orientation: "landscape",
   unit: "in",
   format: [8.3, 11.7]
 });
@@ -27,7 +27,7 @@ export class AppointmentInfoComponent implements OnInit{
   appointmentSource:number=0;
   sortedAppointments:any=[];
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time'];
+  displayedColumns: string[] = ['appointment_id','clinic_id','clinic_name','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','s_status'];
 
   constructor(public dialogRef:MatDialogRef<AppointmentTransactionsComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private paymentService:PaymentService,private datePipe:DatePipe){
     this.clinics=data.cid;
@@ -46,10 +46,8 @@ export class AppointmentInfoComponent implements OnInit{
   //Obtaining appointments
     this.paymentService.getPaymentsClinic(strDate,enDate).subscribe((res:any)=>{
       res.forEach((element: any) => {
-        if(this.clinics==element.clinic && this.appointmentSource==element.a_source){
+        if(this.clinics==element.clinic && this.appointmentSource==element.a_source && element.status==4){
           this.sortedAppointments.push(element);
-          console.log(this.sortedAppointments);
-          console.log(this.sortedAppointments.length);
         }
         else{
           //
@@ -61,6 +59,10 @@ export class AppointmentInfoComponent implements OnInit{
   //Export as excel
   exportExcel(){
 
+     //Converting starting and end dates
+     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
+     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
+
     //Passing the table id to worksheet
     let table=document.getElementById('appointment-history');
     const worksheet = XLSX.utils.table_to_sheet(table);
@@ -70,12 +72,17 @@ export class AppointmentInfoComponent implements OnInit{
     XLSX.utils.book_append_sheet(workbook,worksheet,'Sheet1')
 
     //Saving the file
-    XLSX.writeFile(workbook,'filename.xlsx');
+    XLSX.writeFile(workbook,'ClinicID'+'_'+this.clinics+'_'+'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'appointments.xlsx');
   }
 
   //Export PDF
   exportDoc(){
+    
+     //Converting starting and end dates
+     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
+     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
+
     autoTable(doc, { html: '#appointment-history' })
-    doc.save('appointments.pdf');
+    doc.save('ClinicID'+'_'+this.clinics+'_'+'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'appointments.pdf');
   }
 }

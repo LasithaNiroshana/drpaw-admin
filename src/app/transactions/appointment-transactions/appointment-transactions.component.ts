@@ -49,7 +49,7 @@ export class AppointmentTransactionsComponent implements OnInit{
   appointmentSource:number=0;
 
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time'];
+  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
   constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private cdr:ChangeDetectorRef,private dialog:MatDialog){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars

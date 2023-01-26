@@ -1,6 +1,6 @@
 .doctors-component{
-    overflow: scroll;
-    height:4000px
+    overflow: auto;
+    max-height:720px;
 }
 // .doctor-cards{
 //     display: grid;

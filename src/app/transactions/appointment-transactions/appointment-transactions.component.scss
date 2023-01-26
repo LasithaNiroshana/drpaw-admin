@@ -1,5 +1,5 @@
 .appointment-transactions{
-    height: 10000px;
+    max-height: 720px;
     overflow:auto;
 }
 td, th {
@@ -20,3 +20,8 @@ td, th {
 .appointment-history-button{
     margin:10px;
 }
+
+
+th.mat-header-cell {
+    text-align: center !important;
+  }

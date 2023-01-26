@@ -4,15 +4,19 @@
 // }
 
 .app-length{
-    height: 60px;
-    width:80px
+    height: 80px;
+    width:200px
 }
 
 .export-btns{
     margin: 10px;
 }
 
-td, th {
+td,th {
     text-align: center !important;
     vertical-align: middle !important;
 }
+
+th.mat-header-cell {
+    text-align: center !important;
+  }

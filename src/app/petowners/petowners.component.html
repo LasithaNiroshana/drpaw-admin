@@ -1,5 +1,84 @@
-<mat-card>
-    <mat-card-content class="warning">
-        <h2>Pet owners section is under development!</h2>
-    </mat-card-content>
+<div class="petowners-component" *ngIf="this.petOwnersList?.length>0;else nopetOwnersList">
+    <mat-divider></mat-divider>
+    <br>
+    <mat-card class="customers-count">
+      
+      <mat-card-content><p>
+       Pet Owners Count:
+      </p>
+        {{this.petOwnersList.length}}
+      </mat-card-content>
+    </mat-card>
+    <br><br>
+    <table mat-table matSort [dataSource]="this.petOwnersList" class="mat-elevation-z8" id="petowners-history">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef> Pet Owner's Name </th>
+          <td mat-cell *matCellDef="let customer"> {{customer.name}} </td>
+        </ng-container>
+    
+        <!-- <ng-container matColumnDef="animal_name">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Animal Name</th>
+          <td mat-cell *matCellDef="let appointment"> {{appointment.animal_name}} </td>
+        </ng-container> -->
+    
+        <ng-container matColumnDef="nic">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>NIC</th>
+          <td mat-cell *matCellDef="let customer"> {{customer.nic}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="mobile">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Mobile No.</th>
+          <td mat-cell *matCellDef="let customer"> {{customer.mobile}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="email">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let customer"> {{customer.email}} </td>
+        </ng-container>
+    
+        <!-- <ng-container matColumnDef="owner_address">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Owner Address</th>
+          <td mat-cell *matCellDef="let appointment"> {{appointment.owner_address}} </td>
+        </ng-container> -->
+    
+        <ng-container matColumnDef="city">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let customer"> {{customer.city}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="created_on">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Account Created On</th>
+          <td mat-cell *matCellDef="let customer"> {{customer.created_on}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Active Status</th>
+          <td mat-cell *matCellDef="let customer">
+                <p *ngIf="customer.active==0">
+                  Active
+                </p>  
+                <p *ngIf="customer.active==2">
+                  Inactive
+                </p> 
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+
+  <!-- <mat-paginator [pageSizeOptions]="[10,20,50]" showFirstLastButtons></mat-paginator> -->
+
+  <!-- If there is no data -->
+<ng-template #nopetOwnersList>
+<mat-divider></mat-divider>
+<br>
+<mat-card class="no-petowners">
+  <mat-card-content class="no-petowners">
+    <h3>Check your internet connection!</h3>
+  </mat-card-content>
 </mat-card>
+
+</ng-template>

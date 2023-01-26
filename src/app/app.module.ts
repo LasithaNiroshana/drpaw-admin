@@ -11,10 +11,11 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { PaymentsInfoComponent } from './payments/payments-info/payments-info.component';
 import { AddVetComponent } from './doctors/add-vet/add-vet.component';
 import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.component';
-import { EditClinicComponent } from './doctors/edit-clinic/edit-clinic.component';
-import { AddClinicComponent } from './doctors/add-clinic/add-clinic.component';
+import { EditClinicComponent } from './clients/clinics/edit-clinic/edit-clinic.component';
+import { AddClinicComponent } from './clients/clinics/add-clinic/add-clinic.component';
 import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
-import { AddUserComponent } from './doctors/add-user/add-user.component';
+import { AddUserComponent } from './clients/clinics/add-user/add-user.component';
+import { AppointmentInfoComponent } from './transactions/appointment-transactions/appointment-info/appointment-info.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AddUserComponent } from './doctors/add-user/add-user.component';
     AddClinicComponent,
     AddUserComponent,
     ConfirmCancelComponent,
+    AppointmentInfoComponent,
   ],
   imports: [
     BrowserModule,

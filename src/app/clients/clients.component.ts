@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AddClinicComponent} from '../doctors/add-clinic/add-clinic.component';
+import {AddClinicComponent} from './clinics/add-clinic/add-clinic.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

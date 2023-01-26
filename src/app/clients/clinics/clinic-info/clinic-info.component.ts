@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {ClinicService} from '../../common/clinic.service';
+import {ClinicService} from '../../../common/clinic.service';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {DoctorsComponent} from '../doctors.component';
+import {DoctorsComponent} from '../../../doctors/doctors.component';
 import { Dialog } from '@angular/cdk/dialog';
 import {AddUserComponent} from '../add-user/add-user.component';
 

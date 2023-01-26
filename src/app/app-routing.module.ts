@@ -8,21 +8,22 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersComponent } from './users/users.component';
 import { DoctorsComponent } from './doctors/doctors.component';
-import { ClinicInfoComponent } from './doctors/clinic-info/clinic-info.component';
+import { ClinicInfoComponent } from './clients/clinics/clinic-info/clinic-info.component';
 import { PetownersComponent } from './petowners/petowners.component';
-import { ServicesComponent } from './services/services.component';
-import { StoresComponent } from './stores/stores.component';
+import { ServicesComponent } from './clients/services/services.component';
+import { StoresComponent } from './clients/stores/stores.component';
 import { VeterinariansComponent } from './doctors/veterinarians/veterinarians.component';
 import { InstitutesComponent } from './doctors/institutes/institutes.component';
 import { OtppageComponent } from './otppage/otppage.component';
 import { ClientsComponent } from './clients/clients.component';
 import { RefundsComponent } from './refunds/refunds.component';
-import { ServiceTransactionsComponent } from './service-transactions/service-transactions.component';
+import { ServiceTransactionsComponent } from './transactions/service-transactions/service-transactions.component';
 import { SettlementsComponent } from './settlements/settlements.component';
-import { StoreTransactionsComponent } from './store-transactions/store-transactions.component';
+import { StoreTransactionsComponent } from './transactions/store-transactions/store-transactions.component';
 import { TransactionsComponent } from './transactions/transactions.component';
-import { AppointmentTransactionsComponent } from './appointment-transactions/appointment-transactions.component';
+import { AppointmentTransactionsComponent } from './transactions/appointment-transactions/appointment-transactions.component';
 import { AllAppointmentsComponent } from './all-appointments/all-appointments.component';
+import { ClinicsComponent } from './clients/clinics/clinics.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -37,6 +38,7 @@ const routes: Routes = [
     {path:'clients',component:ClientsComponent,
     children:[
       {path:'doctors',component:DoctorsComponent},
+      {path:'clinics',component:ClinicsComponent},
       {path:'clinicinfo',component:ClinicInfoComponent},
       {path:'services',component:ServicesComponent},
       {path:'stores',component:StoresComponent},
@@ -95,5 +97,6 @@ export const routingComponents=[
   AllAppointmentsComponent,
   ServiceTransactionsComponent,
   StoreTransactionsComponent,
-  RefundsComponent
+  RefundsComponent,
+  ClinicsComponent
 ]

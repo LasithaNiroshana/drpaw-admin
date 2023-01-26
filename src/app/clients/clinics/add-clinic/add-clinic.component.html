@@ -1,0 +1,128 @@
+<mat-toolbar color="accent">Add New Clinic</mat-toolbar>
+<mat-dialog-content class="add-clinic">
+
+    <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" class="add-clinic">
+
+        <mat-stepper #stepper>
+
+            <!-- Personal details step -->
+           <mat-step label="Clinic Details">
+            <h4>
+              Basic Details
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Clinic Name</mat-label>
+              <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.name" name="name" value="{{clinic.name}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Business Registration No.</mat-label>
+              <input type="text" matInput placeholder="BSE5667" [(ngModel)]="clinic.business_registration" name="business_registration" value="{{clinic.business_registration}}">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>SLVA No.</mat-label>
+              <input type="text" matInput placeholder="SLVA57567" [(ngModel)]="clinic.slva_no" name="slva_no" value="{{clinic.slva_no}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>NIC No.</mat-label>
+              <input type="text" matInput placeholder="BSE5667" [(ngModel)]="clinic.nic" name="nic" value="{{clinic.nic}}">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="add-clinic-field">
+              <mat-label>Clinic Type</mat-label>
+              <mat-select [(ngModel)]="clinic.clinic_type" name="clinic_type">
+                <mat-option value="Single Doctor">
+                  Single Doctor
+                </mat-option>
+                <mat-option value="Multiple Doctor">
+                  Multiple Doctor
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <h4>
+              Address
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Address Line 1</mat-label>
+              <input type="text" matInput placeholder="123" [(ngModel)]="clinic.address_ln1" name="address_ln1" value="{{clinic.address_ln1}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Address Line 2/Street</mat-label>
+              <input type="text" matInput placeholder="Highlevel Rd"  [(ngModel)]="clinic.address_ln2" name="address_ln2" value="{{clinic.address_ln2}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>City</mat-label>
+              <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="city" value="{{clinic.city}}">
+            </mat-form-field>
+            <br>
+           
+           </mat-step>
+        
+           <!-- Contact details step -->
+           <mat-step label="Contact Details">
+            <h4>
+              Contact Details
+            </h4>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Contact Person</mat-label>
+              <input type="text" matInput placeholder="John" [(ngModel)]="clinic.contact_person" name="contact_person" value="{{clinic.contact_person}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Landline</mat-label>
+              <input type="tel" matInput placeholder="0111234567" [(ngModel)]="clinic.landline" name="landline" value="{{clinic.landline}}">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Mobile Number</mat-label>
+              <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile" value="{{clinic.mobile}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Website</mat-label>
+              <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="clinic.website" name="website" value="{{clinic.website}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email" value="{{clinic.email}}">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="add-clinic-hidden-field">
+              <mat-label>Active Status</mat-label>
+              <input type="text" matInput [(ngModel)]="clinic.active" name="active" value=0>
+            </mat-form-field>
+            <br>
+           </mat-step>
+
+           <!-- Bank Account Details step -->
+           <mat-step label="Bank Account Details">
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Bank Name</mat-label>
+              <input type="text" matInput placeholder="Peoples Bank" [(ngModel)]="clinic.bank_name" name="bank_name" value="{{clinic.bank_name}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Bank Account Name</mat-label>
+              <input type="text" matInput placeholder="John" [(ngModel)]="clinic.account_holder_name" name="account_holder_name" value="{{clinic.account_holder_name}}">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Bank Account No.</mat-label>
+              <input type="text" matInput placeholder="155576743566" [(ngModel)]="clinic.bank_acc_no" name="bank_acc_no" value="{{clinic.bank_acc_no}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Branch</mat-label>
+              <input type="text" matInput placeholder="Kelaniya" [(ngModel)]="clinic.branch" name="branch" value="{{clinic.branch}}">
+            </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Branch ID</mat-label>
+              <input type="text" matInput placeholder="3456" [(ngModel)]="clinic.branch_code" name="branch_code" value="{{clinic.branch_code}}">
+            </mat-form-field>
+           </mat-step>
+        
+          </mat-stepper>
+
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="cancelConfirm()">Cancel</button>
+  <button mat-button cdkFocusInitial color="primary" (click)="onSubmit(form.value)">Save</button>
+</mat-dialog-actions>

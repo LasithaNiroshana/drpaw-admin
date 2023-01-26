@@ -1,9 +1,14 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,ViewChild,ChangeDetectorRef } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DatePipe} from '@angular/common';
-import {ClinicService} from '../common/clinic.service';
-import {PaymentService} from '../common/payment.service';
+import {ClinicService} from '../../common/clinic.service';
+import {PaymentService} from '../../common/payment.service';
+import {MatPaginator} from '@angular/material/paginator';
+import { tap } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {AppointmentInfoComponent} from './appointment-info/appointment-info.component';
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -28,6 +33,9 @@ export const MY_FORMATS = {
   ],
 })
 export class AppointmentTransactionsComponent implements OnInit{
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   clinics:any;
   appointmentHistory:any=[];
   clinicID:any;  //ClinicID
@@ -37,10 +45,12 @@ export class AppointmentTransactionsComponent implements OnInit{
   maxDate1: Date; //maxDate
   minDate2: Date; //minDate
   maxDate2: Date; //maxDate
+  appointmentType:number=0;
+  appointmentSource:number=0;
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_name','animal_type','owner_name','mobile','owner_city','a_date','a_time'];
 
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService){
+  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time'];
+  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private cdr:ChangeDetectorRef,private dialog:MatDialog){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -50,6 +60,7 @@ export class AppointmentTransactionsComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.cdr.detectChanges();
 
     //Get clinic list
     this.clinicService.GetClinics().subscribe((res:any)=>{
@@ -62,11 +73,25 @@ export class AppointmentTransactionsComponent implements OnInit{
     //Get appointment history of all clinics
     this.appointmentService.getAppointmentList().subscribe((res:any)=>{
       this.appointmentHistory=res;
+      // console.log(this.appointmentHistory);
+      this.appointmentHistory.paginator=this.paginator;
     });
   }
 
+  
+
   //Get appointment history of a clinic
-  getAppointmentHistory(clinicid:any,stdt:any,endt:any){}
+  getAppointmentHistory(clinicid:number,appointmentSource:number,stdt:any,endt:any){
+  this.dialog.open(AppointmentInfoComponent,{
+    data:{
+      cid:clinicid,
+      // appType:appointmentType,
+      appSource:appointmentSource,
+      strtDate:stdt,
+      enDate:endt
+    }
+  });
+  }
 
   //Reset form
   resetForm(){}

@@ -8,6 +8,7 @@ import {ClinicService} from '../../common/clinic.service';
 import { MatDialog } from '@angular/material/dialog';
 import {ClinicInfoComponent} from './clinic-info/clinic-info.component';
 import {EditClinicComponent} from './edit-clinic/edit-clinic.component';
+import {AddUserComponent} from '../clinics/add-user/add-user.component';
 
 
 @Component({
@@ -18,7 +19,8 @@ import {EditClinicComponent} from './edit-clinic/edit-clinic.component';
 export class ClinicsComponent implements OnInit{
   isChecked = "";
   clinicList:any=[];
-  displayedColumns: string[] = ['logo','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','active','info','edit'];
+  displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
+  activeClinics:number=0;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -32,7 +34,11 @@ export class ClinicsComponent implements OnInit{
   ngOnInit(): void {
     this.clinicService.GetClinics().subscribe(res=>{
       this.clinicList=res;
-      console.log(this.clinicList);
+      this.clinicList.forEach((element:any) => {
+        if(element.active==0){
+          this.activeClinics=this.activeClinics+1;
+        }
+      });
     });
   }
 
@@ -58,18 +64,20 @@ export class ClinicsComponent implements OnInit{
 
   //More Info
   moreInfo(clinicID:string,clinicName:string){
-      //Subscribing to clinic service and obtaining available users
-  this.clinicService.getUsers(clinicID).subscribe((res:any)=>{
-    this.userList=res;
-    // console.log(this.userList);
-  });
+     
     this.dialog.open(ClinicInfoComponent,{
       data:{
         userListData:this.userList,
-        name:clinicName
+        name:clinicName,
+        cid:clinicID
       }
     });
    
+  }
+
+  openAddUser(){
+    // this.dialog.closeAll();
+    this.dialog.open(AddUserComponent);
   }
   
 

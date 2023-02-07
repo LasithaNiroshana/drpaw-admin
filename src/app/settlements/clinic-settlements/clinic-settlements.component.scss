@@ -1,0 +1,27 @@
+.appointment-transactions{
+    max-height: 720px;
+    overflow:auto;
+}
+td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.input-fields-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 4px;
+  }
+
+.appointment-history-field{
+    margin:10px;
+}
+
+.appointment-history-button{
+    margin:10px;
+}
+
+
+th.mat-header-cell {
+    text-align: center !important;
+  }

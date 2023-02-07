@@ -1,34 +1,15 @@
 
 <!-- Users of the clinic dialog -->
 <mat-toolbar mat-dialog-title color="accent">
-  <span class="clinic-title">{{userList.name}}</span>
+  <span class="clinic-title">{{this.clinicName}}</span>
 </mat-toolbar>
 <mat-dialog-content>
-  <div class="clinic-users-component" *ngIf="userList.userListData?.length>0;else noUsers">
+  <div class="clinic-users-component" *ngIf="this.userList?.length>0;else noUsers">
     <br>
-    <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
-      <mat-icon>add_circle</mat-icon>
-  Add New User
-</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>medication</mat-icon>
-      <span>Doctor</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>admin_panel_settings</mat-icon>
-      <span>Administrator</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>person</mat-icon>
-      <span>Staff</span>
-    </button>
-  </mat-menu>
-  <br><br>
   
       <!-- Clinic table starts here -->
   <div class="clinic-user-table">
-    <table mat-table matSort [dataSource]="userList.userListData" class="mat-elevation-z8" id="content">
+    <table mat-table matSort [dataSource]="this.userList" class="mat-elevation-z8" id="content">
   
       <!-- <ng-container matColumnDef="logo">
         <th mat-header-cell mat-sort-header *matHeaderCellDef></th>

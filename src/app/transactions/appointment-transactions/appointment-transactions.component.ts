@@ -47,6 +47,7 @@ export class AppointmentTransactionsComponent implements OnInit{
   maxDate2: Date; //maxDate
   appointmentType:number=0;
   appointmentSource:number=0;
+  appointmentStatus:number=0;
 
 
   displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
@@ -81,12 +82,13 @@ export class AppointmentTransactionsComponent implements OnInit{
   
 
   //Get appointment history of a clinic
-  getAppointmentHistory(clinicid:number,appointmentSource:number,stdt:any,endt:any){
+  getAppointmentHistory(clinicid:number,appointmentStatus:number,appointmentSource:number,appointmentType:number,stdt:any,endt:any){
   this.dialog.open(AppointmentInfoComponent,{
     data:{
       cid:clinicid,
-      // appType:appointmentType,
+      appStatus:appointmentStatus,
       appSource:appointmentSource,
+      appType:appointmentType,
       strtDate:stdt,
       enDate:endt
     }

@@ -1,10 +1,55 @@
 
 <!-- Clnics and veterinarians page -->
-<div class="doctors-component">
+<div class="clinics-component">
     <!-- <br>
     <button mat-raised-button color="primary" (click)="addClinic()"><mat-icon>add_circle</mat-icon>Add New Clinic</button>
     <br><br> -->
-  
+
+   <mat-card>
+    <mat-card-content>
+      <div class="cards">
+        <mat-card class="clinics-count">
+          <mat-card-content><p>
+           Onboarded Clinics Count:
+          </p>
+            <p class="card-text">
+              {{this.clinicList.length}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+    
+        <mat-card class="active-clinics-count">
+          <mat-card-content><p>
+           Active Clinics Count:
+          </p>
+          <p class="card-text">
+            {{this.activeClinics}}
+          </p>
+          </mat-card-content>
+        </mat-card>
+       </div>
+    </mat-card-content>
+   </mat-card>
+      <br>
+      <button mat-raised-button [matMenuTriggerFor]="menu" color="accent">
+        <mat-icon>add_circle</mat-icon>
+    Add New Clinic User
+  </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openAddUser()">
+        <mat-icon>medication</mat-icon>
+        <span>Doctor</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Administrator</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Staff</span>
+      </button>
+    </mat-menu>
+  <br><br>
     
       <!-- Clinic table starts here -->
   <div class="clinics-table" *ngIf="this.clinicList?.length>0;else noclinicList">
@@ -17,6 +62,11 @@
             <img src={{clinic.logo}}>
           </div>
         </td>
+      </ng-container>
+
+      <ng-container matColumnDef="clinicID">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Clinic ID </th>
+        <td mat-cell *matCellDef="let clinic"> {{clinic.id}} </td>
       </ng-container>
   
       <ng-container matColumnDef="clinicName">
@@ -92,6 +142,11 @@
       <ng-container matColumnDef="branchCode">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Branch Code</th>
         <td mat-cell *matCellDef="let clinic"> {{clinic.branch_code}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="onboarded_by">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Onboarded By</th>
+        <td mat-cell *matCellDef="let clinic"> {{clinic.onboarded_by}} </td>
       </ng-container>
   
       <ng-container matColumnDef="active">

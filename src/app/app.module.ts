@@ -16,6 +16,7 @@ import { AddClinicComponent } from './clients/clinics/add-clinic/add-clinic.comp
 import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.component';
 import { AddUserComponent } from './clients/clinics/add-user/add-user.component';
 import { AppointmentInfoComponent } from './transactions/appointment-transactions/appointment-info/appointment-info.component';
+import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements/clinic-settlements-info/clinic-settlements-info.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AppointmentInfoComponent } from './transactions/appointment-transaction
     AddUserComponent,
     ConfirmCancelComponent,
     AppointmentInfoComponent,
+    ClinicSettlementsInfoComponent,
   ],
   imports: [
     BrowserModule,

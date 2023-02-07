@@ -1,16 +1,29 @@
-<div class="petowners-component" *ngIf="this.petOwnersList?.length>0;else nopetOwnersList">
-    <mat-divider></mat-divider>
-    <br>
+<div *ngIf="this.petOwnersList?.length>0;else nopetOwnersList" class="petowners-component">
+
+   <div class="cards">
     <mat-card class="customers-count">
-      
       <mat-card-content><p>
        Pet Owners Count:
       </p>
-        {{this.petOwnersList.length}}
+        <p class="card-text">
+          {{this.petOwnersList.length}}
+        </p>
       </mat-card-content>
     </mat-card>
-    <br><br>
-    <table mat-table matSort [dataSource]="this.petOwnersList" class="mat-elevation-z8" id="petowners-history">
+
+    <!-- <mat-card class="active-customers-count">
+      <mat-card-content><p>
+       Active Pet Owners Count:
+      </p>
+      <p class="card-text">
+        {{this.petowners}}
+      </p>
+      </mat-card-content>
+    </mat-card> -->
+   </div>
+    <br>
+
+    <table mat-table matSort [dataSource]="this.petOwnersList" id="petowners-history">
 
         <ng-container matColumnDef="name">
           <th mat-header-cell mat-sort-header *matHeaderCellDef> Pet Owner's Name </th>
@@ -69,7 +82,7 @@
       </table>
   </div>
 
-  <!-- <mat-paginator [pageSizeOptions]="[10,20,50]" showFirstLastButtons></mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[10,20,50]" showFirstLastButtons></mat-paginator>
 
   <!-- If there is no data -->
 <ng-template #nopetOwnersList>

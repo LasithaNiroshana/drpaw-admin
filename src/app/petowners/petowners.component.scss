@@ -1,11 +1,33 @@
 .petowners-component{
-    height: 4000px;
+    height: 1920px;
     overflow:auto;
+}
+
+.cards{
+    display: grid;
+    grid-template-columns: auto auto;
 }
 
 .customers-count{
     height: 80px;
-    width:200px
+    width:200px;
+    margin: 10px;
+    background:#607D8B;
+    color:white;
+    font-weight: bold;
+}
+
+.active-customers-count{
+    height: 80px;
+    width:200px;
+    margin: 10px;
+    background: #673AB7;
+    color:white;
+    font-weight: bold;
+}
+
+.card-text{
+    font-size: 40px
 }
 
 td, th {

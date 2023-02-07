@@ -4,7 +4,6 @@ import {ClinicService} from '../../../common/clinic.service';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {DoctorsComponent} from '../../../doctors/doctors.component';
 import { Dialog } from '@angular/cdk/dialog';
-import {AddUserComponent} from '../add-user/add-user.component';
 
 @Component({
   selector: 'app-clinic-info',
@@ -16,18 +15,24 @@ export class ClinicInfoComponent implements OnInit{
 //Defining clinic
 userList:any;
 displayedColumns: string[] = ['name','mobile','speciality','email','on_leave','direct_vsc','home_vsc','virtual_vsc','user_type','capacity'];
+clinicID:any;
+clinicName:string='';
 
 constructor(private router:Router,private clinicService:ClinicService,private dialogRef:MatDialogRef<DoctorsComponent>,@Inject(MAT_DIALOG_DATA) private data:any,private dialog:Dialog){
 
       //Obtaining clinic id from doctors component
-      this.userList=data;
+      this.userList=data.userListData;
+      this.clinicID=data.cid;
+      this.clinicName=data.name;
 
 }
 
-  ngOnInit(){}
+  ngOnInit(){
+     //Subscribing to clinic service and obtaining available users
+  this.clinicService.getUsers(this.clinicID).subscribe((res:any)=>{
+    this.userList=res;
+    console.log(this.userList);
+  });
+  }
 
-  // addUser(){
-  //   this.dialog.closeAll();
-  //   this.dialog.open(AddUserComponent);
-  // }
 }

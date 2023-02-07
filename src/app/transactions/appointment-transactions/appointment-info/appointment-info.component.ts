@@ -26,11 +26,13 @@ export class AppointmentInfoComponent implements OnInit{
   appointmentType:number=0;
   appointmentSource:number=0;
   sortedAppointments:any=[];
+  appointmentStatus:number=0;
 
-  displayedColumns: string[] = ['appointment_id','clinic_id','clinic_name','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','s_status'];
+  displayedColumns: string[] = ['appointment_id','clinic_id','clinic_name','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','settlement_status','settled_date'];
 
   constructor(public dialogRef:MatDialogRef<AppointmentTransactionsComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private paymentService:PaymentService,private datePipe:DatePipe){
     this.clinics=data.cid;
+    this.appointmentStatus=data.appStatus;
   this.startDate=data.strtDate; //Starting date
   this.endDate=data.enDate;  //Ending date
   this.appointmentType=data.appType;
@@ -46,7 +48,7 @@ export class AppointmentInfoComponent implements OnInit{
   //Obtaining appointments
     this.paymentService.getPaymentsClinic(strDate,enDate).subscribe((res:any)=>{
       res.forEach((element: any) => {
-        if(this.clinics==element.clinic && this.appointmentSource==element.a_source && element.status==4){
+        if(this.clinics==element.clinic && this.appointmentSource==element.a_source && this.appointmentType==element.a_type && this.appointmentStatus==element.status){
           this.sortedAppointments.push(element);
         }
         else{

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginpageComponent } from './loginpage/loginpage.component';
-import { PaymentsComponent } from './payments/payments.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './home/home.component';
@@ -26,6 +25,8 @@ import { AllAppointmentsComponent } from './all-appointments/all-appointments.co
 import { ClinicsComponent } from './clients/clinics/clinics.component';
 import { SalesAgentsComponent } from './sales-agents/sales-agents.component';
 import { ClinicSettlementsComponent } from './settlements/clinic-settlements/clinic-settlements.component';
+import { AppointmentRefundsComponent } from './refunds/appointment-refunds/appointment-refunds.component';
+
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -61,8 +62,11 @@ const routes: Routes = [
   },
   {path:'veterinarians',component:VeterinariansComponent},
   {path:'institutes',component:InstitutesComponent},
-  {path:'refunds',component:RefundsComponent},
-    {path:'payments',component:PaymentsComponent},
+  {path:'refunds',component:RefundsComponent,
+  children:[
+    {path:'appointmentrefunds',component: AppointmentRefundsComponent}
+  ]
+},
     {path:'petowners',component:PetownersComponent},
     {path:'settlements',component:SettlementsComponent,
     children:[
@@ -82,12 +86,10 @@ const routes: Routes = [
 export class AppRoutingModule { }
 export const routingComponents=[
   LoginpageComponent,
-  PaymentsComponent,
   ToolbarComponent,
   FooterComponent,
   HomeComponent,
   DashboardComponent,
-  PaymentsComponent,
   UsersComponent,
   DoctorsComponent,
   ClinicInfoComponent,
@@ -107,5 +109,6 @@ export const routingComponents=[
   StoreTransactionsComponent,
   RefundsComponent,
   ClinicsComponent,
-  ClinicSettlementsComponent
+  ClinicSettlementsComponent,
+  AppointmentRefundsComponent
 ]

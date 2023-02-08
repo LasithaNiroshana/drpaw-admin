@@ -8,7 +8,6 @@ import { MaterialModule } from './material/material.module';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { PaymentsInfoComponent } from './payments/payments-info/payments-info.component';
 import { AddVetComponent } from './doctors/add-vet/add-vet.component';
 import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.component';
 import { EditClinicComponent } from './clients/clinics/edit-clinic/edit-clinic.component';
@@ -23,7 +22,6 @@ import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements
   declarations: [
     AppComponent,
     routingComponents,
-    PaymentsInfoComponent,
     AddVetComponent,
     AddInstitutesComponent,
     EditClinicComponent,

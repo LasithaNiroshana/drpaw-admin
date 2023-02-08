@@ -38,8 +38,8 @@ export class PaymentService {
   }
 
   //Get payment history of a clinic
-  public getPaymentsClinic(stdt:string,endt:string){
-    const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=0' + '&stdt=' + stdt + '&endt=' + endt;
+  public getPaymentsClinic(cid:string,stdt:string,endt:string){
+    const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");
     // .set("Authorization", "token " + APIStore.token);

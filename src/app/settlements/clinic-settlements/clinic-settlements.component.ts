@@ -25,7 +25,7 @@ export const MY_FORMATS = {
 })
 export class ClinicSettlementsComponent implements OnInit{
 
-  clinics:any;
+  clinics:any=[];
   appointmentHistory:any=[];
   clinicID:any;  //ClinicID
   startDate=new Date(); //Starting date
@@ -55,11 +55,10 @@ export class ClinicSettlementsComponent implements OnInit{
   }
 
    //Get appointment history of a clinic
-   getAppointmentHistory(clinicid:number,appointmentStatus:number,appointmentSource:number,stdt:any,endt:any){
+   getAppointmentHistory(clinicid:string,appointmentSource:number,stdt:any,endt:any){
     this.dialog.open(ClinicSettlementsInfoComponent,{
       data:{
         cid:clinicid,
-        appStatus:appointmentStatus,
         appSource:appointmentSource,
         strtDate:stdt,
         enDate:endt
@@ -71,12 +70,11 @@ export class ClinicSettlementsComponent implements OnInit{
   resetForm(){}
 
        //Get clinic list
-  getClinicList(){
+  async getClinicList(){
      this.clinicService.GetClinics().subscribe((res:any)=>{
-      // res.forEach((element:any) => {
-      //   this.clinic=element;
-      // });
-      this.clinics=res;
+      res.forEach((element:any) => {
+        this.clinics.push(element);
+      });
     });
   }
 

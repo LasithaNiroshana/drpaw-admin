@@ -1,5 +1,29 @@
-<mat-card>
-    <mat-card-content class="warning">
-        <h2>Refunds Section is under developement!</h2>
-    </mat-card-content>
-</mat-card>
+<mat-tab-group>   
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="clients-tab-icon">medication_liquid</mat-icon>
+        Appointment Refunds
+      </ng-template>
+      <br>
+      <app-appointment-refunds></app-appointment-refunds>
+    </mat-tab>
+  
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="clients-tab-icon">medical_services</mat-icon>
+        Service Refunds
+      </ng-template>
+      <br>
+      <app-services></app-services>
+    </mat-tab>
+  
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="clients-tab-icon">shop</mat-icon>
+        Order Refunds
+      </ng-template>
+      <br>
+      <app-stores></app-stores>
+    </mat-tab>
+  </mat-tab-group>

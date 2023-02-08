@@ -36,7 +36,7 @@ export class AppointmentTransactionsComponent implements OnInit{
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  clinics:any;
+  clinics:any=[];
   appointmentHistory:any=[];
   clinicID:any;  //ClinicID
   startDate=new Date(); //Starting date
@@ -65,16 +65,16 @@ export class AppointmentTransactionsComponent implements OnInit{
 
     //Get clinic list
     this.clinicService.GetClinics().subscribe((res:any)=>{
-      // res.forEach((element:any) => {
-      //   this.clinic=element;
-      // });
-      this.clinics=res;
+      res.forEach((element:any) => {
+        this.clinics.push(element);
+      });
     });
 
     //Get appointment history of all clinics
     this.appointmentService.getAppointmentList().subscribe((res:any)=>{
-      this.appointmentHistory=res;
-      // console.log(this.appointmentHistory);
+     res.forEach((element:any)=>{
+      this.appointmentHistory.push(element)
+     });
       this.appointmentHistory.paginator=this.paginator;
     });
   }

@@ -1,0 +1,15 @@
+.custom-dropzone {
+    width: 800px;
+    height: 200px;
+    background: white;
+    color: black;
+    border: 5px dashed #FFC107;
+    border-radius: 5px;
+    font-size: 20px;
+ }
+ 
+ 
+ .custom-dropzone.ngx-dz-hovered {
+  border: 5px solid #673AB7;
+ }
+ 

@@ -1,4 +1,8 @@
 <div class="appointment-transactions">
+  <button mat-raised-button color="accent" (click)="uploadSettlements()">
+    <mat-icon>upload_file</mat-icon>
+    Upload Completed Settlements</button>
+  <br><br>
     <mat-card>
         <mat-card-content>
             <!-- Form fields -->
@@ -44,6 +48,9 @@
           <mat-form-field class="appointment-history-field">
             <mat-label>Select Appointment Source</mat-label>
             <mat-select [(ngModel)]="this.appointmentSource">
+              <mat-option value=2>
+                All
+              </mat-option>
               <mat-option value=0>
                 Online
               </mat-option>

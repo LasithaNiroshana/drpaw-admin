@@ -46,4 +46,24 @@ export class PaymentService {
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
+
+  //Generate settlement reference id for appointment 
+  public generateSettlementReferenceId(appointmentid:string,apprefcode:string,appointment:any){
+    const url = this.globalService.apiURL + 'pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
+
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.put(url, appointment, {headers}).pipe(catchError(this.handleError));
+  }
+
+  //Generate settlement reference id for appointment 
+  // public updateSettlementStatus(appointmentid:string,apprefcode:string,appointment:any){
+  //   const url = this.globalService.apiURL + 'pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
+
+  //   const headers = new HttpHeaders().set("Content-Type", "application/json");
+  //   // .set("Authorization", "token " + APIStore.token);
+
+  //   return this.httpClient.put(url, appointment, {headers}).pipe(catchError(this.handleError));
+  // }
 }

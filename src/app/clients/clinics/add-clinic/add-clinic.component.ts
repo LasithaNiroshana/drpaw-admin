@@ -102,8 +102,6 @@ export class AddClinicComponent {
       &&
       this.clinic.email!=""
       &&
-      this.clinic.website!=""
-      &&
       this.clinic.active!=null
       &&
       this.clinic.bank_name!=""

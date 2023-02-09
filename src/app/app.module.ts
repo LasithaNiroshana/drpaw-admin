@@ -16,6 +16,8 @@ import { ConfirmCancelComponent } from './doctors/confirm-cancel/confirm-cancel.
 import { AddUserComponent } from './clients/clinics/add-user/add-user.component';
 import { AppointmentInfoComponent } from './transactions/appointment-transactions/appointment-info/appointment-info.component';
 import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements/clinic-settlements-info/clinic-settlements-info.component';
+import { UpdateClinicSettlementsComponent } from './settlements/clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements
     ConfirmCancelComponent,
     AppointmentInfoComponent,
     ClinicSettlementsInfoComponent,
+    UpdateClinicSettlementsComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    NgxDropzoneModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

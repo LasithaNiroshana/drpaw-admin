@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from './clinic-settlements-info/clinic-settlements-info.component';
+import {UpdateClinicSettlementsComponent} from '../clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -37,10 +38,11 @@ export class ClinicSettlementsComponent implements OnInit{
   appointmentType:number=0;
   appointmentSource:number=0;
   appointmentStatus:number=0;
+  currentDateTime:any;
 
   displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private paymentService:PaymentService){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private paymentService:PaymentService,private datepipe:DatePipe){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -52,6 +54,8 @@ export class ClinicSettlementsComponent implements OnInit{
   ngOnInit() {
     this.getClinicList();
     this.getAppointmentList();
+    this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy__h_mm_ss');
+    console.log(this.currentDateTime);
   }
 
    //Get appointment history of a clinic
@@ -64,6 +68,11 @@ export class ClinicSettlementsComponent implements OnInit{
         enDate:endt
       }
     });
+    }
+
+    
+    uploadSettlements(){
+      this.dialog.open(UpdateClinicSettlementsComponent);
     }
 
   //Reset form

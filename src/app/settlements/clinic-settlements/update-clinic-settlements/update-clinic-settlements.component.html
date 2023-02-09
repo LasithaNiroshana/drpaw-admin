@@ -1,0 +1,19 @@
+<mat-dialog-content>
+    <br>
+    <div class="custom-dropzone" ngx-dropzone [accept]="'.xlsx'" [multiple]="false" (change)="onSelect($event)">
+      <ngx-dropzone-label>
+        <div>
+          <h2>
+            <mat-label>Upload Completed Settlements:</mat-label>
+          </h2>
+        </div>
+      </ngx-dropzone-label>
+      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+        <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+      </ngx-dropzone-image-preview>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true">OK</button>
+</mat-dialog-actions>
+

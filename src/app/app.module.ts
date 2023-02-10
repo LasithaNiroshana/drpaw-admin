@@ -18,6 +18,7 @@ import { AppointmentInfoComponent } from './transactions/appointment-transaction
 import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements/clinic-settlements-info/clinic-settlements-info.component';
 import { UpdateClinicSettlementsComponent } from './settlements/clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales-agent.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     AppointmentInfoComponent,
     ClinicSettlementsInfoComponent,
     UpdateClinicSettlementsComponent,
+    AddSalesAgentComponent,
   ],
   imports: [
     BrowserModule,

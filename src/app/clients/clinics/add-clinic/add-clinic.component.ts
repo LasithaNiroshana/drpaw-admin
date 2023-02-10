@@ -120,7 +120,7 @@ export class AddClinicComponent {
       this.openSnackBar('New clinic added successfully','');
     }
     else
-     this.openSnackBar('One or more fields missing!','Ok'); 
+     this.openSnackBar('One or more fields missing!','OK'); 
   }
 
   cancelConfirm(){

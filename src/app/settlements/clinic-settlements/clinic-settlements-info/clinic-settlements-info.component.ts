@@ -135,39 +135,42 @@ export class ClinicSettlementsInfoComponent implements OnInit{
      //Converting starting and end dates
      let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
      let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
-   
-     //Obtaining appointments
-       if(this.appointmentSource!=2){
-        this.settlementsService.getPaymentsClinic(this.clinics,strDate,enDate).subscribe((res:any)=>{
-          res.forEach((element: any) => {
-            if(this.appointmentSource==element.a_source && this.activeStatus==element.active){
-             console.log(element.status);
-             console.log(element.active);
-             console.log(element.active);
-              this.sortedAppointments.push(element);
-            }
-            else{
-              //
-            }  
-          });
-          });
-       }
-       else{
-        this.settlementsService.getPaymentsClinic(this.clinics,strDate,enDate).subscribe((res:any)=>{
-          res.forEach((element: any) => {
-            if(this.activeStatus==element.active){
-              console.log(element.a_source);
-            //  console.log(element.status);
-            //  console.log(element.active);
-              this.sortedAppointments.push(element);
-            }
-            else{
-              //
-            }  
-          });
-          });
-       }
+   this.getAppointmentsList(this.clinics,strDate,enDate)
     
+  }
+
+   //Obtaining appointments
+  async getAppointmentsList(clinicId:any,startDate:any,endDate:any){
+     if(this.appointmentSource!=2){
+      this.settlementsService.getPaymentsClinic(clinicId,startDate,endDate).subscribe((res:any)=>{
+        res.forEach((element: any) => {
+          if(this.appointmentSource==element.a_source && this.activeStatus==element.active){
+          //  console.log(element.status);
+          //  console.log(element.active);
+            this.sortedAppointments.push(element);
+          }
+          else{
+            //
+          }  
+        });
+        });
+     }
+     else{
+      this.settlementsService.getPaymentsClinic(clinicId,startDate,endDate).subscribe((res:any)=>{
+        res.forEach((element: any) => {
+          if(this.activeStatus==element.active){
+            console.log(element.a_source);
+          //  console.log(element.status);
+          //  console.log(element.active);
+            this.sortedAppointments.push(element);
+          }
+          else{
+            //
+          }  
+        });
+        });
+     }
+     return this.sortedAppointments;
   }
 
   //Export as excel
@@ -177,16 +180,19 @@ export class ClinicSettlementsInfoComponent implements OnInit{
     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
-    this.currentDateTime =this.datepipe.transform((new Date), 'MM/dd/yyyy_h:mm:ss');
+    this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy_h_mm_ss');
     console.log(this.currentDateTime);
-    this.referenceId = 'drc_'+ '2' + '_' + this.currentDateTime;
-    console.log(this.sortedAppointments);
+    
     // this.sortedAppointments.forEach(element => {
     //   this.settlementsService.generateSettlementReferenceId(this.appoitmentId,this.referenceId,this);
     // });
     console.log(this.referenceId);
-    console.log(this.currentDateTime);
-    
+    console.log(this.sortedAppointments);
+    this.sortedAppointments.forEach((element:any) => {
+      this.referenceId = 'drc_'+ element.id + '_' + this.currentDateTime;
+      this.settlementsService.generateSettlementReferenceId(element.id,this.referenceId,);
+    });
+  
 
    //Passing the table id to worksheet
   //  let table=document.getElementById('appointment-history');

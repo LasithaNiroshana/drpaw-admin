@@ -147,26 +147,14 @@
             <ng-container matColumnDef="appointment_type">
               <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Type</th>
               <td mat-cell *matCellDef="let appointment"> 
-                <p *ngIf="appointment.a_type==0">
-                  Pending Appointment
-                </p> 
-                <p *ngIf="appointment.a_type==1">
-                  Waiting for confirmation
-                </p> 
-                <p *ngIf="appointment.a_type==2">
-                  Waiting for payment
-                </p> 
-                <p *ngIf="appointment.a_type==3">
-                  Paid
-                </p> 
-                <p *ngIf="appointment.a_type==4">
+                <p *ngIf="appointment.status==4">
                   Complete
                 </p> 
-                <p *ngIf="appointment.a_type==5">
+                <p *ngIf="appointment.status==5">
                  Doctor Declined
                 </p> 
-                <p *ngIf="appointment.a_type==6">
-                  Online- Not Paid
+                <p *ngIf="appointment.status==6">
+                  Customer Declined
                 </p> 
               </td>
             </ng-container>

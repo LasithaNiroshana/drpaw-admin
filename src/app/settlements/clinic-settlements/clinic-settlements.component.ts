@@ -38,7 +38,6 @@ export class ClinicSettlementsComponent implements OnInit{
   appointmentType:number=0;
   appointmentSource:number=0;
   appointmentStatus:number=0;
-  currentDateTime:any;
 
   displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
 
@@ -54,8 +53,7 @@ export class ClinicSettlementsComponent implements OnInit{
   ngOnInit() {
     this.getClinicList();
     this.getAppointmentList();
-    this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy__h_mm_ss');
-    console.log(this.currentDateTime);
+    
   }
 
    //Get appointment history of a clinic

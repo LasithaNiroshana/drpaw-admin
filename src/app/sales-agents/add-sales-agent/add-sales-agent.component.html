@@ -1,0 +1,29 @@
+<mat-toolbar color="accent">Add New Sales Agent</mat-toolbar>
+<mat-dialog-content>
+    <form #form="ngForm" class="add-salesAgnt" (ngSubmit)="onSubmit(form.value)">
+        <mat-form-field class="add-sales-field">
+            <mat-label>Sales Person Name</mat-label>
+            <input type="text" matInput placeholder="John" [(ngModel)]="salesAgent.name" name="name" value="{{salesAgent.name}}">
+          </mat-form-field>
+       
+          <mat-form-field class="add-sales-field">
+            <mat-label>Address</mat-label>
+            <input type="text" matInput placeholder="No.12, Highlevel Rd, Nugegoda" [(ngModel)]="salesAgent.address" name="address" value="{{salesAgent.address}}">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="add-sales-field">
+            <mat-label>Mobile Number</mat-label>
+            <input type="tel" matInput placeholder="0711234567" [(ngModel)]="salesAgent.mobile" name="mobile" value="{{salesAgent.mobile}}">
+          </mat-form-field>
+       
+          <mat-form-field class="add-sales-field">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="salesAgent.email" name="email" value="{{salesAgent.email}}">
+          </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="onSubmit(form.value)">Save</button>
+  </mat-dialog-actions>
+  

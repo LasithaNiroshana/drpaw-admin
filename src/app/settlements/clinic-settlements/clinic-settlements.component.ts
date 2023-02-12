@@ -52,16 +52,15 @@ export class ClinicSettlementsComponent implements OnInit{
 
   ngOnInit() {
     this.getClinicList();
-    this.getAppointmentList();
     
   }
 
    //Get appointment history of a clinic
-   getAppointmentHistory(clinicid:string,appointmentSource:number,stdt:any,endt:any){
+   getAppointmentHistory(stdt:any,endt:any){
     this.dialog.open(ClinicSettlementsInfoComponent,{
       data:{
-        cid:clinicid,
-        appSource:appointmentSource,
+        // cid:clinicid,
+        // appSource:appointmentSource,
         strtDate:stdt,
         enDate:endt
       }
@@ -85,12 +84,5 @@ export class ClinicSettlementsComponent implements OnInit{
     });
   }
 
-    //Get appointment history of all clinics
-  getAppointmentList(){
-     this.paymentService.getAppointmentList().subscribe((res:any)=>{
-      this.appointmentHistory=res;
-      // console.log(this.appointmentHistory);
-      // this.appointmentHistory.paginator=this.paginator;
-    });
-  }
+   
 }

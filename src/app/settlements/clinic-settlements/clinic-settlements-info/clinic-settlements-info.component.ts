@@ -77,6 +77,16 @@ export class ClinicSettlementsInfoComponent implements OnInit{
   activeStatus:number=1;
   referenceId:any;
   appoitmentId:any;
+  clinicSettlementList:any=[];
+  // clinicSettlementTotal:number=0;
+
+  current_clinic = 0;
+  prev_clinic = 0;
+
+  clinic_total = 0;
+  clinic_settlement:any = [];
+
+  trans_pre = "drc";
 
   displayedColumns: string[] = ['appointment_id','clinic_id','clinic_name','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','settlement_status','settled_date'];
 
@@ -124,51 +134,35 @@ export class ClinicSettlementsInfoComponent implements OnInit{
   }
 
   constructor(public dialogRef:MatDialogRef<SettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private settlementsService:PaymentService,private datePipe:DatePipe,public datepipe: DatePipe){
-    this.clinics=data.cid;
+    // this.clinics=data.cid;
     this.startDate=data.strtDate; //Starting date
     this.endDate=data.enDate;  //Ending date
     // this.appointmentType=data.appType;
-    this.appointmentSource=data.appSource;
+    // this.appointmentSource=data.appSource;
   }
 
   ngOnInit() {
      //Converting starting and end dates
      let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
      let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
-   this.getAppointmentsList(this.clinics,strDate,enDate)
+   this.getAppointmentsList(strDate,enDate);
     
   }
 
    //Obtaining appointments
-  async getAppointmentsList(clinicId:any,startDate:any,endDate:any){
-     if(this.appointmentSource!=2){
-      this.settlementsService.getPaymentsClinic(clinicId,startDate,endDate).subscribe((res:any)=>{
-        res.forEach((element: any) => {
-          if(this.appointmentSource==element.a_source && this.activeStatus==element.active){
-          //  console.log(element.status);
-          //  console.log(element.active);
-            this.sortedAppointments.push(element);
-          }
-          else{
-            //
-          }  
+  async getAppointmentsList(startDate:any,endDate:any){
+    this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy_h_mm_ss');
+     if(this.appointmentSource==0){
+      this.settlementsService.getAppointmentListfromDates(startDate,endDate).subscribe((res:any)=>{
+        res.forEach((element:any) => {
+          this.sortedAppointments.push(element);
+          // console.log(this.sortedAppointments.length);
         });
-        });
+      });
+      
      }
      else{
-      this.settlementsService.getPaymentsClinic(clinicId,startDate,endDate).subscribe((res:any)=>{
-        res.forEach((element: any) => {
-          if(this.activeStatus==element.active){
-            console.log(element.a_source);
-          //  console.log(element.status);
-          //  console.log(element.active);
-            this.sortedAppointments.push(element);
-          }
-          else{
-            //
-          }  
-        });
-        });
+      //
      }
      return this.sortedAppointments;
   }
@@ -180,17 +174,61 @@ export class ClinicSettlementsInfoComponent implements OnInit{
     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
-    this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy_h_mm_ss');
-    console.log(this.currentDateTime);
-    
-    // this.sortedAppointments.forEach(element => {
-    //   this.settlementsService.generateSettlementReferenceId(this.appoitmentId,this.referenceId,this);
-    // });
-    console.log(this.referenceId);
-    console.log(this.sortedAppointments);
-    this.sortedAppointments.forEach((element:any) => {
-      this.referenceId = 'drc_'+ element.id + '_' + this.currentDateTime;
-      this.settlementsService.generateSettlementReferenceId(element.id,this.referenceId,);
+    this.sortedAppointments.forEach((result: any) => {
+
+      console.log(result);
+
+      if(result.length > 0){
+        this.current_clinic = result[0]['clinic'];
+        this.prev_clinic = result[0]['clinic'];
+
+        var uid = (Math.floor(Date.now() / 1000)).toString();
+        // appointment referece code
+        var s_ref = "none";
+
+        // console.log(result.length);
+
+        for(var i = 0; result.length > i; i++){
+          this.current_clinic = result[i]['clinic'];
+          s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
+          
+          if(this.current_clinic === this.prev_clinic){
+            this.clinic_total += result[i]['a_payment'];
+
+            // update appointment refernceid
+            // your_update_function(esult[i]['id'], s_ref);
+          }else{
+            this.clinic_settlement.push({
+              "clinic" : this.prev_clinic,
+              "settlement" : this.clinic_total,
+              "settlement_ref": s_ref
+            });
+
+            this.clinic_total = 0;
+            this.clinic_total += result[i]['a_payment'];
+
+            // update appointment refernceid
+            // your_update_function(esult[i]['id'], s_ref);
+          }
+
+          this.prev_clinic = this.current_clinic;
+        }
+
+        this.clinic_settlement.push({
+          "clinic" : this.prev_clinic,
+          "settlement" : this.clinic_total,
+          "settlement_ref": s_ref
+        });
+
+        // update appointment refernceid
+        // your_update_function(esult[result.length - 1]['id'], s_ref);
+
+        console.log(this.clinic_settlement);
+      }
+    },
+    (err: any) => {
+      console.log(err);
+      
     });
   
 
@@ -198,14 +236,14 @@ export class ClinicSettlementsInfoComponent implements OnInit{
   //  let table=document.getElementById('appointment-history');
   //  const worksheet = XLSX.utils.table_to_sheet(table);
 
-   const worksheet = XLSX.utils.json_to_sheet(this.sortedAppointments)
+   const worksheet = XLSX.utils.json_to_sheet(this.clinic_settlement)
 
-   //Generate workbook and the worksheet
+  //  //Generate workbook and the worksheet
    const workbook:XLSX.WorkBook=XLSX.utils.book_new();
    XLSX.utils.book_append_sheet(workbook,worksheet,'Sheet1')
 
    //Saving the file
-   XLSX.writeFile(workbook,'ClinicID'+'_'+this.clinics+'_'+'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'appointments.xlsx');
+   XLSX.writeFile(workbook,'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'clinic_settlements.xlsx');
  }
 
  //Export PDF

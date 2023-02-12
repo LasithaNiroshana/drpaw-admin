@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 
 //Interface for payment details
@@ -38,7 +38,7 @@ export interface DoctorDetails {
 })
 
 
-export class AddUserComponent {
+export class AddUserComponent implements OnInit{
   clinic:DoctorDetails={
     clinic:0,
     login:0,
@@ -68,6 +68,10 @@ export class AddUserComponent {
     on_emergency:0
   }
   constructor(private dialog:MatDialog){}
+
+  ngOnInit(): void {
+    
+  }
 
   onSubmit(userId:any){}
   cancelConfirm(){}

@@ -36,16 +36,16 @@
             </mat-select>
           </mat-form-field> -->
 
-          <mat-form-field class="appointment-history-field">
+          <!-- <mat-form-field class="appointment-history-field">
             <mat-label>Clinic</mat-label>
             <mat-select [(ngModel)]="this.clinicID">
               <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.id" >
                 {{clinic.id}} : {{clinic.name}},{{clinic.city}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
 
-          <mat-form-field class="appointment-history-field">
+          <!-- <mat-form-field class="appointment-history-field">
             <mat-label>Select Appointment Source</mat-label>
             <mat-select [(ngModel)]="this.appointmentSource">
               <mat-option value=2>
@@ -58,7 +58,7 @@
                 In-House
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <!-- <mat-form-field class="appointment-history-field">
             <mat-label>Select Appointment Type</mat-label>
@@ -91,7 +91,7 @@
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
     </div>
-      <button mat-raised-button (click)="getAppointmentHistory(this.clinicID,this.appointmentSource,this.startDate,this.endDate)" color="primary" class="appointment-history-button">
+      <button mat-raised-button (click)="getAppointmentHistory(this.startDate,this.endDate)" color="primary" class="appointment-history-button">
             <mat-icon>history</mat-icon>
         View Appointments 
     </button>

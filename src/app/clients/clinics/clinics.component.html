@@ -4,33 +4,35 @@
     <!-- <br>
     <button mat-raised-button color="primary" (click)="addClinic()"><mat-icon>add_circle</mat-icon>Add New Clinic</button>
     <br><br> -->
-
-   <mat-card>
-    <mat-card-content>
-      <div class="cards">
-        <mat-card class="clinics-count">
-          <mat-card-content><p>
-           Onboarded Clinics Count:
-          </p>
-            <p class="card-text">
-              {{this.clinicList.length}}
-            </p>
-          </mat-card-content>
-        </mat-card>
-    
-        <mat-card class="active-clinics-count">
-          <mat-card-content><p>
-           Active Clinics Count:
-          </p>
+    <div class="card">
+      <mat-card>
+        <mat-card-content>
+     <div class="stat-cards-container">
+      <mat-card class="clinics-count">
+        <mat-card-content><p>
+         Onboarded Clinics Count:
+        </p>
           <p class="card-text">
-            {{this.activeClinics}}
+            {{this.clinicList.length}}
           </p>
-          </mat-card-content>
-        </mat-card>
-       </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="active-clinics-count">
+        <mat-card-content><p>
+         Active Clinics Count:
+        </p>
+        <p class="card-text">
+          {{this.activeClinics}}
+        </p>
+        </mat-card-content>
+      </mat-card>
+     </div>
     </mat-card-content>
-   </mat-card>
-      <br>
+  </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <br>
       <button mat-raised-button [matMenuTriggerFor]="menu" color="accent">
         <mat-icon>add_circle</mat-icon>
     Add New Clinic User
@@ -52,7 +54,7 @@
   <br><br>
     
       <!-- Clinic table starts here -->
-  <div class="clinics-table" *ngIf="this.clinicList?.length>0;else noclinicList">
+  <!-- <div class="clinics-table" *ngIf="this.clinicList?.length>0;else noclinicList"> -->
     <table mat-table matSort [dataSource]="this.clinicList" class="mat-elevation-z8" id="content">
   
       <ng-container matColumnDef="logo">
@@ -180,6 +182,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons="true"></mat-paginator>
   </div>
   
   <!-- Doctors and Institutes Tabs -->
@@ -188,7 +191,7 @@
       <mat-tab label="Institutes"><app-institutes></app-institutes></mat-tab>
     </mat-tab-group> -->
   
-  </div>
+  <!-- </div> -->
   
        <!-- If there is no data -->
        <ng-template #noclinicList>

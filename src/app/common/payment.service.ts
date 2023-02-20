@@ -67,13 +67,13 @@ export class PaymentService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
-  //Generate settlement reference id for appointment 
-  // public updateSettlementStatus(appointmentid:string,apprefcode:string,appointment:any){
-  //   const url = this.globalService.apiURL + 'pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
+  //Update paid status of appointments/settlements
+  public updateSettlementStatus(datepaid:string,apprefcode:string){
+    const url = this.globalService.apiURL + 'pet_appointment/?refpdate='+ datepaid + '&updref=' + apprefcode;
 
-  //   const headers = new HttpHeaders().set("Content-Type", "application/json");
-  //   // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
 
-  //   return this.httpClient.put(url, appointment, {headers}).pipe(catchError(this.handleError));
-  // }
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
 }

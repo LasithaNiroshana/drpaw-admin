@@ -55,7 +55,6 @@
               <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="city" value="{{clinic.city}}">
             </mat-form-field>
             <br>
-           
            </mat-step>
         
            <!-- Contact details step -->
@@ -71,11 +70,11 @@
               <mat-label>Landline</mat-label>
               <input type="tel" matInput placeholder="0111234567" [(ngModel)]="clinic.landline" name="landline" value="{{clinic.landline}}">
             </mat-form-field>
-            <br>
             <mat-form-field class="add-clinic-field">
               <mat-label>Mobile Number</mat-label>
               <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile" value="{{clinic.mobile}}">
             </mat-form-field>
+            <br>
             <mat-form-field class="add-clinic-field">
               <mat-label>Website</mat-label>
               <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="clinic.website" name="website" value="{{clinic.website}}">
@@ -84,12 +83,20 @@
               <mat-label>Email</mat-label>
               <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email" value="{{clinic.email}}">
             </mat-form-field>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>On Boarded By:</mat-label>
+              <mat-select [(ngModel)]="clinic.sale">
+                <mat-option *ngFor="let salesAgent of this.salesA" [value]="salesAgent.id" >
+                  {{salesAgent.id}} : {{salesAgent.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
             <br>
             <mat-form-field class="add-clinic-hidden-field">
               <mat-label>Active Status</mat-label>
               <input type="text" matInput [(ngModel)]="clinic.active" name="active" value=0>
             </mat-form-field>
-            <br>
+  
            </mat-step>
 
            <!-- Bank Account Details step -->
@@ -115,6 +122,22 @@
               <mat-label>Branch ID</mat-label>
               <input type="text" matInput placeholder="3456" [(ngModel)]="clinic.branch_code" name="branch_code" value="{{clinic.branch_code}}">
             </mat-form-field>
+           </mat-step>
+
+           <!-- Upload clinic logo step -->
+           <mat-step label="Clinic Logo">
+            <div class="custom-dropzone" ngx-dropzone [accept]="'image/jpeg,image/jpg,image/png,image/gif'" [multiple]="false" (change)="onSelect($event)">
+              <ngx-dropzone-label>
+                <div>
+                  <h2>
+                    <mat-label>Upload Completed Settlements:</mat-label>
+                  </h2>
+                </div>
+              </ngx-dropzone-label>
+              <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+              </ngx-dropzone-image-preview>
+            </div>
            </mat-step>
         
           </mat-stepper>

@@ -1,5 +1,6 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,AfterContentInit, AfterViewInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import {ClinicService} from '../../../common/clinic.service';
 
 //Interface for payment details
 export interface DoctorDetails {
@@ -38,8 +39,8 @@ export interface DoctorDetails {
 })
 
 
-export class AddUserComponent implements OnInit{
-  clinic:DoctorDetails={
+export class AddUserComponent implements OnInit,AfterViewInit{
+  doctor:DoctorDetails={
     clinic:0,
     login:0,
     name: "",
@@ -59,18 +60,28 @@ export class AddUserComponent implements OnInit{
     support_direct_visit:0,
     support_home_visit:0,
     support_virtual_visit:0,
-    direct_visit_service_charge:0,
-    home_visit_service_charge:0,
-    virtual_visit_service_charge:0,
+    direct_visit_service_charge:1000,
+    home_visit_service_charge:1000,
+    virtual_visit_service_charge:1000,
     on_live:0,
     user_type:0,
     capacity:0,
     on_emergency:0
   }
-  constructor(private dialog:MatDialog){}
+  clinicList:any=[];
 
-  ngOnInit(): void {
-    
+  constructor(private dialog:MatDialog,private clinicService:ClinicService){}
+
+  ngAfterViewInit() {
+    this.getClinics();
+  }
+
+  ngOnInit() {}
+
+  getClinics(){
+    this.clinicService.GetClinics().subscribe((res:any)=>{
+      this.clinicList=res;
+    }); 
   }
 
   onSubmit(userId:any){}

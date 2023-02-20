@@ -19,6 +19,7 @@ import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements
 import { UpdateClinicSettlementsComponent } from './settlements/clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales-agent.component';
+import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales
     ClinicSettlementsInfoComponent,
     UpdateClinicSettlementsComponent,
     AddSalesAgentComponent,
+    ProgressSpinnerComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,OnInit,AfterViewInit } from '@angular/core';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import {ConfirmCancelComponent} from '../../../doctors/confirm-cancel/confirm-cancel.component';
+import {SalesAgentsService} from '../../../common/sales-agents.service';
+
 
 //Interface for payment details
 export interface ClinicDetails {
@@ -26,6 +28,7 @@ export interface ClinicDetails {
   bank_acc_no:string;
   branch:string;
   branch_code:string;
+  sale:number;
 }
 
 @Component({
@@ -33,7 +36,9 @@ export interface ClinicDetails {
   templateUrl: './add-clinic.component.html',
   styleUrls: ['./add-clinic.component.scss']
 })
-export class AddClinicComponent {
+
+export class AddClinicComponent implements OnInit,AfterViewInit{
+
   clinic:ClinicDetails={
     name: "",
     business_registration:"",
@@ -54,10 +59,23 @@ export class AddClinicComponent {
     account_holder_name:"",
     bank_acc_no:"",
     branch:"",
-    branch_code:""
+    branch_code:"",
+    sale:0
   }
 
-  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog){}
+  salesA:any=[];
+  files: File[] = [];
+
+  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,private salesAgents:SalesAgentsService){}
+  
+  ngAfterViewInit() {
+    //Obtaining sales agents 
+    this.salesAgents.getSalesAgentList().subscribe((res:any)=>{
+      this.salesA=res;
+    });
+  }
+
+  ngOnInit() {}
 
   //Adding a clinic
   // addClinic(formValues: JSON){
@@ -81,6 +99,18 @@ export class AddClinicComponent {
   //   else
   //    this.openSnackBar('One or more fields missing!','Ok'); 
   // }
+
+  //Adding the file
+  onSelect(event:any) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+ 
+ //Removing the file
+  onRemove(event:any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
 
   //Open snackbar 
   openSnackBar(message: string, action: string) {

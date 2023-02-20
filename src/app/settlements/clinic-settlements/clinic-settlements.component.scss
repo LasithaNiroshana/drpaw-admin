@@ -1,5 +1,5 @@
 .appointment-transactions{
-    max-height: 720px;
+    min-height: 1080px;
     overflow:auto;
 }
 td, th {
@@ -9,7 +9,7 @@ td, th {
 
 .input-fields-container{
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     padding: 4px;
   }
 

@@ -1,0 +1,21 @@
+// .add-user-form{
+//     width: 600px;
+// }
+.user-details-step{
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.doctor-service-charges-step{
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.contact-details-step{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.add-user-field{
+    margin:10px
+}

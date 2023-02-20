@@ -1,4 +1,4 @@
-import { Component,ViewChild,OnInit } from '@angular/core';
+import { Component,ViewChild,OnInit,AfterViewInit,ChangeDetectorRef } from '@angular/core';
 import { Router, TitleStrategy, UrlCreationOptions } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import {HttpClient} from '@angular/common/http';
@@ -10,31 +10,64 @@ import {ClinicInfoComponent} from './clinic-info/clinic-info.component';
 import {EditClinicComponent} from './edit-clinic/edit-clinic.component';
 import {AddUserComponent} from '../clinics/add-user/add-user.component';
 
+//Interface for payment details
+export interface ClinicDetails {
+  name: string;
+  business_registration:string;
+  slva_no:string;
+  clinic_type:string;
+  nic:string;
+  address_ln1:string;
+  address_ln2:string;
+  city:string;
+  contact_person:string;
+  landline:string;
+  mobile: string;
+  email:string;
+  website:string;
+  logo:string;
+  active:number;
+  bank_name:string;
+  account_holder_name:string;
+  bank_acc_no:string;
+  branch:string;
+  branch_code:string;
+}
 
 @Component({
   selector: 'app-clinics',
   templateUrl: './clinics.component.html',
   styleUrls: ['./clinics.component.scss']
 })
-export class ClinicsComponent implements OnInit{
+export class ClinicsComponent implements OnInit,AfterViewInit{
   isChecked = "";
   clinicList:any=[];
   displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
   activeClinics:number=0;
+  dataSource:any;
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)!
-  sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   userList:any=[];
 
 
-  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog){}
+  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef){}
+  ngAfterViewInit(){
+    this.getClinics();
+    
+  }
 
-  ngOnInit(): void {
-    this.clinicService.GetClinics().subscribe(res=>{
+  ngOnInit(){
+   
+  }
+
+  getClinics(){
+    this.clinicService.GetClinics().subscribe((res:any)=>{
       this.clinicList=res;
-      this.clinicList.forEach((element:any) => {
+      this.dataSource=new MatTableDataSource(this.clinicList);
+      this.dataSource.paginator=this.paginator;
+      this.cdr.detectChanges();
+      res.forEach((element:any) => {
         if(element.active==0){
           this.activeClinics=this.activeClinics+1;
         }

@@ -1,4 +1,4 @@
-import { Component,OnInit,ViewChild,ChangeDetectorRef } from '@angular/core';
+import { Component,OnInit,ViewChild,ChangeDetectorRef,AfterViewInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DatePipe} from '@angular/common';
@@ -32,7 +32,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
 })
-export class AppointmentTransactionsComponent implements OnInit{
+export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
@@ -50,7 +50,7 @@ export class AppointmentTransactionsComponent implements OnInit{
   appointmentStatus:number=0;
 
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','no_show'];
   constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private cdr:ChangeDetectorRef,private dialog:MatDialog){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
@@ -59,27 +59,34 @@ export class AppointmentTransactionsComponent implements OnInit{
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
   }
+  ngAfterViewInit() {
+    this.getClinicList();
+    this.getAppointments()
+  }
 
   ngOnInit() {
     this.cdr.detectChanges();
+  }
 
-    //Get clinic list
-    this.clinicService.GetClinics().subscribe((res:any)=>{
+    //Get appointment history of all clinics
+  getAppointments(){
+    this.appointmentService.getAppointmentList().subscribe((res:any)=>{
+      res.forEach((element:any)=>{
+       this.appointmentHistory.push(element)
+      });
+       this.appointmentHistory.paginator=this.paginator;
+     });
+  }
+
+      //Get clinic list
+  getClinicList(){
+     this.clinicService.GetClinics().subscribe((res:any)=>{
       res.forEach((element:any) => {
         this.clinics.push(element);
       });
     });
 
-    //Get appointment history of all clinics
-    this.appointmentService.getAppointmentList().subscribe((res:any)=>{
-     res.forEach((element:any)=>{
-      this.appointmentHistory.push(element)
-     });
-      this.appointmentHistory.paginator=this.paginator;
-    });
   }
-
-  
 
   //Get appointment history of a clinic
   getAppointmentHistory(clinicid:number,appointmentStatus:number,appointmentSource:number,appointmentType:number,stdt:any,endt:any){

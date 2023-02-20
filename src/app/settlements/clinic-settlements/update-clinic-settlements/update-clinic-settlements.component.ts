@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import * as XLSX from 'xlsx';
+import {PaymentService} from '../../../common/payment.service';
 
 @Component({
   selector: 'app-update-clinic-settlements',
@@ -6,18 +8,39 @@ import { Component } from '@angular/core';
   styleUrls: ['./update-clinic-settlements.component.scss']
 })
 export class UpdateClinicSettlementsComponent {
-  files: File[] = [];
+  file:any = [];
+  settlementArray:any=[];
 
+  constructor(private settlementService:PaymentService){}
 
-  onSelect(event:any) {
-    console.log(event);
-    this.files.push(...event.addedFiles);
+  onChange(event:any) {
+    this.file = event.target.files[0];
   }
- 
- 
-  onRemove(event:any) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+  
+  onUpload(ev:any) {
+    let jsonData = null;
+    const reader = new FileReader();
+    var uploadedFile = this.file; 
+    reader.readAsBinaryString(uploadedFile);
+
+    reader.onload=(event:any)=>{
+      let binaryData=event.target.result;
+      let workBook=XLSX.read(binaryData,{type:'binary'});
+
+      jsonData = workBook.SheetNames.reduce((initial:any, name) => {
+        const sheet = workBook.Sheets[name];
+        initial = XLSX.utils.sheet_to_json(sheet);
+        this.settlementArray=initial;
+
+        //Update Paid status of appointments/settlements
+        this.settlementArray.forEach((element:any) => {
+          this.settlementService.updateSettlementStatus(element.paid_date,element.settlement_ref).subscribe((res:any)=>{
+            console.log(res);
+          });
+        });
+      }, {});
+    }
   }
+
  
 }

@@ -1,5 +1,5 @@
 .petowners-component{
-    height: 1920px;
+    max-height: 640px;
     overflow:auto;
 }
 
@@ -39,4 +39,8 @@
 //     text-align: center !important;
 //     vertical-align: middle !important;
 // }
+.search-input-field{
+    font-size: 14px;
+    width: 100%;
+  }
 

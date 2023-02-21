@@ -1,6 +1,6 @@
-<div *ngIf="this.petOwnersList?.length>0;else nopetOwnersList" class="petowners-component">
 
-   <div class="cards">
+<div class="petowners-component">
+  <div class="cards">
     <mat-card class="customers-count">
       <mat-card-content><p>
        Pet Owners Count:
@@ -23,7 +23,14 @@
    </div>
     <br>
 
-    <table mat-table matSort [dataSource]="this.petOwnersList" id="petowners-history">
+      <!-- <div class="clinics-table" *ngIf="this.clinicList?.length>0;else noclinicList"> -->
+        <mat-form-field class="search-input-field">
+          <mat-label>Search Pet Owners</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John Doe" #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+   
+    <table mat-table matSort [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="name">
           <th mat-header-cell mat-sort-header *matHeaderCellDef> Pet Owner's Name </th>
@@ -77,21 +84,17 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns sticky:true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+         <!-- Row shown when there is no matching data. -->
+       <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+
       </table>
+
+
+  <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
+
   </div>
-
-  <mat-paginator [pageSizeOptions]="[10,20,50]" showFirstLastButtons></mat-paginator>
-
-  <!-- If there is no data -->
-<ng-template #nopetOwnersList>
-<mat-divider></mat-divider>
-<br>
-<mat-card class="no-petowners">
-  <mat-card-content class="no-petowners">
-    <h3>Check your internet connection!</h3>
-  </mat-card-content>
-</mat-card>
-
-</ng-template>

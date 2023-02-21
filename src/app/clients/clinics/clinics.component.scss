@@ -1,4 +1,4 @@
-.doctors-component{
+.clinics-component{
     overflow: auto;
     max-height:720px;
 }
@@ -59,4 +59,9 @@
   
   .card-text{
       font-size: 40px;
+  }
+
+  .search-input-field{
+    font-size: 14px;
+    width: 100%;
   }

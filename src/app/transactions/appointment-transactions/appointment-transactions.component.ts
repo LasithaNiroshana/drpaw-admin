@@ -1,14 +1,61 @@
-import { Component,OnInit,ViewChild,ChangeDetectorRef,AfterViewInit } from '@angular/core';
+import { Component,OnInit,ViewChild,AfterViewInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
-import {MatPaginator} from '@angular/material/paginator';
 import { tap } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {AppointmentInfoComponent} from './appointment-info/appointment-info.component';
+
+export interface AppointmentInfo {
+  id: number;
+  clinic: number;
+  clinic_name: string;
+  doctor: number;
+  owner:number;
+  animal_id:number;
+  mobile:string;
+  session:any;
+  a_date:string;
+  a_time:string;
+  status:number;
+  a_source:number;
+  a_charge:number;
+  a_payment:number;
+  a_type:number;
+  a_sub_type:number;
+  appointment_type:string;
+  active:number;
+  doctor_name:string;
+  doctor_mobile:string;
+  doctor_speciality:string;
+  animal_name:string;
+  animal_type:string;
+  animal_breed:string;
+  pet_age:string;
+  pet_gender:string;
+  pet_weight:string;
+  image:any;
+  owner_name:string;
+  owner_address:string;
+  owner_city:string;
+  day:number;
+  month:string;
+  o_present:number;
+  d_amount:number;
+  no_show_amount:number;
+  no_show:number;
+  settlement_ref:number;
+  paid_date:any;
+  paid_status:number;
+  created_on:any;
+  transaction_paid_amount:number;
+  transaction_id:number;
+}
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -33,8 +80,6 @@ export const MY_FORMATS = {
   ],
 })
 export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
 
   clinics:any=[];
   appointmentHistory:any=[];
@@ -50,8 +95,13 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   appointmentStatus:number=0;
 
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','no_show'];
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private cdr:ChangeDetectorRef,private dialog:MatDialog){
+  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_sub_type','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','no_show'];
+  dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -61,29 +111,27 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   }
   ngAfterViewInit() {
     this.getClinicList();
-    this.getAppointments()
+    // this.getAppointments()
+    this.appointmentService.getAppointmentList().subscribe((res:any)=>{
+       this.appointmentHistory=res;
+       this.dataSource = new MatTableDataSource(this.appointmentHistory);
+       this.dataSource.paginator = this.paginator;
+       this.dataSource.sort = this.sort;
+     });
   }
 
   ngOnInit() {
-    this.cdr.detectChanges();
   }
 
     //Get appointment history of all clinics
   getAppointments(){
-    this.appointmentService.getAppointmentList().subscribe((res:any)=>{
-      res.forEach((element:any)=>{
-       this.appointmentHistory.push(element)
-      });
-       this.appointmentHistory.paginator=this.paginator;
-     });
+   
   }
 
       //Get clinic list
   getClinicList(){
      this.clinicService.GetClinics().subscribe((res:any)=>{
-      res.forEach((element:any) => {
-        this.clinics.push(element);
-      });
+        this.clinics=res;
     });
 
   }
@@ -104,5 +152,14 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
 
   //Reset form
   resetForm(){}
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
 }

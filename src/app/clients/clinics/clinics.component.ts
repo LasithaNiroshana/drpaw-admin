@@ -44,7 +44,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   clinicList:any=[];
   displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
   activeClinics:number=0;
-  dataSource:any;
+  dataSource: MatTableDataSource<ClinicDetails> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -53,20 +53,12 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
 
   constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef){}
   ngAfterViewInit(){
-    this.getClinics();
-    
-  }
-
-  ngOnInit(){
-   
-  }
-
-  getClinics(){
+    // this.getClinics();
     this.clinicService.GetClinics().subscribe((res:any)=>{
       this.clinicList=res;
-      this.dataSource=new MatTableDataSource(this.clinicList);
-      this.dataSource.paginator=this.paginator;
-      this.cdr.detectChanges();
+      this.dataSource = new MatTableDataSource(this.clinicList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       res.forEach((element:any) => {
         if(element.active==0){
           this.activeClinics=this.activeClinics+1;
@@ -74,6 +66,8 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
       });
     });
   }
+
+  ngOnInit(){}
 
   pageNavigate(){
     this.router.navigate(['home/petowners']);
@@ -112,6 +106,14 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
     // this.dialog.closeAll();
     this.dialog.open(AddUserComponent);
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
 }

@@ -10,15 +10,8 @@ export class ProgressSpinnerComponent implements OnInit{
   showSpinner=false;
   constructor(private spinner:SpinnerService, private cdRef:ChangeDetectorRef){}
 
-  ngOnInit() {
-    this.initSpinnner();
-  }
+  ngOnInit() {}
 
-  initSpinnner(){
-    this.spinner.getSpinnerObserver().subscribe((status)=>{
-      this.showSpinner=status==='start';
-      this.cdRef.detectChanges();
-    });
-  }
+  
 
 }

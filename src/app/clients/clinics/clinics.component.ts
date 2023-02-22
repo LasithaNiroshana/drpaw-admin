@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {ClinicInfoComponent} from './clinic-info/clinic-info.component';
 import {EditClinicComponent} from './edit-clinic/edit-clinic.component';
 import {AddUserComponent} from '../clinics/add-user/add-user.component';
+import {SpinnerService} from '../../common/spinner.service';
 
 //Interface for payment details
 export interface ClinicDetails {
@@ -51,8 +52,9 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   userList:any=[];
 
 
-  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef){}
+  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService){}
   ngAfterViewInit(){
+    
     // this.getClinics();
     this.clinicService.GetClinics().subscribe((res:any)=>{
       this.clinicList=res;
@@ -65,6 +67,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
         }
       });
     });
+  
   }
 
   ngOnInit(){}

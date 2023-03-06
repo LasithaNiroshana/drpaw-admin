@@ -1,30 +1,31 @@
-import { Component } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog,MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {ClinicInfoComponent} from '../clinic-info/clinic-info.component';
 
 //Interface for payment details
 export interface ClinicDetails {
   name: string;
-  business_registration:string;
-  slva_no:string;
-  clinic_type:string;
-  nic:string;
-  address_ln1:string;
-  address_ln2:string;
+  is_multi_doc:number;
+  address:string;
   city:string;
+  logo:any;
+  active:number;
+  province:string;
+  district:string;
+  br_no:string;
   contact_person:string;
   landline:string;
   mobile: string;
   email:string;
   website:string;
-  logo:string;
-  active:number;
   bank_name:string;
-  account_holder_name:string;
+  bank_acc_holder:string;
   bank_acc_no:string;
-  branch:string;
-  branch_code:string;
+  bank_branch:string;
+  bank_branch_code:string;
+  sale:number;
 }
 
 @Component({
@@ -35,76 +36,141 @@ export interface ClinicDetails {
 
 
 export class EditClinicComponent {
-  clinic:ClinicDetails={
+
+  clinic:any=[];
+  clinicInfo:any=[];
+  salesA:any=[];
+  files: File[] = [];
+  image:any;
+
+  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,public dialogRef:MatDialogRef<ClinicInfoComponent>,@Inject(MAT_DIALOG_DATA) public data:any){
+    this.clinic=data.clinic;
+  }
+
+  clinicDetails:ClinicDetails={
     name: "",
-    business_registration:"",
-    slva_no:"",
-    clinic_type:"",
-    nic:"",
-    address_ln1:"",
-    address_ln2:"",
+    is_multi_doc:0,
+    address:"",
     city:"",
+    logo:null,
+    active:0,
+    province:"",
+    district:"",
+    br_no:"",
     contact_person:"",
     landline:"",
     mobile: "",
     email:"",
     website:"",
-    logo:"",
-    active:0,
     bank_name:"",
-    account_holder_name:"",
+    bank_acc_holder:"",
     bank_acc_no:"",
-    branch:"",
-    branch_code:""
+    bank_branch:"",
+    bank_branch_code:"",
+    sale:1
   }
-
-  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog){}
 
   //Open snackbar 
   openSnackBar(message: string, action: string) {
     this.snackbar.open(message, action);
   }
 
-  //Adding a clinic
-  onSubmit(formValues: JSON){
-    if(
-      this.clinic.name!=""
-      &&
-      this.clinic.address_ln1!=""
-      &&
-      this.clinic.address_ln2!=""
-      &&
-      this.clinic.city!=""
-      &&
-      this.clinic.mobile!=""
-      &&
-      this.clinic.email!=""
-      &&
-      this.clinic.website!=""
-      &&
-      this.clinic.active!=null
-      &&
-      this.clinic.bank_name!=""
-      &&
-      this.clinic.account_holder_name!=""
-      &&
-      this.clinic.branch!=""
-      &&
-      this.clinic.branch_code!=""
-    ){
-      this.clinicService.SaveClinic(formValues).subscribe((result: any)=>{
-        // console.log(result);
-      });
-      console.log(formValues);
-      this.dialog.closeAll();
-      this.openSnackBar('New clinic added successfully','');
-    }
-    else
-     this.openSnackBar('One or more fields missing!','Ok'); 
+  //Adding image file
+  onFileChanged(event:any){
+    this.image = event.target.files[0] as File;
+    console.log(this.image.name);
+    const reader = new FileReader();
+    reader.readAsDataURL(this.image);
+    reader.onload = () => {
+      this.clinic.logo = reader.result;
+        console.log(this.clinic.logo);
+    };
   }
+
+//Adding a clinic
+async onSubmit(){
+  var formdata = new FormData();
+
+  const response = await fetch(this.clinic.logo);
+    const blob = await response.blob();
+
+  formdata.append("name", this.clinic.name);
+  formdata.append("address", this.clinic.address);
+  formdata.append("city", this.clinic.city);
+  formdata.append("active",this.clinic.active.toString());
+  formdata.append("sale",this.clinic.sale.toString());
+  formdata.append("mobile", this.clinic.mobile);
+  formdata.append("email", this.clinic.email);
+  formdata.append("website", this.clinic.website);
+  formdata.append("logo",blob,this.image.name);
+  formdata.append("province", this.clinic.province);
+  formdata.append("district", this.clinic.district);
+  formdata.append("br_no", this.clinic.br_no);
+  formdata.append("contact_person", this.clinic.contact_person);
+  formdata.append("landline", this.clinic.landline);
+  formdata.append("bank_acc_holder", this.clinic.bank_acc_holder);
+  formdata.append("bank_name", this.clinic.bank_name);
+  formdata.append("bank_acc_no", this.clinic.bank_acc_no);
+  formdata.append("bank_branch", this.clinic.city);
+  formdata.append("bank_branch_code", this.clinic.bank_branch_code);
+  formdata.append("is_multi_doc", this.clinic.is_multi_doc.toString());
+
+      if(
+    this.clinic.name!=""
+    &&
+    this.clinic.address!=""
+    &&
+    this.clinic.city!=""
+    &&
+    this.clinic.mobile!=""
+    &&
+    this.clinic.email!=""
+    &&
+    this.clinic.active!=null
+    &&
+    this.clinic.bank_name!=""
+    &&
+    this.clinic.bank_acc_holder!=""
+    &&
+    this.clinic.bank_acc_no!=""
+    &&
+    this.clinic.bank_branch!=""
+    &&
+    this.clinic.bank_branch_code!=""
+    &&
+    this.clinic.province!=""
+    &&
+    this.clinic.district!=""
+  ){
+    this.clinicService.SaveClinic(formdata).subscribe((result: any)=>{
+    });
+    this.dialog.closeAll();
+    this.openSnackBar('New clinic added successfully','OK');
+  }
+else{
+     this.openSnackBar('One or more fields missing!','OK'); 
+}
+}
 
   cancelConfirm(){
     // this.dialog.open(ConfirmCancelComponent);
+  }
+
+  //Adding the file
+  onSelect(event:any) {
+    this.files.push(...event.addedFiles);
+    const reader=new FileReader();
+    reader.readAsDataURL(this.files[0]);
+    reader.onload = () => {
+      this.clinic.logo=reader.result;
+          // this.dtr.detectChanges();
+    };
+  }
+ 
+ //Removing the file
+  onRemove(event:any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
   }
   
 }

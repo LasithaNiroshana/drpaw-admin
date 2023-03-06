@@ -47,4 +47,14 @@ export class SalesAgentsService {
     return this.httpClient.post(url, salesAgent, {headers}).pipe(catchError(this.handleError));
   }
 
+  //Edit sales agent
+  public editSalesAgent(salesAgent: any,salesAgentID:number){
+    const url = this.globalService.apiURL + 'sales_person/' + salesAgentID + '/';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.put(url, salesAgent, {headers}).pipe(catchError(this.handleError));
+  }
+
 }

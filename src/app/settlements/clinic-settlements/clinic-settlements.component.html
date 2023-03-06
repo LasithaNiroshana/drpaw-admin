@@ -1,4 +1,4 @@
-<div class="appointment-transactions">
+<div class="clinic-settlements">
   <!-- <button mat-raised-button color="accent" (click)="uploadSettlements()">
     <mat-icon>upload_file</mat-icon>
     Upload Completed Settlements</button>
@@ -43,7 +43,10 @@
     </p> -->
 
     <!-- <p *ngFor="let clinic of this.clinics"><mat-checkbox></mat-checkbox>{{clinic.address}}:{{clinic.name}}</p> -->
-
+    <button mat-raised-button color="accent">
+      <mat-icon>upload_file</mat-icon>
+      Upload Completed Settlements</button>
+    <br><br>
     <mat-form-field>
       <mat-label>Search Appointment</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="ABC Clinic" #input>
@@ -53,41 +56,49 @@
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
 
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox  (change)="$event ? masterToggle($event) : null" [checked]="selection.hasValue() && isAllSelected() == true" [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectRow($event, row) : null" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row) == true">
-            </mat-checkbox>
-          </td>
-        </ng-container>
+         <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">         
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row; let i=index">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) && updateList(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
 
     
         <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        <ng-container matColumnDef="clinic">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Clinic ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.clinic}} </td>
         </ng-container>
-    
+
+         <!-- ID Column -->
+         <ng-container matColumnDef="clinic_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Clinic Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.clinic_name}} </td>
+        </ng-container>
+
         <!-- Progress Column -->
-        <ng-container matColumnDef="progress">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
-          <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
-        </ng-container>
-    
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        <ng-container matColumnDef="settlement">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Settlement (Lkr) </th>
+          <td mat-cell *matCellDef="let row"> {{row.settlement}}</td>
         </ng-container>
     
         <!-- Fruit Column -->
-        <ng-container matColumnDef="fruit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit </th>
-          <td mat-cell *matCellDef="let row"> {{row.fruit}} </td>
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
+          <td mat-cell *matCellDef="let row"> 
+            <button mat-icon-button class="info-button">
+              <mat-icon>info</mat-icon>
+            </button>    
+          </td>
         </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
@@ -98,10 +109,12 @@
           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
       </table>
-    
       <mat-paginator [pageSizeOptions]="[5, 10, 20,50]"></mat-paginator>
+      <br>  
+      <button mat-raised-button color="primary">Generate CSV</button>
+      <br><br><br>
+     
     </div>
-
 </div>
 
 

@@ -13,26 +13,29 @@ import {SpinnerService} from '../../common/spinner.service';
 
 //Interface for payment details
 export interface ClinicDetails {
+  id:number;
   name: string;
-  business_registration:string;
-  slva_no:string;
   clinic_type:string;
   nic:string;
-  address_ln1:string;
-  address_ln2:string;
+  address:string;
   city:string;
+  logo:string;
+  active:number;
+  created_on:string;
+  province:string;
+  district:string;
+  br_no:string;
   contact_person:string;
   landline:string;
   mobile: string;
   email:string;
   website:string;
-  logo:string;
-  active:number;
   bank_name:string;
-  account_holder_name:string;
+  bank_acc_holder:string;
   bank_acc_no:string;
-  branch:string;
-  branch_code:string;
+  bank_branch:string;
+  bank_branch_code:string;
+  sale:number;
 }
 
 @Component({
@@ -43,7 +46,7 @@ export interface ClinicDetails {
 export class ClinicsComponent implements OnInit,AfterViewInit{
   isChecked = "";
   clinicList:any=[];
-  displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','slvaNum','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
+  displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
   activeClinics:number=0;
   dataSource: MatTableDataSource<ClinicDetails> = new MatTableDataSource();
 
@@ -77,8 +80,10 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   }
 
   //Edit Clinic
-  editClinic(id:any){
-    this.dialog.open(EditClinicComponent);
+  editClinic(cl:any){
+    this.dialog.open(EditClinicComponent,{data:{
+      clinic:cl
+    }});
   }
 
   //More Info

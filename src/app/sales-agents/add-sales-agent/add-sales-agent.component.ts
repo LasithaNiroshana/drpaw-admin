@@ -34,9 +34,31 @@ salesAgent:salesAgents={
   this.snackbar.open(message, action);
 }
 
-onSubmit(formValues:JSON){
+// onSubmit(formValues:JSON){
 
-  if(this.salesAgent.name!=""
+//   if(this.salesAgent.name!=""
+//   &&  
+//   this.salesAgent.address!=""
+//   && 
+//   this.salesAgent.email!="" 
+//   && 
+//   this.salesAgent.active!=null 
+//   ){
+//     this.sales.addSalesAgent(formValues).subscribe((result: any)=>{
+//       console.log(result);
+//     });
+//     console.log(formValues);
+//     this.dialog.closeAll();
+//     this.openSnackBar('Sales agent details successfully','OK');
+//   }
+//   else{
+//     this.openSnackBar('One or more fields missing!','OK');
+//   }
+// }
+
+//Submitting form
+onSubmit(){
+   if(this.salesAgent.name!=""
   &&  
   this.salesAgent.address!=""
   && 
@@ -44,12 +66,11 @@ onSubmit(formValues:JSON){
   && 
   this.salesAgent.active!=null 
   ){
-    this.sales.addSalesAgent(formValues).subscribe((result: any)=>{
-      console.log(result);
+    this.sales.addSalesAgent(this.salesAgent).subscribe((result: any)=>{
+      // console.log(result);
     });
-    console.log(formValues);
     this.dialog.closeAll();
-    this.openSnackBar('New clinic added successfully','');
+    this.openSnackBar('Sales agent details successfully','OK');
   }
   else{
     this.openSnackBar('One or more fields missing!','OK');

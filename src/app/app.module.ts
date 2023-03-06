@@ -5,7 +5,7 @@ import { AppRoutingModule,routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { AddVetComponent } from './doctors/add-vet/add-vet.component';
@@ -21,6 +21,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales-agent.component';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confirm-app-refunds/confirm-app-refunds.component';
+import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sales-agent.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confir
     AddSalesAgentComponent,
     ProgressSpinnerComponent,
     ConfirmAppRefundsComponent,
+    EditSalesAgentComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confir
     FormsModule,
     HttpClientModule,
     NgxMatSelectSearchModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    ReactiveFormsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

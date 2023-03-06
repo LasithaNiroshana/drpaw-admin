@@ -1,4 +1,4 @@
-<div class="appointment-transactions">
+<div>
     <mat-card>
         <mat-card-content>
             <!-- Form fields -->
@@ -133,7 +133,8 @@
         </mat-form-field>
         <br>
 
-        <table mat-table matSort [dataSource]="dataSource" matSort class="mat-elevation-z8" id="paymentHistory">
+        <div class="appointment-transactions">
+          <table mat-table matSort [dataSource]="dataSource" matSort class="mat-elevation-z8" id="paymentHistory">
   
             <!-- <ng-container matColumnDef="logo">
               <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
@@ -290,6 +291,7 @@
  
 
       <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
+        </div>
 
 </div>
 

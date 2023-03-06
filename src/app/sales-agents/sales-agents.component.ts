@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import {AddSalesAgentComponent} from './add-sales-agent/add-sales-agent.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SalesAgentsService} from '../common/sales-agents.service';
+import {EditSalesAgentComponent} from './edit-sales-agent/edit-sales-agent.component';
 
 @Component({
   selector: 'app-sales-agents',
@@ -11,7 +12,7 @@ import {SalesAgentsService} from '../common/sales-agents.service';
 export class SalesAgentsComponent implements OnInit{
 
   salesAgentList:any=[];
-  displayedColumns: string[] = ['salesID','name','address','mobile','email'];
+  displayedColumns: string[] = ['salesID','name','address','mobile','email','edit'];
 constructor(private dialog:MatDialog, private sales:SalesAgentsService){}
 
 ngOnInit(){
@@ -30,5 +31,14 @@ async getSalesList(){
 //Add new sales agent
 addSalesAgent(){
   this.dialog.open(AddSalesAgentComponent);
+}
+
+//Edit sales agent
+editSalesAgent(salesAgent:any){
+  this.dialog.open(EditSalesAgentComponent,{
+    data:{
+      sales:salesAgent
+    }
+  });
 }
 }

@@ -63,17 +63,27 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   appointmentStatus:number=0;
   selectedSettlementList:any=[];
 
+  sortedAppointments:any=[];
+
+  current_clinic = 0;
+  prev_clinic = 0;
+  clinic_name:string='';
+
+  clinic_total = 0;
+  clinic_settlement:any = [];
+
+  trans_pre = "drc";
+
   // displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
-  displayedColumns: string[] = ['select','id', 'name', 'progress', 'fruit'];
+  displayedColumns: string[] = ['select','clinic','clinic_name','settlement', 'details'];
   dataSource: MatTableDataSource<ClinicInfo> = new MatTableDataSource();
   selection = new SelectionModel<ClinicInfo>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private paymentService:PaymentService,private datepipe:DatePipe){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private setttlementsService:PaymentService,private datepipe:DatePipe){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -87,11 +97,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   ngAfterViewInit(): void {
     this.clinicService.GetClinics().subscribe((res:any)=>{
       this.clinics=res;
-      this.dataSource = new MatTableDataSource(this.clinics);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+     
     });
-    
+    this.calculateSettlements();
   }
 
   ngOnInit() {
@@ -100,16 +108,72 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   }
 
    //Get appointment history of a clinic
-   getAppointmentHistory(stdt:any,endt:any){
-    this.dialog.open(ClinicSettlementsInfoComponent,{
-      data:{
-        // cid:clinicid,
-        // appSource:appointmentSource,
-        strtDate:stdt,
-        enDate:endt
+   calculateSettlements(){
+    let strDate = '2022-01-01';
+    let enDate = '2023-03-02';
+    this.setttlementsService.getAppointmentListfromDates(strDate,enDate).subscribe((res:any)=>{
+      this.sortedAppointments=res;
+      
+      var result = this.sortedAppointments;
+    if(result.length > 0){
+      this.current_clinic = result[0]['clinic'];
+      this.prev_clinic = result[0]['clinic'];
+
+      var uid = (Math.floor(Date.now() / 1000)).toString();
+      // appointment referece code
+      var s_ref = "none";
+
+      // console.log(result.length);
+
+      for(var i = 0; result.length > i; i++){
+        this.current_clinic = result[i]['clinic'];
+        s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
+        
+        if(this.current_clinic === this.prev_clinic){
+          this.clinic_total += result[i]['a_payment'];
+
+          // update appointment refernceid
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
+          // your_update_function(esult[i]['id'], s_ref);
+        }else{
+          this.clinic_settlement.push({
+            "clinic" : this.prev_clinic,
+            "settlement" : this.clinic_total,
+            "settlement_ref": s_ref,
+          });
+
+          this.clinic_total = 0;
+          this.clinic_total += result[i]['a_payment'];
+
+          // update appointment refernceid
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
+          // your_update_function(esult[i]['id'], s_ref);
+        }
+
+        this.prev_clinic = this.current_clinic;
       }
-    });
+
+      this.clinic_settlement.push({
+        "clinic" : this.prev_clinic,
+        "settlement" : this.clinic_total,
+        "settlement_ref": s_ref,
+      });
+
+      // update appointment refernceid
+      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref);
+      // your_update_function(esult[result.length - 1]['id'], s_ref);
+
+      console.log(this.clinic_settlement);
+      this.dataSource = new MatTableDataSource(this.clinic_settlement);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
+
+    });
+    
+      
+    }
+      
     
     uploadSettlements(){
       this.dialog.open(UpdateClinicSettlementsComponent);
@@ -136,34 +200,41 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
     }
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-  masterToggle($event:any) {
-    if ($event.checked) {
-      this.onCompleteRow(this.dataSource);
-    }
-    this.isAllSelected() ?
-      this.selection.clear() :
-    this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-  
-   selectRow($event:any, dataSource:any) {
-    // console.log($event.checked);
-    if ($event.checked) {
-      // console.log(dataSource.name);
-      this.selectedSettlementList.push(dataSource);
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedSettlementList=[];
       console.log(this.selectedSettlementList);
+      return;
+    }
+    else{
+      this.selectedSettlementList=this.dataSource.data;
+      console.log(this.selectedSettlementList);
+      this.selection.select(...this.dataSource.data);
     }
   }
-  
-  onCompleteRow(dataSource:any) {
-    dataSource.data.forEach((element:any) => {
+
+  updateList(element:any){
+    if(this.selection.isSelected(element)){
       this.selectedSettlementList.push(element);
       console.log(this.selectedSettlementList);
-    });
+    }
+    else{
+      this.selectedSettlementList.forEach((item:any,index:number) => {
+        if(item===element) {
+           this.selectedSettlementList.splice(index,1);
+        console.log(this.selectedSettlementList);
+        }
+      });
+    }
   }
     
 }

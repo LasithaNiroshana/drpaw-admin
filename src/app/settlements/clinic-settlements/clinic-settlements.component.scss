@@ -1,7 +1,7 @@
-// .appointment-transactions{
-//     min-height: 1080px;
-//     overflow:auto;
-// }
+.clinic-settlements{
+    max-height: 640px;
+    overflow:auto;
+}
 // td, th {
 //     text-align: center !important;
 //     vertical-align: middle !important;
@@ -39,5 +39,8 @@ table {
     width: 25%;
   }
 
+  .info-button{
+    color: green;
+  }
  
   

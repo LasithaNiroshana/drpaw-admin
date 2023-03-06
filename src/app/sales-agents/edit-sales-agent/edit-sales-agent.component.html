@@ -1,6 +1,6 @@
-<mat-toolbar color="accent">Add New Sales Agent</mat-toolbar>
+<mat-toolbar color="accent">Edit Sales Agent</mat-toolbar>
 <mat-dialog-content>
-    <form #form="ngForm" class="add-salesAgnt" (ngSubmit)="onSubmit()">
+    <form #form="ngForm" class="add-salesAgnt" (ngSubmit)="onSubmit(form.value)">
         <mat-form-field class="add-sales-field">
             <mat-label>Sales Person Name</mat-label>
             <input type="text" matInput placeholder="John" [(ngModel)]="salesAgent.name" name="name" value="{{salesAgent.name}}">
@@ -24,6 +24,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button cdkFocusInitial color="primary" (click)="onSubmit()">Save</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="onSubmit(form.value)">Save</button>
   </mat-dialog-actions>
   

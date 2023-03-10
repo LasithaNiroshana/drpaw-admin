@@ -29,7 +29,7 @@ constructor(private router:Router,private clinicService:ClinicService,private di
 
   ngOnInit(){
      //Subscribing to clinic service and obtaining available users
-  this.clinicService.getUsers(this.clinicID).subscribe((res:any)=>{
+  this.clinicService.getClinicUsers(this.clinicID).subscribe((res:any)=>{
     this.userList=res;
     console.log(this.userList);
   });

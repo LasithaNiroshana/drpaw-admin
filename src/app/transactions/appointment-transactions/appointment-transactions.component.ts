@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
+import {SpinnerService} from '../../common/spinner.service';
 import { tap } from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {AppointmentInfoComponent} from './appointment-info/appointment-info.component';
@@ -101,7 +102,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog){
+  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -130,10 +131,11 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
 
       //Get clinic list
   getClinicList(){
+    this.spinner.requestStarted;
      this.clinicService.GetClinics().subscribe((res:any)=>{
         this.clinics=res;
     });
-
+    this.spinner.requestEnded;
   }
 
   //Get appointment history of a clinic

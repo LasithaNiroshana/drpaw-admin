@@ -19,7 +19,6 @@ import { ClinicSettlementsInfoComponent } from './settlements/clinic-settlements
 import { UpdateClinicSettlementsComponent } from './settlements/clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales-agent.component';
-import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confirm-app-refunds/confirm-app-refunds.component';
 import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sales-agent.component';
 
@@ -38,7 +37,6 @@ import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sa
     ClinicSettlementsInfoComponent,
     UpdateClinicSettlementsComponent,
     AddSalesAgentComponent,
-    ProgressSpinnerComponent,
     ConfirmAppRefundsComponent,
     EditSalesAgentComponent,
   ],

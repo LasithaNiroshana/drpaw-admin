@@ -49,7 +49,7 @@ export class ClinicService {
     return this.httpClient.put(url, clinic, {}).pipe(catchError(this.handleError));
   }
 
-  //Deactivating clinc
+  //Deactivating clinic
   public DeactivateClinic(clinic: any){
     const url = this.globalService.apiURL + 'clinic/';
 
@@ -83,14 +83,44 @@ export class ClinicService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
+   //Get user list of a clinic
+   public getAllUsers(){
+    const url = this.globalService.apiURL + 'doctor_board/';
+
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
+
   //Add user to a clinic
   public AddUser(doctor: any){
     const url = this.globalService.apiURL + 'doctor_board/';
     
+    // const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.post(url, doctor, {}).pipe(catchError(this.handleError));
+  }
+
+  //Register user mobile number
+  public AddUserAccess(user: any){
+    const url = this.globalService.apiURL + 'add_user/';
+    
+    // const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.post(url, user, {}).pipe(catchError(this.handleError));
+  }
+
+  //Get registered mobile numbers
+  public getUserAccessList(){
+    const url = this.globalService.apiURL + 'add_user/';
+
     const headers = new HttpHeaders().set("Content-Type", "application/json");
     // .set("Authorization", "token " + APIStore.token);
 
-    return this.httpClient.post(url, doctor, {headers}).pipe(catchError(this.handleError));
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
   //Edit user of a clinic
@@ -149,8 +179,10 @@ export class ClinicService {
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
 
+ 
+
   //Get user list of a clinic
-  public getUsers(clinic: string){
+  public getClinicUsers(clinic: number){
     const url = this.globalService.apiURL + 'doctor_board/';
     
     const params = new HttpParams().set('adid', clinic);

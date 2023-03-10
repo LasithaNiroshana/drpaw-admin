@@ -111,7 +111,6 @@ export class AddClinicComponent implements OnInit,AfterViewInit{
       reader.readAsDataURL(this.image);
       reader.onload = () => {
         this.clinic.logo = reader.result;
-          console.log(this.clinic.logo);
       };
     }
 

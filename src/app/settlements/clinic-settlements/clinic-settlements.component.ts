@@ -83,7 +83,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private setttlementsService:PaymentService,private datepipe:DatePipe){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -111,7 +111,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
    calculateSettlements(){
     let strDate = '2022-01-01';
     let enDate = '2023-03-02';
-    this.setttlementsService.getAppointmentListfromDates(strDate,enDate).subscribe((res:any)=>{
+    this.settlementsService.getAppointmentListfromDates(strDate,enDate).subscribe((res:any)=>{
       this.sortedAppointments=res;
       
       var result = this.sortedAppointments;
@@ -133,7 +133,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
           this.clinic_total += result[i]['a_payment'];
 
           // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
+          //   console.log(res);
+          // });
           // your_update_function(esult[i]['id'], s_ref);
         }else{
           this.clinic_settlement.push({
@@ -146,7 +148,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
           this.clinic_total += result[i]['a_payment'];
 
           // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
+          //   console.log(res);
+          // });
           // your_update_function(esult[i]['id'], s_ref);
         }
 
@@ -160,7 +164,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
       });
 
       // update appointment refernceid
-      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref);
+      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref).subscribe((res:any)=>{
+      //   console.log(res);
+      // });
       // your_update_function(esult[result.length - 1]['id'], s_ref);
 
       console.log(this.clinic_settlement);

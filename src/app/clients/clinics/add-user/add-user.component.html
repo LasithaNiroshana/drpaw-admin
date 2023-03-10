@@ -4,7 +4,7 @@
 
 <mat-dialog-content class="add-user-form">
   <br>
-  <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" class="add-clinic">
+  <form #form="ngForm" class="add-clinic">
     <mat-stepper #stepper >
 
         <!-- Personal details step -->
@@ -19,7 +19,7 @@
           </mat-form-field> -->
           <mat-form-field class="add-user-field">
             <mat-label>Name</mat-label>
-            <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="doctor.name" name="name" value="{{doctor.name}}">
+            <input type="text" matInput placeholder="John Doe" [(ngModel)]="doctor.name" name="name" value="{{doctor.name}}">
           </mat-form-field>
           <mat-form-field class="add-user-field">
             <mat-label>Clinic</mat-label>
@@ -29,6 +29,14 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <!-- <mat-form-field class="add-user-field">
+            <mat-label>Clinic ID</mat-label>
+            <mat-select [(ngModel)]="doctor.clinic" name="clinic">
+              <mat-option *ngFor="let vetclinic of this.clinicList" [value]="vetclinic.id" >
+                 {{vetclinic.id}},{{vetclinic.city}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
         </div>
         <h4>
           Address
@@ -59,8 +67,9 @@
         <div class="contact-details-step">
           <mat-form-field class="add-user-field">
             <mat-label>Mobile Number</mat-label>
-            <input type="tel" matInput placeholder="0711234567" [(ngModel)]="doctor.mobile" name="mobile" value="{{doctor.mobile}}">
+            <input type="tel" matInput [maxlength]="10" placeholder="0711234567" [(ngModel)]="doctor.mobile" name="mobile" value="{{doctor.mobile}}" (ngModelChange)="searchMobile($event)">
           </mat-form-field>
+          <button mat-raised-button disabled="{{this.btndisabled}}" color="primary" class="register-btn" (click)="addUserAccess()">Register Mobile</button>
           <mat-form-field class="add-user-field">
             <mat-label>Email</mat-label>
             <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="doctor.email" name="email" value="{{doctor.email}}">
@@ -69,21 +78,70 @@
             <mat-label>Website</mat-label>
             <input type="text" matInput placeholder="www.abcanimalclinic.com" [(ngModel)]="doctor.website" name="website" value="{{doctor.website}}">
           </mat-form-field>
-          <!-- <mat-form-field class="add-clinic-field">
+          <!-- <mat-form-field class="add-user-hidden-field">
             <mat-label>Active Status</mat-label>
-            <input type="text" matInput [(ngModel)]="doctor.active" name="active" value=0>
+            <input type="text" matInput [(ngModel)]="doctor.search_list" name="search_list" [value]="this.doctor.name">
           </mat-form-field> -->
           <br>
         </div>
        </mat-step>
 
        <!-- Chanelling details step -->
-       <!-- <mat-step label="Chanelling Details">
+       <mat-step label="Chanelling Details">
         <h4>Select chanelling types:</h4>
-        <p><mat-checkbox [(ngModel)]="doctor.support_direct_visit">Support Direct Visit</mat-checkbox></p>
-        <p><mat-checkbox [(ngModel)]="doctor.support_home_visit">Support Home Visit</mat-checkbox></p>
-        <p><mat-checkbox [(ngModel)]="doctor.support_virtual_visit">Support Telemedicine</mat-checkbox></p>
-      </mat-step> -->
+        <div class="chanelling-details">
+          
+          <mat-form-field class="add-user-field">
+            <mat-label>Support Direct Visit</mat-label>
+            <mat-select [(ngModel)]="doctor.support_direct_visit" name="support_direct_visit">
+              <mat-option [value]=0>
+                 Yes
+              </mat-option>
+              <mat-option [value]=1>
+                No
+             </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="add-user-field">
+            <mat-label>Support Home Visit</mat-label>
+            <mat-select [(ngModel)]="doctor.support_direct_visit" name="support_home_visit">
+              <mat-option [value]=0>
+                 Yes
+              </mat-option>
+              <mat-option [value]=1>
+                No
+             </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="add-user-field">
+            <mat-label>Support Virtual Visit</mat-label>
+            <mat-select [(ngModel)]="doctor.support_virtual_visit" name="support_virtual_visit">
+              <mat-option [value]=0>
+                 Yes
+              </mat-option>
+              <mat-option [value]=1>
+                No
+             </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="add-user-field">
+            <mat-label>SLVA No.</mat-label>
+            <input type="text" matInput placeholder="123456" [(ngModel)]="doctor.slva_reg_no" name="website" value="{{doctor.slva_reg_no}}">
+          </mat-form-field>
+          <mat-form-field class="add-user-field">
+            <mat-label>Is SMS Based</mat-label>
+            <mat-select [(ngModel)]="doctor.is_sms" name="is_sms">
+              <mat-option [value]=0>
+                 No
+              </mat-option>
+              <mat-option [value]=1>
+                Yes
+             </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-step>
 
        <!-- Doctor service charges step -->
        <mat-step label="Doctor Service Charges">
@@ -108,7 +166,7 @@
 </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="closeAll()">Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="true">Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onSubmit()">Save</button>
 </mat-dialog-actions>
 

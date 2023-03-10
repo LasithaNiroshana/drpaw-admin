@@ -69,11 +69,11 @@
         </mat-form-field>
         <mat-form-field class="edit-clinic-field">
           <mat-label>Landline</mat-label>
-          <input type="tel" matInput placeholder="0111234567" [(ngModel)]="clinic.landline" name="landline" value="{{clinic.landline}}">
+          <input type="tel" matInput [maxLength]="10" placeholder="0111234567" [(ngModel)]="clinic.landline" name="landline" value="{{clinic.landline}}">
         </mat-form-field>
         <mat-form-field class="edit-clinic-field">
           <mat-label>Mobile Number</mat-label>
-          <input type="tel" matInput placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile" value="{{clinic.mobile}}">
+          <input type="tel" matInput [maxLength]="10" placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile" value="{{clinic.mobile}}">
         </mat-form-field>
         <br>
         <mat-form-field class="edit-clinic-field">

@@ -66,11 +66,11 @@ onSubmit(){
   && 
   this.salesAgent.active!=null 
   ){
-    this.sales.addSalesAgent(this.salesAgent).subscribe((result: any)=>{
-      // console.log(result);
+    this.sales.addSalesAgent(this.salesAgent).subscribe({
+      complete: () => this.openSnackBar('Successfully added new sales agent.','OK'),
+      error: (e) => this.openSnackBar('Error occured while adding new sales agent!'+ e,'OK'),
     });
     this.dialog.closeAll();
-    this.openSnackBar('Sales agent details successfully','OK');
   }
   else{
     this.openSnackBar('One or more fields missing!','OK');

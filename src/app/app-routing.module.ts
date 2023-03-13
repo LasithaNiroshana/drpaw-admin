@@ -30,7 +30,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ClinicReportsComponent } from './reports/clinic-reports/clinic-reports.component';
 import { ServiceProviderReportsComponent } from './reports/service-provider-reports/service-provider-reports.component';
 import { StoreReportsComponent } from './reports/store-reports/store-reports.component';
-import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},

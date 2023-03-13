@@ -169,10 +169,12 @@ export class AddClinicComponent implements OnInit,AfterViewInit{
       &&
       this.clinic.district!=""
     ){
-      this.clinicService.SaveClinic(formdata).subscribe((result: any)=>{
+      this.clinicService.SaveClinic(formdata).subscribe({
+        complete: () => this.openSnackBar('New clinic added successfully','OK'),
+        error: (e) => this.openSnackBar('Error occured while adding new clinic!'+ e,'OK'),
       });
       this.dialog.closeAll();
-      this.openSnackBar('New clinic added successfully','OK');
+      
     }
   else{
        this.openSnackBar('One or more fields missing!','OK'); 

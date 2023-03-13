@@ -21,6 +21,15 @@
     grid-template-columns: auto auto auto;
 }
 
+.doctor-appointment-settings-step{
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.appointment-settings-cards{
+    margin:10px; 
+}
+
 .add-user-field{
     margin:10px;
 }

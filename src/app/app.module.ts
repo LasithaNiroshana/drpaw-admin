@@ -8,6 +8,7 @@ import { MaterialModule } from './material/material.module';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
 import { AddVetComponent } from './doctors/add-vet/add-vet.component';
 import { AddInstitutesComponent } from './doctors/add-institutes/add-institutes.component';
 import { EditClinicComponent } from './clients/clinics/edit-clinic/edit-clinic.component';
@@ -49,7 +50,8 @@ import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sa
     HttpClientModule,
     NgxMatSelectSearchModule,
     NgxDropzoneModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMatTimepickerModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

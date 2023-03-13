@@ -142,10 +142,12 @@ async onSubmit(){
     &&
     this.clinic.district!=""
   ){
-    this.clinicService.SaveClinic(formdata).subscribe((result: any)=>{
+    this.clinicService.SaveClinic(formdata).subscribe({
+      complete: () => this.openSnackBar('Editing clinic was successful','OK'),
+      error: (e) => this.openSnackBar('Error occured while editing clinic!'+ e,'OK'),
     });
     this.dialog.closeAll();
-    this.openSnackBar('New clinic added successfully','OK');
+    
   }
 else{
      this.openSnackBar('One or more fields missing!','OK'); 

@@ -160,6 +160,96 @@
           </mat-form-field>
         </div>
       </mat-step>
+
+      <!-- Appointment settings step -->
+      <mat-step label="Doctor Appointment Settings">
+        <h4>*Use 24 format time</h4>
+        <div class="doctor-appointment-settings-step">
+          <mat-card class="appointment-settings-cards">
+            <mat-card-content>
+
+              <div class="add-user-field">
+                <h4>Morning Session Start time</h4>
+                <mat-form-field>
+                  <input matInput
+                         name="start_time_am"
+                         [format]="24"
+                         [(ngModel)]="appointmentSettings.start_time_am"
+                         [ngxMatTimepicker]="pickerA"
+                         placeholder="08:00"
+                         readonly />
+                  <mat-icon matSuffix
+                            (click)="pickerA.open()">
+                      watch_later
+                  </mat-icon>
+                </mat-form-field>
+              <ngx-mat-timepicker color="accent" #pickerA [defaultTime]="'08:00'"></ngx-mat-timepicker>
+              </div>
+
+              <div class="add-user-field">
+                <h4>Morning Session End time</h4>
+                <mat-form-field>
+                  <input matInput
+                         name="end_time_am"
+                         [format]="24"
+                         [(ngModel)]="appointmentSettings.end_time_am"
+                         [ngxMatTimepicker]="pickerB"
+                         placeholder="10:00"
+                         readonly />
+                  <mat-icon matSuffix
+                            (click)="pickerA.open()">
+                      watch_later
+                  </mat-icon>
+                </mat-form-field>
+                <ngx-mat-timepicker color="accent" #pickerB [defaultTime]="'10:00'"></ngx-mat-timepicker>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="appointment-settings-cards">
+            <mat-card-content>
+              
+              <div class="add-user-field">
+                <h4>Evening Session Start time</h4>
+                <mat-form-field>
+                  <input matInput
+                         name="start_time_pm"
+                         [format]="24"
+                         [(ngModel)]="appointmentSettings.start_time_pm"
+                         [ngxMatTimepicker]="pickerC"
+                         placeholder="16:00"
+                         readonly />
+                  <mat-icon matSuffix
+                            (click)="pickerA.open()">
+                      watch_later
+                  </mat-icon>
+                </mat-form-field>
+              <ngx-mat-timepicker color="accent" #pickerC [defaultTime]="'16:00'"></ngx-mat-timepicker>
+              </div>
+
+              <div class="add-user-field">
+                <h4>Evening Session End time</h4>
+                <mat-form-field>
+                  <input matInput
+                         name="end_time_pm"
+                         [format]="24"
+                         [(ngModel)]="appointmentSettings.end_time_pm"
+                         [ngxMatTimepicker]="pickerD"
+                         placeholder="18:00"
+                         readonly />
+                  <mat-icon matSuffix
+                            (click)="pickerA.open()">
+                      watch_later
+                  </mat-icon>
+                </mat-form-field>
+                <ngx-mat-timepicker color="accent" #pickerD [defaultTime]="'18:00'"></ngx-mat-timepicker>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-step>
     
       </mat-stepper>
 

@@ -123,6 +123,17 @@ export class ClinicService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
+  //Set doctor appointment settings
+  public setDocAppoitnmentSettings(doctor:any){
+    const url = this.globalService.apiURL + 'appointment_setting/';
+    
+    // const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.post(url, doctor, {}).pipe(catchError(this.handleError));
+  }
+
+
   //Edit user of a clinic
   public EditUser(doctor: any){
     const url = this.globalService.apiURL + 'doctor_board/' + doctor.id + '/';
@@ -178,7 +189,6 @@ export class ClinicService {
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
-
  
 
   //Get user list of a clinic

@@ -52,11 +52,11 @@ onSubmit(formValues:JSON){
   && 
   this.salesAgent.active!=null 
   ){
-    this.salesService.editSalesAgent(formValues,this.salesAgent.id).subscribe((result: any)=>{
-      console.log(result);
+    this.salesService.editSalesAgent(formValues,this.salesAgent.id).subscribe({
+      complete: () => this.openSnackBar('Successfully edited sales agent.','OK'),
+      error: (e) => this.openSnackBar('Error occured while editing sales agent!'+ e,'OK'),
     });
     this.dialog.closeAll();
-    this.openSnackBar('Successfully edited sales agent.','OK');
   }
   else{
     this.openSnackBar('One or more fields missing!','OK');

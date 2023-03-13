@@ -59,16 +59,19 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   ngAfterViewInit(){
     
     // this.getClinics();
-    this.clinicService.GetClinics().subscribe((res:any)=>{
-      this.clinicList=res;
-      this.dataSource = new MatTableDataSource(this.clinicList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      res.forEach((element:any) => {
-        if(element.active==0){
-          this.activeClinics=this.activeClinics+1;
-        }
-      });
+    this.clinicService.GetClinics().subscribe({
+      next:(res:any)=>{
+        this.clinicList=res;
+        this.dataSource = new MatTableDataSource(this.clinicList);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        res.forEach((element:any) => {
+          if(element.active==0){
+            this.activeClinics=this.activeClinics+1;
+          }
+        });
+      },
+      error:(e)=>console.log(e)
     });
   
   }

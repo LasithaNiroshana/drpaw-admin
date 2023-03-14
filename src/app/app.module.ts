@@ -22,6 +22,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales-agent.component';
 import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confirm-app-refunds/confirm-app-refunds.component';
 import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sales-agent.component';
+import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sa
     AddSalesAgentComponent,
     ConfirmAppRefundsComponent,
     EditSalesAgentComponent,
+    ConfirmAddingSettlementrefComponent,
   ],
   imports: [
     BrowserModule,

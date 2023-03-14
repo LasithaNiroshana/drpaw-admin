@@ -73,29 +73,35 @@
   </ng-container>
 
     
-        <!-- ID Column -->
+        <!-- Clinic ID Column -->
         <ng-container matColumnDef="clinic">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Clinic ID </th>
-          <td mat-cell *matCellDef="let row"> {{row.clinic}} </td>
+          <td mat-cell *matCellDef="let settlementinfo"> {{settlementinfo.clinic}} </td>
         </ng-container>
 
-         <!-- ID Column -->
+         <!-- Clinic Name Column -->
          <ng-container matColumnDef="clinic_name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Clinic Name </th>
-          <td mat-cell *matCellDef="let row"> {{row.clinic_name}} </td>
+          <td mat-cell *matCellDef="let settlementinfo"> {{settlementinfo.clinic_name}} </td>
         </ng-container>
 
-        <!-- Progress Column -->
+        <!-- Settlement Column -->
         <ng-container matColumnDef="settlement">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Settlement (Lkr) </th>
-          <td mat-cell *matCellDef="let row"> {{row.settlement}}</td>
+          <td mat-cell *matCellDef="let settlementinfo"> {{settlementinfo.settlement}}</td>
         </ng-container>
+
+        <!-- Settlement Reference Column -->
+        <!-- <ng-container matColumnDef="settlement_ref">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Settlement Reference </th>
+          <td mat-cell *matCellDef="let row"> {{row.settlement_ref}}</td>
+        </ng-container> -->
     
-        <!-- Fruit Column -->
+        <!-- Info Column -->
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
-          <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button class="info-button">
+          <td mat-cell *matCellDef="let settlementinfo"> 
+            <button mat-icon-button class="info-button" (click)="openAppointments(settlementinfo.apps)">
               <mat-icon>info</mat-icon>
             </button>    
           </td>
@@ -109,9 +115,9 @@
           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20,50]"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
       <br>  
-      <button mat-raised-button color="primary">Generate CSV</button>
+      <button mat-raised-button disabled="{{this.btndisabled}}" color="primary" (click)="generateSheet()">Generate CSV</button>
       <br><br><br>
      
     </div>

@@ -9,6 +9,7 @@ import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from './clinic-settlements-info/clinic-settlements-info.component';
 import {UpdateClinicSettlementsComponent} from '../clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
+import {ConfirmAddingSettlementrefComponent} from '../clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -71,8 +72,10 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
 
   clinic_total = 0;
   clinic_settlement:any = [];
+  appList:any=[]
 
   trans_pre = "drc";
+  btndisabled=true;
 
   // displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
   displayedColumns: string[] = ['select','clinic','clinic_name','settlement', 'details'];
@@ -95,10 +98,16 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   
   }
   ngAfterViewInit(): void {
-    this.clinicService.GetClinics().subscribe((res:any)=>{
-      this.clinics=res;
+    // this.clinicService.GetClinics().subscribe((res:any)=>{
+    //   this.clinics=res;
      
-    });
+    // });
+    // this.calculateSettlements();
+    // this.settlementsService.getCompletedAppoitnments('2023-03-14').subscribe({
+    //   next:(res:any)=>{
+    //     console.log(res);
+    //   }
+    // })
     this.calculateSettlements();
   }
 
@@ -109,16 +118,21 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
 
    //Get appointment history of a clinic
    calculateSettlements(){
-    let strDate = '2022-01-01';
-    let enDate = '2023-03-02';
-    this.settlementsService.getAppointmentListfromDates(strDate,enDate).subscribe((res:any)=>{
-      this.sortedAppointments=res;
+    // let strDate = '2022-01-01';
+    // let enDate = '2023-03-02';
+    this.settlementsService.getCompletedAppoitnments('2023-03-14').subscribe({
+      next:(res:any)=>{
+        // console.log(res);
+        this.sortedAppointments=res;
       
       var result = this.sortedAppointments;
+      var app_list=[];
+      var c_name = "none";
     if(result.length > 0){
       this.current_clinic = result[0]['clinic'];
       this.prev_clinic = result[0]['clinic'];
-
+      c_name = result[0]['clinic_name'];
+      // console.log(c_name);
       var uid = (Math.floor(Date.now() / 1000)).toString();
       // appointment referece code
       var s_ref = "none";
@@ -131,7 +145,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
         
         if(this.current_clinic === this.prev_clinic){
           this.clinic_total += result[i]['a_payment'];
-
+          c_name = result[i]['clinic_name'];
+          app_list.push(result[i]);
+          // console.log(app);
           // update appointment refernceid
           // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
           //   console.log(res);
@@ -142,10 +158,15 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
             "clinic" : this.prev_clinic,
             "settlement" : this.clinic_total,
             "settlement_ref": s_ref,
+            "clinic_name": c_name,
+            "apps": app_list
           });
 
+          app_list = [];
+          s_ref = "none";
           this.clinic_total = 0;
           this.clinic_total += result[i]['a_payment'];
+          app_list.push(result[i]);
 
           // update appointment refernceid
           // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
@@ -156,11 +177,12 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
 
         this.prev_clinic = this.current_clinic;
       }
-
       this.clinic_settlement.push({
         "clinic" : this.prev_clinic,
         "settlement" : this.clinic_total,
         "settlement_ref": s_ref,
+        "clinic_name": c_name,
+        "apps": app_list
       });
 
       // update appointment refernceid
@@ -169,11 +191,13 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
       // });
       // your_update_function(esult[result.length - 1]['id'], s_ref);
 
-      console.log(this.clinic_settlement);
+      // console.log(this.clinic_settlement);
+      // console.log(this.clinic_settlement);
       this.dataSource = new MatTableDataSource(this.clinic_settlement);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
+      }
 
     });
     
@@ -218,29 +242,50 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
     if (this.isAllSelected()) {
       this.selection.clear();
       this.selectedSettlementList=[];
-      console.log(this.selectedSettlementList);
+      // console.log(this.selectedSettlementList);
+      this.btndisabled=true;
       return;
     }
     else{
       this.selectedSettlementList=this.dataSource.data;
-      console.log(this.selectedSettlementList);
+      // console.log(this.selectedSettlementList);
       this.selection.select(...this.dataSource.data);
+      this.btndisabled=false;
     }
   }
 
   updateList(element:any){
     if(this.selection.isSelected(element)){
       this.selectedSettlementList.push(element);
-      console.log(this.selectedSettlementList);
+      // console.log(this.selectedSettlementList);
+      this.btndisabled=false;
     }
     else{
       this.selectedSettlementList.forEach((item:any,index:number) => {
         if(item===element) {
            this.selectedSettlementList.splice(index,1);
-        console.log(this.selectedSettlementList);
+        // console.log(this.selectedSettlementList);
+        this.btndisabled=false;
         }
       });
     }
+  }
+
+  openAppointments(appointments:any){
+    this.dialog.open(ClinicSettlementsInfoComponent,{
+      data:{
+        appointmentsList:appointments
+      }
+    });
+  }
+
+  generateSheet(){
+    console.log();
+    this.dialog.open(ConfirmAddingSettlementrefComponent,{
+      data:{
+        settlementList:this.selectedSettlementList
+      }
+    });
   }
     
 }

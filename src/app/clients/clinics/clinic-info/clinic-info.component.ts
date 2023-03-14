@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {DoctorsComponent} from '../../../doctors/doctors.component';
-import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-clinic-info',
@@ -18,7 +17,7 @@ displayedColumns: string[] = ['name','mobile','speciality','email','on_leave','d
 clinicID:any;
 clinicName:string='';
 
-constructor(private router:Router,private clinicService:ClinicService,private dialogRef:MatDialogRef<DoctorsComponent>,@Inject(MAT_DIALOG_DATA) private data:any,private dialog:Dialog){
+constructor(private router:Router,private clinicService:ClinicService,private dialogRef:MatDialogRef<DoctorsComponent>,@Inject(MAT_DIALOG_DATA) private data:any){
 
       //Obtaining clinic id from doctors component
       this.userList=data.userListData;

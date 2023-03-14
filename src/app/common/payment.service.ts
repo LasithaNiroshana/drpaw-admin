@@ -47,6 +47,16 @@ export class PaymentService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
+  //Get completed appointments
+  public getCompletedAppoitnments(endDate:string){
+    const url = this.globalService.apiURL + 'pet_appointment/?endt=' + endDate + '&cid=0';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
+
   //Get payment history of a clinic
   public getPaymentsClinic(cid:string,stdt:string,endt:string){
     const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;

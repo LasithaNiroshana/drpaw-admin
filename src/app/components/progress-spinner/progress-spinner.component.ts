@@ -7,7 +7,7 @@ import {SpinnerService} from '../../common/spinner.service';
   styleUrls: ['./progress-spinner.component.scss']
 })
 export class ProgressSpinnerComponent implements OnInit{
-  showSpinner=true;
+  showSpinner=false;
   constructor(private spinnerService:SpinnerService, private cdRef:ChangeDetectorRef){
   }
 

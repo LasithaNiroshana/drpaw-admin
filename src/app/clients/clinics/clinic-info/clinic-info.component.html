@@ -30,10 +30,10 @@
         <td mat-cell *matCellDef="let user"> {{user.mobile}} </td>
       </ng-container>
   
-      <ng-container matColumnDef="speciality">
+      <!-- <ng-container matColumnDef="speciality">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Speciality</th>
         <td mat-cell *matCellDef="let user"> {{user.speciality}} </td>
-      </ng-container>
+      </ng-container> -->
   
       <ng-container matColumnDef="email">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Email</th>
@@ -42,7 +42,14 @@
   
       <ng-container matColumnDef="on_leave">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>On Leave</th>
-        <td mat-cell *matCellDef="let user"> {{user.on_leave}} </td>
+        <td mat-cell *matCellDef="let user"> 
+          <p *ngIf="user.on_leave==0">
+            No
+          </p>  
+          <p *ngIf="user.on_leave==1">
+            Yes
+          </p>    
+        </td>
       </ng-container>
   
       <ng-container matColumnDef="direct_vsc">
@@ -62,12 +69,14 @@
 
       <ng-container matColumnDef="user_type">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>User Type</th>
-        <td mat-cell *matCellDef="let user"> {{user.user_type}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="capacity">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>Capacity</th>
-        <td mat-cell *matCellDef="let user"> {{user.capacity}} </td>
+        <td mat-cell *matCellDef="let user">
+          <p *ngIf="user.user_type==0">
+            Doctor
+          </p>  
+          <p *ngIf="user.user_type==1">
+            Staff
+          </p>   
+        </td>
       </ng-container>
 
       <!-- <ng-container matColumnDef="info">
@@ -103,10 +112,10 @@
 
   <ng-template #noUsers>
     <br>
-    <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
+    <!-- <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">
       <mat-icon>add_circle</mat-icon>
   Add New User
-</button>
+</button> -->
   <mat-menu #menu="matMenu">
     <button mat-menu-item>
       <mat-icon>medication</mat-icon>

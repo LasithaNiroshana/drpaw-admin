@@ -102,7 +102,6 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
 
   //More Info
   moreInfo(clinicID:string,clinicName:string){
-     
     this.dialog.open(ClinicInfoComponent,{
       data:{
         userListData:this.userList,

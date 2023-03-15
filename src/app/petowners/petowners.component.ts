@@ -10,7 +10,6 @@ export interface PetOwnerDetails{
   gender:string;
   name:string;
   lname:string;
-  nic:string;
   mobile:string;
   whatsapp:string;
   email:string;
@@ -37,7 +36,7 @@ export interface PetOwnerDetails{
 export class PetownersComponent implements OnInit,AfterViewInit{
 
   petOwnersList:any=[];
-  displayedColumns: string[] = ['name','nic','mobile','email','city','created_on','active'];
+  displayedColumns: string[] = ['name','mobile','email','city','created_on','active'];
   petowners:number=0;
   dataSource: MatTableDataSource<PetOwnerDetails> = new MatTableDataSource();
 

@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit,AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {DoctorsComponent} from '../../../doctors/doctors.component';
+import {ClinicsComponent} from '../clinics.component';
 
 @Component({
   selector: 'app-clinic-info',
@@ -10,14 +10,14 @@ import {DoctorsComponent} from '../../../doctors/doctors.component';
   styleUrls: ['./clinic-info.component.scss']
 })
 
-export class ClinicInfoComponent implements OnInit{
+export class ClinicInfoComponent implements OnInit,AfterViewInit{
 //Defining clinic
 userList:any;
-displayedColumns: string[] = ['name','mobile','speciality','email','on_leave','direct_vsc','home_vsc','virtual_vsc','user_type','capacity'];
+displayedColumns: string[] = ['name','mobile','email','on_leave','direct_vsc','home_vsc','virtual_vsc','user_type'];
 clinicID:any;
 clinicName:string='';
 
-constructor(private router:Router,private clinicService:ClinicService,private dialogRef:MatDialogRef<DoctorsComponent>,@Inject(MAT_DIALOG_DATA) private data:any){
+constructor(private router:Router,private clinicService:ClinicService,private dialogRef:MatDialogRef<ClinicsComponent>,@Inject(MAT_DIALOG_DATA) private data:any){
 
       //Obtaining clinic id from doctors component
       this.userList=data.userListData;
@@ -25,13 +25,14 @@ constructor(private router:Router,private clinicService:ClinicService,private di
       this.clinicName=data.name;
 
 }
-
-  ngOnInit(){
-     //Subscribing to clinic service and obtaining available users
+  ngAfterViewInit() {
+      //Subscribing to clinic service and obtaining available users
   this.clinicService.getClinicUsers(this.clinicID).subscribe((res:any)=>{
     this.userList=res;
-    console.log(this.userList);
+    
   });
   }
+
+  ngOnInit(){}
 
 }

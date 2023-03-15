@@ -30,7 +30,6 @@ import { ReportsComponent } from './reports/reports.component';
 import { ClinicReportsComponent } from './reports/clinic-reports/clinic-reports.component';
 import { ServiceProviderReportsComponent } from './reports/service-provider-reports/service-provider-reports.component';
 import { StoreReportsComponent } from './reports/store-reports/store-reports.component';
-import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -38,7 +37,6 @@ const routes: Routes = [
   {path:'otp',component:OtppageComponent},
   {path:'toolbar',component:ToolbarComponent},
   {path:'footer',component:FooterComponent},
-  {path:'spinner',component:ProgressSpinnerComponent},
   {path:'home',component:HomeComponent,
   children:[
     {path:'',component:ClientsComponent},
@@ -127,5 +125,4 @@ export const routingComponents=[
   ClinicReportsComponent,
   ServiceProviderReportsComponent,
   StoreReportsComponent,
-  ProgressSpinnerComponent
 ]

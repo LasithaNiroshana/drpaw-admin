@@ -23,7 +23,7 @@ import { AddSalesAgentComponent } from './sales-agents/add-sales-agent/add-sales
 import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confirm-app-refunds/confirm-app-refunds.component';
 import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sales-agent.component';
 import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
-
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +42,7 @@ import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settle
     ConfirmAppRefundsComponent,
     EditSalesAgentComponent,
     ConfirmAddingSettlementrefComponent,
+    ProgressSpinnerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,55 +1,9 @@
-<div class="clinic-settlements">
-  <!-- <button mat-raised-button color="accent" (click)="uploadSettlements()">
-    <mat-icon>upload_file</mat-icon>
-    Upload Completed Settlements</button>
-  <br><br>
-    <mat-card>
-        <mat-card-content>
-         
-    <div class="input-fields-container">
-
-          <mat-form-field appearance="fill" class="appointment-history-field">
-            <mat-label>Choose a starting date</mat-label>
-            <input matInput  [matDatepicker]="picker" [(ngModel)]="this.startDate" name="start_date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" class="appointment-history-field">
-            <mat-label>Choose an end date</mat-label>
-            <input matInput [min]="minDate2" [matDatepicker]="picker1" [(ngModel)]="this.endDate" name="end_id">
-            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-    </div>
-      <button mat-raised-button (click)="getAppointmentHistory(this.startDate,this.endDate)" color="primary" class="appointment-history-button">
-            <mat-icon>history</mat-icon>
-        View Appointments 
-    </button>
-      <button mat-raised-button (click)="resetForm()" color="warn">Reset</button>
-        </mat-card-content>
-    </mat-card>
-      <br> -->
-
-
-    <!-- <mat-selection-list #clinicList>
-      <mat-list-option *ngFor="let clinic of this.clinics">
-        <span matListItemTitle>{{clinic.name}}</span>
-        <span matListItemLine> {{clinic.name}}</span>
-      </mat-list-option>
-    </mat-selection-list> 
-    <p>
-      Options selected: {{clinicList.selectedOptions.selected.length}
-    </p> -->
-
-    <!-- <p *ngFor="let clinic of this.clinics"><mat-checkbox></mat-checkbox>{{clinic.address}}:{{clinic.name}}</p> -->
-
-    <!-- Upcoming settlements content -->
-    <mat-card>
-      <mat-card-content>
-        <h3>Upcoming Settlements:</h3>
+<!-- Yet to settle content -->
+<mat-card>
+    <mat-card-content>
+          <h3>Yet to Settle:</h3>
         <mat-form-field>
-          <mat-label>Search Upcoming Settlements</mat-label>
+          <mat-label>Search Not Paid Settlements</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="ABC Clinic" #input>
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
@@ -58,7 +12,7 @@
           <table mat-table [dataSource]="dataSource" matSort>
     
              <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
+      <!-- <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? toggleAllRows() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
@@ -71,7 +25,7 @@
                         [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </td>
-      </ng-container>
+      </ng-container> -->
     
         
             <!-- Clinic ID Column -->
@@ -118,20 +72,10 @@
           </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
         </div>
-        <br>  
-        <button mat-raised-button disabled="{{this.btndisabled}}" color="primary" (click)="generateSheet()">Generate CSV</button>
         <br>
-      </mat-card-content>
-    </mat-card>
-
-      <br>
-      <mat-divider></mat-divider>
-      <br>
-    <app-not-paid-settlements></app-not-paid-settlements>
-    <br>
-</div>
-<div class="overlay-wrapper">
-  <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
-</div>
-
-
+        <button mat-raised-button color="accent" (click)="uploadPaidSettlements()">
+          <mat-icon>upload_file</mat-icon>
+          Upload Completed Settlements</button>
+          <br>
+    </mat-card-content>
+  </mat-card>

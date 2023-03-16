@@ -48,18 +48,29 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   clinicList:any=[];
   displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
   activeClinics:number=0;
+  clinicsCount:number=0;
   dataSource: MatTableDataSource<ClinicDetails> = new MatTableDataSource();
+
+  loading$ = this.spinner.loading$;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   userList:any=[];
 
+  // activeClinicsCountStopper:any = setInterval(()=>{
+  //   this.clinicsCount++;
+  //   if(this.clinicsCount==this.clinicList.length){
+  //     clearInterval(this.activeClinicsCountStopper);
+  //   }
+  // },5000);
 
   constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService){}
   ngAfterViewInit(){
-    
+   
     // this.getClinics();
+    this.spinner.show();
     this.clinicService.GetClinics().subscribe({
+      complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.clinicList=res;
         this.dataSource = new MatTableDataSource(this.clinicList);
@@ -71,9 +82,10 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
           }
         });
       },
-      error:(e)=>console.log(e)
+      error:(e)=>{console.log(e);
+      this.spinner.hide();
+      }
     });
-  
   }
 
   ngOnInit(){}

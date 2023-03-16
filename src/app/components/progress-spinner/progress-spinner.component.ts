@@ -8,6 +8,7 @@ import {SpinnerService} from '../../common/spinner.service';
 })
 export class ProgressSpinnerComponent implements OnInit{
   showSpinner=false;
+  loading$ = this.spinnerService.loading$;
   constructor(private spinnerService:SpinnerService, private cdRef:ChangeDetectorRef){
   }
 
@@ -16,10 +17,10 @@ export class ProgressSpinnerComponent implements OnInit{
   }
 
   init(){
-    this.spinnerService.getSpinnerObserver().subscribe((status)=>{
-      this.showSpinner=status==='start';
-      this.cdRef.detectChanges();
-    })
+    // this.spinnerService.getSpinnerObserver().subscribe((status)=>{
+    //   this.showSpinner=status==='start';
+    //   this.cdRef.detectChanges();
+    // })
   }
 
 }

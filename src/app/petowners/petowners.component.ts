@@ -3,6 +3,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {PetownerService} from '../common/petowner.service';
+import {SpinnerService} from '../common/spinner.service';
 
 export interface PetOwnerDetails{
   id:number;
@@ -40,24 +41,33 @@ export class PetownersComponent implements OnInit,AfterViewInit{
   petowners:number=0;
   dataSource: MatTableDataSource<PetOwnerDetails> = new MatTableDataSource();
 
+  loading$ = this.spinner.loading$;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private petOwner:PetownerService){}
+constructor(private petOwner:PetownerService, private spinner:SpinnerService){}
 
   ngAfterViewInit() {
      //Get pet owners list
-  this.petOwner.GetPetOwners().subscribe((res:any)=>{
-    this.petOwnersList=res;
-    this.dataSource = new MatTableDataSource(this.petOwnersList);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    res.forEach((petowner:any) => {
-      if(petowner.active){
-        this.petowners=this.petowners+1;
-      }
-      console.log(this.petowners);
-    });
+     this.spinner.show();
+  this.petOwner.GetPetOwners().subscribe({
+    complete:()=>this.spinner.hide(),
+    next:(res:any)=>{
+      this.petOwnersList=res;
+      this.dataSource = new MatTableDataSource(this.petOwnersList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      res.forEach((petowner:any) => {
+        if(petowner.active){
+          this.petowners=this.petowners+1;
+        }
+        console.log(this.petowners);
+      });
+    },
+    error:(e)=>{
+      this.spinner.hide();
+    }
   });
   }
 

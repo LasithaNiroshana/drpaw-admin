@@ -93,7 +93,7 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
   clinic_settlement:any = [];
   clinicAppointments:any=[];
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_sub_type','animal_type','owner_name','mobile','owner_city','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_type','animal_type','owner_name','mobile','owner_city','a_date','a_time','a_payment','a_charge'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -105,10 +105,8 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
 
   appointment_list = [];
 
-  constructor(public dialogRef:MatDialogRef<SettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private settlementsService:PaymentService,private datePipe:DatePipe,public datepipe: DatePipe){
+  constructor(public dialogRef:MatDialogRef<SettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private datePipe:DatePipe,public datepipe: DatePipe){
     // this.clinics=data.cid;
-    this.startDate=data.strtDate; //Starting date
-    this.endDate=data.enDate;  //Ending date
     // this.appointmentType=data.appType;
     // this.appointmentSource=data.appSource;
     this.clinicAppointments=data.appointmentsList;
@@ -125,81 +123,12 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
 
   ngOnInit() {}
 
-   //Obtaining appointments
-  // async getAppointmentsList(startDate:any,endDate:any){
-  //   this.currentDateTime =this.datepipe.transform((new Date), 'MM_dd_yyyy_h_mm_ss');
-  //    if(this.appointmentSource==0){
-  //     this.settlementsService.getAppointmentListfromDates(startDate,endDate).subscribe((res:any)=>{
-  //       this.sortedAppointments=res;
-  //     });
-      
-  //    }
-  //    else{
-  //     //
-  //    }
-  // }
-
   //Export as excel
   exportExcel(){
 
     //Converting starting and end dates
     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
-
-    var result = this.sortedAppointments;
-
-    if(result.length > 0){
-      this.current_clinic = result[0]['clinic'];
-      this.prev_clinic = result[0]['clinic'];
-
-      var uid = (Math.floor(Date.now() / 1000)).toString();
-      // appointment referece code
-      var s_ref = "none";
-
-      // console.log(result.length);
-
-      for(var i = 0; result.length > i; i++){
-        this.current_clinic = result[i]['clinic'];
-        s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
-        
-        if(this.current_clinic === this.prev_clinic){
-          this.clinic_total += result[i]['a_payment'];
-
-          // update appointment refernceid
-          this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
-          // your_update_function(esult[i]['id'], s_ref);
-        }else{
-          this.clinic_settlement.push({
-            "clinic" : this.prev_clinic,
-            "settlement" : this.clinic_total,
-            "settlement_ref": s_ref
-          });
-
-          this.clinic_total = 0;
-          this.clinic_total += result[i]['a_payment'];
-
-          // update appointment refernceid
-          this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref);
-          // your_update_function(esult[i]['id'], s_ref);
-        }
-
-        this.prev_clinic = this.current_clinic;
-      }
-
-      this.clinic_settlement.push({
-        "clinic" : this.prev_clinic,
-        "settlement" : this.clinic_total,
-        "settlement_ref": s_ref
-      });
-
-      // update appointment refernceid
-      this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref);
-      // your_update_function(esult[result.length - 1]['id'], s_ref);
-
-      console.log(this.clinic_settlement);
-    }
-
-  
 
    //Passing the table id to worksheet
   //  let table=document.getElementById('appointment-history');
@@ -222,7 +151,7 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
-   autoTable(doc, { html: '#appointment-history' })
+   autoTable(doc, { html: '#appointments-list' })
    doc.save('ClinicID'+'_'+this.clinics+'_'+'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'appointments.pdf');
  }
 

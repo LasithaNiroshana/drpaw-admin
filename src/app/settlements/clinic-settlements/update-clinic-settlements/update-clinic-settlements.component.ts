@@ -34,8 +34,8 @@ export class UpdateClinicSettlementsComponent {
 
         //Update Paid status of appointments/settlements
         this.settlementArray.forEach((element:any) => {
-          this.settlementService.updateSettlementStatus(element.paid_date,element.settlement_ref).subscribe((res:any)=>{
-            console.log(res);
+          this.settlementService.updateSettlementStatus(element.paid_date,element.settlement_ref).subscribe({
+            complete:()=>console.log('Successfully updated clinic settlements')
           });
         });
       }, {});

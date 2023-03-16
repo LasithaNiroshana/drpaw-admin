@@ -160,6 +160,9 @@
 
 <mat-paginator [pageSizeOptions]="[5,10,20,50]" showFirstLastButtons></mat-paginator>
     </div>
+    <div class="overlay-wrapper">
+      <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+    </div>
 
 
 

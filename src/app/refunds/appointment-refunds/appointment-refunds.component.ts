@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {RefundsService} from '../../common/refunds.service';
 import {ConfirmAppRefundsComponent} from './confirm-app-refunds/confirm-app-refunds.component';
+import {SpinnerService} from '../../common/spinner.service';
 
 export interface AppointmentInfo {
   id: number;
@@ -64,19 +65,28 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit{
   displayedColumns: string[] = ['clinic_name','appointment_status','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','d_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
+  loading$ = this.spinner.loading$;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private refundsService:RefundsService,private dialog:MatDialog){}
+  constructor(private refundsService:RefundsService,private dialog:MatDialog, private spinner:SpinnerService){}
 
   ngAfterViewInit() {
      //Get appointment history of all clinics
-     this.refundsService.getUserRefunds().subscribe((res:any)=>{
-          this.pendingRefunds=res;
+     this.spinner.show();
+     this.refundsService.getUserRefunds().subscribe({
+      complete:()=>this.spinner.hide(),
+      next:(res:any)=>{
+        this.pendingRefunds=res;
 
-        this.dataSource = new MatTableDataSource(this.pendingRefunds);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource(this.pendingRefunds);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+   },
+   error:(e)=>{
+    this.spinner.hide();
+   }
      });
   }
 

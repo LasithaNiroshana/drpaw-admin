@@ -102,6 +102,8 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  loading$ = this.spinner.loading$;
+
   constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
@@ -113,12 +115,17 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
   ngAfterViewInit() {
     this.getClinicList();
     // this.getAppointments()
-    this.appointmentService.getAppointmentList().subscribe((res:any)=>{
-       this.appointmentHistory=res;
-       this.dataSource = new MatTableDataSource(this.appointmentHistory);
-       this.dataSource.paginator = this.paginator;
-       this.dataSource.sort = this.sort;
-     });
+    this.spinner.show();
+    this.appointmentService.getAppointmentList().subscribe({
+      complete:()=>this.spinner.hide(),
+      next:(res:any)=>{
+        this.appointmentHistory=res;
+        this.dataSource = new MatTableDataSource(this.appointmentHistory);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error:(e)=>{this.spinner.hide()}
+    });
   }
 
   ngOnInit() {
@@ -131,11 +138,9 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
 
       //Get clinic list
   getClinicList(){
-    this.spinner.requestStarted;
      this.clinicService.GetClinics().subscribe((res:any)=>{
         this.clinics=res;
     });
-    this.spinner.requestEnded;
   }
 
   //Get appointment history of a clinic

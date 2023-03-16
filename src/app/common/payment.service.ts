@@ -77,6 +77,16 @@ export class PaymentService {
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
 
+  //Get not paid settlement appointments
+  public getUnPaidSettlementAppointnments(){
+    const url = this.globalService.apiURL + 'pet_appointment/?pcid=0';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
+
   //Update paid status of appointments/settlements
   public updateSettlementStatus(datepaid:string,apprefcode:string){
     const url = this.globalService.apiURL + 'pet_appointment/?refpdate='+ datepaid + '&updref=' + apprefcode;

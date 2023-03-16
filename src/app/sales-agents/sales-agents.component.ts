@@ -1,30 +1,46 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,AfterViewInit } from '@angular/core';
 import {AddSalesAgentComponent} from './add-sales-agent/add-sales-agent.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SalesAgentsService} from '../common/sales-agents.service';
 import {EditSalesAgentComponent} from './edit-sales-agent/edit-sales-agent.component';
+import {SpinnerService} from '../common/spinner.service';
 
 @Component({
   selector: 'app-sales-agents',
   templateUrl: './sales-agents.component.html',
   styleUrls: ['./sales-agents.component.scss']
 })
-export class SalesAgentsComponent implements OnInit{
+export class SalesAgentsComponent implements OnInit,AfterViewInit{
 
   salesAgentList:any=[];
   displayedColumns: string[] = ['salesID','name','address','mobile','email','edit'];
-constructor(private dialog:MatDialog, private sales:SalesAgentsService){}
+
+  loading$ = this.spinner.loading$;
+
+constructor(private dialog:MatDialog, private sales:SalesAgentsService,private spinner:SpinnerService){}
+
+
+  ngAfterViewInit() {
+    this.getSalesList();
+  }
 
 ngOnInit(){
-  this.getSalesList();
+  
 }
 
 //Get sales agent list
 async getSalesList(){
-  this.sales.getSalesAgentList().subscribe((res:any)=>{
-    res.forEach((element:any) => {
-      this.salesAgentList.push(element);
-    });
+  this.spinner.show();
+  this.sales.getSalesAgentList().subscribe({
+    complete:()=>this.spinner.hide(),
+    next:(res:any)=>{
+      res.forEach((element:any) => {
+        this.salesAgentList.push(element);
+      });
+    },
+    error:(e)=>{
+      this.spinner.hide();
+    }
   });
 }
 

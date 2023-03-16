@@ -199,6 +199,9 @@
     </div>
 
   </div>
+  <div class="overlay-wrapper">
+    <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+  </div>
   
   <!-- Doctors and Institutes Tabs -->
   <!-- <mat-tab-group>

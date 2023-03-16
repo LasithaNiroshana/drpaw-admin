@@ -89,7 +89,7 @@
        <!-- Chanelling details step -->
        <mat-step label="Chanelling Details">
         <h4>Select chanelling types:</h4>
-        <div class="chanelling-details">
+        <div class="chanelling-details-step">
           
           <mat-form-field class="add-user-field">
             <mat-label>Support Direct Visit</mat-label>
@@ -124,11 +124,6 @@
              </mat-option>
             </mat-select>
           </mat-form-field>
-          <br>
-          <mat-form-field class="add-user-field">
-            <mat-label>SLVA No.</mat-label>
-            <input type="text" matInput placeholder="123456" [(ngModel)]="doctor.slva_reg_no" name="website" value="{{doctor.slva_reg_no}}">
-          </mat-form-field>
           <mat-form-field class="add-user-field">
             <mat-label>Is SMS Based</mat-label>
             <mat-select [(ngModel)]="doctor.is_sms" name="is_sms">
@@ -139,6 +134,10 @@
                 Yes
              </mat-option>
             </mat-select>
+          </mat-form-field>
+          <mat-form-field class="add-user-field">
+            <mat-label>SLVA No.</mat-label>
+            <input type="text" matInput placeholder="123456" [(ngModel)]="doctor.slva_reg_no" name="website" value="{{doctor.slva_reg_no}}">
           </mat-form-field>
         </div>
       </mat-step>

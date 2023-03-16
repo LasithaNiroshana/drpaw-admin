@@ -58,4 +58,8 @@
         </mat-card>
         
       </ng-template>
+
+      <div class="overlay-wrapper">
+        <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+      </div>
   

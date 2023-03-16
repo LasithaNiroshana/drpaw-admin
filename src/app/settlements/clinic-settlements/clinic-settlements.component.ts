@@ -8,8 +8,8 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from './clinic-settlements-info/clinic-settlements-info.component';
-import {UpdateClinicSettlementsComponent} from '../clinic-settlements/update-clinic-settlements/update-clinic-settlements.component';
 import {ConfirmAddingSettlementrefComponent} from '../clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
+import {SpinnerService} from '../../common/spinner.service';
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -42,6 +42,13 @@ export interface ClinicInfo {
   sale:number;
 }
 
+export interface SettlementInfo{
+  clinicID:number;
+  clinicName:string;
+  settlement:number;
+  appointments:any;
+}
+
 @Component({
   selector: 'app-clinic-settlements',
   templateUrl: './clinic-settlements.component.html',
@@ -72,21 +79,24 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
 
   clinic_total = 0;
   clinic_settlement:any = [];
+
   appList:any=[]
 
   trans_pre = "drc";
   btndisabled=true;
 
+  loading$ = this.spinner.loading$;
+
   // displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
   displayedColumns: string[] = ['select','clinic','clinic_name','settlement', 'details'];
-  dataSource: MatTableDataSource<ClinicInfo> = new MatTableDataSource();
-  selection = new SelectionModel<ClinicInfo>(true, []);
+  dataSource: MatTableDataSource<SettlementInfo> = new MatTableDataSource();
+  selection = new SelectionModel<SettlementInfo>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe, private spinner:SpinnerService){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -116,11 +126,18 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
     
   }
 
-   //Get appointment history of a clinic
+   //Calculate Settlements of all clinics
    calculateSettlements(){
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
-    this.settlementsService.getCompletedAppoitnments('2023-03-14').subscribe({
+    
+    let todayDate = new Date();
+    todayDate.setDate(todayDate.getDate() - 1);
+    let yesterdayDate:string = this.datepipe.transform(todayDate, 'yyyy-MM-dd') as string;
+    this.spinner.show();
+    this.settlementsService.getCompletedAppoitnments(yesterdayDate).subscribe({
+      complete:()=>this.spinner.hide(),
+      error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{
         // console.log(res);
         this.sortedAppointments=res;
@@ -162,11 +179,13 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
             "apps": app_list
           });
 
+          c_name="";
           app_list = [];
           s_ref = "none";
           this.clinic_total = 0;
           this.clinic_total += result[i]['a_payment'];
           app_list.push(result[i]);
+          c_name = result[i]['clinic_name'];
 
           // update appointment refernceid
           // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
@@ -198,21 +217,11 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
       this.dataSource.sort = this.sort;
     }
       }
-
+      
     });
-    
-      
-    }
-      
-    
-    uploadSettlements(){
-      this.dialog.open(UpdateClinicSettlementsComponent);
     }
 
-  //Reset form
-  resetForm(){}
-
-       //Get clinic list
+  //Get clinic list
   async getClinicList(){
      this.clinicService.GetClinics().subscribe((res:any)=>{
       res.forEach((element:any) => {

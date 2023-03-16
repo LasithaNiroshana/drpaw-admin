@@ -25,6 +25,7 @@ import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sa
 import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,7 @@ import { ProgressSpinnerComponent } from './components/progress-spinner/progress
     ConfirmAppRefundsComponent,
     EditSalesAgentComponent,
     ConfirmAddingSettlementrefComponent,
-    ProgressSpinnerComponent
+    ProgressSpinnerComponent,
   ],
   imports: [
     BrowserModule,

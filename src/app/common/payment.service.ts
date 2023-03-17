@@ -96,4 +96,14 @@ export class PaymentService {
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
+
+  //Save completed settlements set
+  public saveCompletedSettlement(clinicSettlement:any){
+    const url = this.globalService.apiURL + 'clinic_complete_settlement/';
+    
+    // const headers = new HttpHeaders().set("Content-Type", "application/json");
+    // .set("Authorization", "token " + APIStore.token);
+
+    return this.httpClient.post(url, clinicSettlement, {}).pipe(catchError(this.handleError));
+  }
 }

@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit,ViewChild } from '@angular/core';
+import { Component,OnInit,AfterViewInit,ViewChild,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
@@ -59,7 +59,7 @@ export interface AppointmentInfo {
   styleUrls: ['./appointment-refunds.component.scss']
 })
 
-export class AppointmentRefundsComponent implements OnInit,AfterViewInit{
+export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   pendingRefunds:any=[]
   displayedColumns: string[] = ['clinic_name','appointment_status','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','d_amount'];
@@ -70,7 +70,13 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private refundsService:RefundsService,private dialog:MatDialog, private spinner:SpinnerService){}
+  constructor(private refundsService:RefundsService,private dialog:MatDialog, private spinner:SpinnerService,private cdr:ChangeDetectorRef){
+    this.cdr.detach();
+  }
+
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
 
   ngAfterViewInit() {
      //Get appointment history of all clinics

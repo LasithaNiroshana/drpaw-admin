@@ -1,7 +1,8 @@
-import { Component,OnInit,AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component,OnInit,AfterContentChecked, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ClinicService} from '../../../common/clinic.service';
+import {SpinnerService} from '../../../common/spinner.service';
 
 // https://drpawservices.life/admin/auth/user/
 
@@ -48,7 +49,7 @@ export interface AppointmentSettings{
 })
 
 
-export class AddUserComponent implements OnInit,AfterViewInit{
+export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecked{
   doctor:DoctorDetails={
     clinic:0,
     login:0,
@@ -95,7 +96,15 @@ export class AddUserComponent implements OnInit,AfterViewInit{
 
   clinicUserList:any=[];
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService,private snackbar:MatSnackBar){}
+  loading$ = this.spinner.loading$;
+
+  constructor(private dialog:MatDialog,private clinicService:ClinicService,private snackbar:MatSnackBar, private cdr:ChangeDetectorRef, private spinner:SpinnerService){
+    this.cdr.detach();
+  }
+
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
 
   ngAfterViewInit() {
     this.getClinics();
@@ -127,9 +136,10 @@ export class AddUserComponent implements OnInit,AfterViewInit{
   // }
 
   onSubmit(){
+    this.spinner.show();
     var formdata = new FormData();
-
     this.clinicService.getUserAccessList().subscribe({
+      // complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.userAccessList=res;
         this.userAccessList.forEach((element:any) => {
@@ -185,12 +195,19 @@ export class AddUserComponent implements OnInit,AfterViewInit{
       this.doctor.virtual_visit_service_charge!=null
     ){
       this.clinicService.AddUser(formdata).subscribe({
-        complete: () => this.setAppointmentSettings(),
-        error: (e) => this.openSnackBar('Error occured while adding new vet!'+ e,'OK'),
+        complete: () => {
+          this.spinner.hide();
+          this.setAppointmentSettings();
+        },
+        error: (e) => {this.openSnackBar('Error occured while adding new vet!'+ e,'OK');
+        this.spinner.hide();
+      },
       });
+      this.spinner.hide();
     this.dialog.closeAll();
     }
     else{
+      this.spinner.hide();
       this.snackbar.open("One or more fields missing! Please check the form again.","OK");
     }
           }
@@ -198,7 +215,8 @@ export class AddUserComponent implements OnInit,AfterViewInit{
             //
           }
         });
-      }
+      },
+      error:(e)=>this.spinner.hide()
     }
     );  
   }
@@ -212,30 +230,34 @@ export class AddUserComponent implements OnInit,AfterViewInit{
   //Searching the entered mobile number already exist 
   searchMobile(event:any){
    if(event.length==10){
-    this.clinicService.getAllUsers().subscribe((res:any)=>{
-      this.clinicUsers=res;
-      if(this.clinicUsers=[]){
-        this.btndisabled=false;
-      }
-      else{
-        this.clinicUsers.forEach((element:any) => {
-          if(this.doctor.mobile==element.mobile){
-            this.btndisabled=true;
-            this.openSnackBar('Entered mobile number already exists. Please enter another mobile number!','OK');
-          }
-          else{
-            this.btndisabled=false;
-          }
-        });
-      }
+    this.clinicService.getAllUsers().subscribe({
+      complete:()=>this.spinner.hide(),
+      next:(res:any)=>{
+        this.clinicUsers=res;
+        if(this.clinicUsers=[]){
+          this.btndisabled=false;
+        }
+        else{
+          this.clinicUsers.forEach((element:any) => {
+            if(this.doctor.mobile==element.mobile){
+              this.btndisabled=true;
+              this.openSnackBar('Entered mobile number already exists. Please enter another mobile number!','OK');
+            }
+            else{
+              this.btndisabled=false;
+            }
+          });
+        }
+      },
+      error:(e)=>this.spinner.hide()
     });
    }
   }
 
   //Set appointment settings
   setAppointmentSettings(){
-
-    var appointmentFormData=new FormData()
+    this.spinner.show();
+    var appointmentFormData=new FormData();
     this.clinicService.getClinicUsers(this.doctor.clinic).subscribe({
       next:(res:any)=>{
         this.clinicUserList=res;
@@ -250,7 +272,10 @@ export class AddUserComponent implements OnInit,AfterViewInit{
             appointmentFormData.append("end_time_pm", this.appointmentSettings.end_time_pm + ':00');
 
             this.clinicService.setDocAppoitnmentSettings(appointmentFormData).subscribe({
-              complete:()=>this.openSnackBar('Successfully added doctor!','OK')
+              complete:()=>{this.openSnackBar('Successfully added doctor!','OK');
+              this.spinner.hide();
+            },
+            error:(e)=>this.spinner.hide()
             })
           }
           else{

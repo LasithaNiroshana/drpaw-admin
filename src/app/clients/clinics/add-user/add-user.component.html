@@ -253,6 +253,9 @@
       </mat-stepper>
 
 </form>
+<div class="overlay-wrapper">
+  <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="true">Cancel</button>

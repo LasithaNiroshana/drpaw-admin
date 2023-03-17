@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit } from '@angular/core';
+import { Component,OnInit,AfterViewInit,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,7 +39,7 @@ export interface ClinicDetails {
   styleUrls: ['./add-clinic.component.scss']
 })
 
-export class AddClinicComponent implements OnInit,AfterViewInit{
+export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChecked{
   // firstFormGroup = this.formBuilder.group({
   //   firstCtrl: ['', Validators.required],
   // });
@@ -81,8 +81,14 @@ export class AddClinicComponent implements OnInit,AfterViewInit{
   image:any;
   clinicLogo:any;
 
-  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,private salesAgents:SalesAgentsService,private formBuilder: FormBuilder){}
+  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,private salesAgents:SalesAgentsService,private formBuilder: FormBuilder,private cdr:ChangeDetectorRef){
+    this.cdr.detach();
+  }
   
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
+
   ngAfterViewInit() {
     //Obtaining sales agents 
     this.salesAgents.getSalesAgentList().subscribe((res:any)=>{

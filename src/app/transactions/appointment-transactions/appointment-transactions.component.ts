@@ -1,4 +1,4 @@
-import { Component,OnInit,ViewChild,AfterViewInit } from '@angular/core';
+import { Component,OnInit,ViewChild,AfterViewInit,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatPaginator} from '@angular/material/paginator';
@@ -80,7 +80,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
 })
-export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
+export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   clinics:any=[];
   appointmentHistory:any=[];
@@ -104,14 +104,21 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
 
   loading$ = this.spinner.loading$;
 
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService){
+  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService, private cdr:ChangeDetectorRef){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
     this.maxDate1 = new Date(currentYear - 0, 0, 19);
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
+
+    this.cdr.detach();
   }
+
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
+
   ngAfterViewInit() {
     this.getClinicList();
     // this.getAppointments()
@@ -138,9 +145,12 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit{
 
       //Get clinic list
   getClinicList(){
-     this.clinicService.GetClinics().subscribe((res:any)=>{
+     this.clinicService.GetClinics().subscribe({
+      next:(res:any)=>{
         this.clinics=res;
-    });
+    },
+    error:(e)=>console.log(e)
+     });
   }
 
   //Get appointment history of a clinic

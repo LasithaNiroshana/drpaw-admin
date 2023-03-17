@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit } from '@angular/core';
+import { Component,OnInit,AfterViewInit,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {AddSalesAgentComponent} from './add-sales-agent/add-sales-agent.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SalesAgentsService} from '../common/sales-agents.service';
@@ -10,15 +10,20 @@ import {SpinnerService} from '../common/spinner.service';
   templateUrl: './sales-agents.component.html',
   styleUrls: ['./sales-agents.component.scss']
 })
-export class SalesAgentsComponent implements OnInit,AfterViewInit{
+export class SalesAgentsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   salesAgentList:any=[];
   displayedColumns: string[] = ['salesID','name','address','mobile','email','edit'];
 
   loading$ = this.spinner.loading$;
 
-constructor(private dialog:MatDialog, private sales:SalesAgentsService,private spinner:SpinnerService){}
+constructor(private dialog:MatDialog, private sales:SalesAgentsService,private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+  this.cdr.detach();
+}
 
+ngAfterContentChecked() {
+  this.cdr.detectChanges();
+}
 
   ngAfterViewInit() {
     this.getSalesList();

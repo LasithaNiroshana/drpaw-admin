@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit,ViewChild } from '@angular/core';
+import { Component,OnInit,AfterViewInit,ViewChild,ChangeDetectorRef,AfterContentChecked } from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
@@ -55,7 +55,7 @@ export interface SettlementInfo{
   styleUrls: ['./clinic-settlements.component.scss']
 })
 
-export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
+export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   clinics:any=[];
   appointmentHistory:any=[];
@@ -96,7 +96,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe, private spinner:SpinnerService){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe, private spinner:SpinnerService,private cdr:ChangeDetectorRef){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -104,10 +104,13 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
       this.minDate2 = new Date(currentYear - 1, 0, 1);
       this.maxDate2 = new Date(currentYear - 0, 0, 0);
    
-    // Assign the data to the data source for the table to render
+      this.cdr.detach();
   
   }
-  ngAfterViewInit(): void {
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
+  ngAfterViewInit() {
     // this.clinicService.GetClinics().subscribe((res:any)=>{
     //   this.clinics=res;
      
@@ -118,12 +121,12 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
     //     console.log(res);
     //   }
     // })
+    
     this.calculateSettlements();
   }
 
   ngOnInit() {
     // this.getClinicList();
-    
   }
 
    //Calculate Settlements of all clinics
@@ -158,23 +161,29 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
 
       for(var i = 0; result.length > i; i++){
         this.current_clinic = result[i]['clinic'];
-        s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
+        // s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
         
         if(this.current_clinic === this.prev_clinic){
           this.clinic_total += result[i]['a_payment'];
           c_name = result[i]['clinic_name'];
           app_list.push(result[i]);
           // console.log(app);
+          
           // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
-          //   console.log(res);
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe({
+          //   complete:()=>{
+          //     console.log('Updated refernce ID');
+          //   },
+          //   error:(e)=>{
+          //     console.log(e);
+          //   }
           // });
           // your_update_function(esult[i]['id'], s_ref);
         }else{
           this.clinic_settlement.push({
             "clinic" : this.prev_clinic,
             "settlement" : this.clinic_total,
-            "settlement_ref": s_ref,
+            // "settlement_ref": s_ref,
             "clinic_name": c_name,
             "apps": app_list
           });
@@ -188,8 +197,13 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
           c_name = result[i]['clinic_name'];
 
           // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
-          //   console.log(res);
+          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe({
+          //   complete:()=>{
+          //     console.log('Updated refernce ID');
+          //   },
+          //   error:(e)=>{
+          //     console.log(e);
+          //   }
           // });
           // your_update_function(esult[i]['id'], s_ref);
         }
@@ -199,19 +213,22 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit{
       this.clinic_settlement.push({
         "clinic" : this.prev_clinic,
         "settlement" : this.clinic_total,
-        "settlement_ref": s_ref,
+        // "settlement_ref": s_ref,
         "clinic_name": c_name,
         "apps": app_list
       });
 
       // update appointment refernceid
-      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref).subscribe((res:any)=>{
-      //   console.log(res);
+      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref).subscribe({
+      //   complete:()=>{
+      //     console.log('Updated refernce ID');
+      //   },
+      //   error:(e)=>{
+      //     console.log(e);
+      //   }
       // });
-      // your_update_function(esult[result.length - 1]['id'], s_ref);
+      // your_update_function(result[result.length - 1]['id'], s_ref);
 
-      // console.log(this.clinic_settlement);
-      // console.log(this.clinic_settlement);
       this.dataSource = new MatTableDataSource(this.clinic_settlement);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

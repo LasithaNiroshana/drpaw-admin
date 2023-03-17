@@ -1,4 +1,4 @@
-import { Component,ViewChild,OnInit,AfterViewInit,ChangeDetectorRef } from '@angular/core';
+import { Component,ViewChild,OnInit,AfterViewInit,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import { Router, TitleStrategy, UrlCreationOptions } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import {HttpClient} from '@angular/common/http';
@@ -43,7 +43,7 @@ export interface ClinicDetails {
   templateUrl: './clinics.component.html',
   styleUrls: ['./clinics.component.scss']
 })
-export class ClinicsComponent implements OnInit,AfterViewInit{
+export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecked{
   isChecked = "";
   clinicList:any=[];
   displayedColumns: string[] = ['logo','clinicID','clinicName','address','city','businessReg','contactPerson','landline','mobile','email','website','accHolder','bankName','accNo','branch','branchCode','onboarded_by','active','info','edit'];
@@ -64,9 +64,16 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
   //   }
   // },5000);
 
-  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService){}
+  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService){
+    this.cdr.detach();
+  }
+
+  ngAfterContentChecked() {
+    this.cdr.detectChanges();
+  }
+  
   ngAfterViewInit(){
-   
+  
     // this.getClinics();
     this.spinner.show();
     this.clinicService.GetClinics().subscribe({
@@ -86,6 +93,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit{
       this.spinner.hide();
       }
     });
+    
   }
 
   ngOnInit(){}

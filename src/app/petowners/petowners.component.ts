@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit,ViewChild } from '@angular/core';
+import { Component,OnInit,AfterViewInit,ViewChild,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -34,7 +34,7 @@ export interface PetOwnerDetails{
   templateUrl: './petowners.component.html',
   styleUrls: ['./petowners.component.scss']
 })
-export class PetownersComponent implements OnInit,AfterViewInit{
+export class PetownersComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   petOwnersList:any=[];
   displayedColumns: string[] = ['name','mobile','email','city','created_on','active'];
@@ -46,7 +46,13 @@ export class PetownersComponent implements OnInit,AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private petOwner:PetownerService, private spinner:SpinnerService){}
+constructor(private petOwner:PetownerService, private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+  this.cdr.detach();
+}
+
+ngAfterContentChecked() {
+  this.cdr.detectChanges();
+}
 
   ngAfterViewInit() {
      //Get pet owners list
@@ -62,7 +68,6 @@ constructor(private petOwner:PetownerService, private spinner:SpinnerService){}
         if(petowner.active){
           this.petowners=this.petowners+1;
         }
-        console.log(this.petowners);
       });
     },
     error:(e)=>{

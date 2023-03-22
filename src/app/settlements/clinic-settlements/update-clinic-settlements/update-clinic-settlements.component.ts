@@ -1,7 +1,10 @@
-import { Component,AfterViewInit,ChangeDetectorRef } from '@angular/core';
+import { Component,AfterViewInit,ChangeDetectorRef,Inject } from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {MatDialog,MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import {PaymentService} from '../../../common/payment.service';
 import {SpinnerService} from '../../../common/spinner.service';
+import {NotPaidSettlementsComponent} from '../not-paid-settlements/not-paid-settlements.component';
 
 export interface CompletedSettlements{
   refernece:string;
@@ -25,10 +28,14 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
     date:"",
   }
 
+  selectedSettlementList:any=[]
+
   loading$ = this.spinner.loading$;
 
-  constructor(private settlementService:PaymentService, private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+  constructor(private settlementService:PaymentService, private spinner:SpinnerService, private cdr:ChangeDetectorRef,public dialogRef:MatDialogRef<NotPaidSettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private datePipe:DatePipe){
     this.cdr.detach();
+    this.selectedSettlementList=data.settlementList;
+    console.log(this.selectedSettlementList);
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
@@ -38,7 +45,7 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
     this.file = event.target.files[0];
   }
   
-  onUpload(ev:any) {
+  onUpdate() {
     // let jsonData = null;
     // const reader = new FileReader();
     // var uploadedFile = this.file; 
@@ -62,18 +69,42 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
     //   }, {});
     // }
     this.spinner.show();
-    this.settlementData.refernece="drc_123456";
-    this.settlementData.clinic=0,
-    this.settlementData.amount=12000,
-    this.settlementData.date="2023-03-17",
-    this.settlementService.saveCompletedSettlement(this.settlementData).subscribe({
-      complete:()=>{this.spinner.hide()
-      console.log('Successful!')
-      },
-      error:(e)=>{this.spinner.hide();
-      console.log(e);
-      }
+
+    let today = new Date();
+    today.setDate(today.getDate());
+    let todayDate:string = this.datePipe.transform(today, 'yyyy-MM-dd') as string;
+
+    this.selectedSettlementList.forEach((settlement:any) => {
+
+    this.settlementData.refernece=settlement.settlement_ref;
+    this.settlementData.clinic=settlement.clinic;
+    this.settlementData.amount=settlement.settlement;
+    this.settlementData.date=todayDate;
+
+    // console.log(settlement.settlement_ref);
+
+    //Add to completed settlements list
+    // this.settlementService.saveCompletedSettlement(this.settlementData).subscribe({
+    //   complete:()=>{this.spinner.hide()
+    //   console.log('Successful!')
+    //   },
+    //   error:(e)=>{this.spinner.hide();
+    //   console.log(e);
+    //   }
+    // });
+
+    //Update paid date and status
+    this.settlementService.updateSettlementStatus(todayDate,settlement.settlement_ref).subscribe({
+      complete:()=>{this.spinner.hide();
+        console.log('Successful!');
+        },
+        error:(e)=>{this.spinner.hide();
+        console.log(e);
+        }
     });
+    });
+    
+    this.spinner.hide();
   }
 
  

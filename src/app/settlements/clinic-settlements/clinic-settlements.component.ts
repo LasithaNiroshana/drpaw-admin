@@ -1,15 +1,18 @@
 import { Component,OnInit,AfterViewInit,ViewChild,ChangeDetectorRef,AfterContentChecked } from '@angular/core';
 import {DatePipe} from '@angular/common';
+import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ClinicService} from '../../common/clinic.service';
 import {PaymentService} from '../../common/payment.service';
+import {SpinnerService} from '../../common/spinner.service';
 import {ClinicSettlementsInfoComponent} from './clinic-settlements-info/clinic-settlements-info.component';
 import {ConfirmAddingSettlementrefComponent} from '../clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
-import {SpinnerService} from '../../common/spinner.service';
+import {AppointmentListComponent} from './appointment-list/appointment-list.component';
+
 
 //Creating and exporting custom date format
 export const MY_FORMATS = {
@@ -84,6 +87,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
 
   trans_pre = "drc";
   btndisabled=true;
+  // downloadbtnDisabled=true;
+
+  allAppointments:any=[];
 
   loading$ = this.spinner.loading$;
 
@@ -96,7 +102,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe, private spinner:SpinnerService,private cdr:ChangeDetectorRef){
+  constructor(private dialog:MatDialog,private clinicService:ClinicService, private settlementsService:PaymentService,private datepipe:DatePipe, private spinner:SpinnerService,private cdr:ChangeDetectorRef,private snackBar:MatSnackBar){
     const currentYear = new Date().getFullYear();
     //Setting up minimum and maximum dates for calendars
       this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -134,9 +140,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
     
-    let todayDate = new Date();
-    todayDate.setDate(todayDate.getDate() - 1);
-    let yesterdayDate:string = this.datepipe.transform(todayDate, 'yyyy-MM-dd') as string;
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    let yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
     this.spinner.show();
     this.settlementsService.getCompletedAppoitnments(yesterdayDate).subscribe({
       complete:()=>this.spinner.hide(),
@@ -178,12 +184,12 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
           //     console.log(e);
           //   }
           // });
-          // your_update_function(esult[i]['id'], s_ref);
+          // your_update_function(result[i]['id'], s_ref);
         }else{
           this.clinic_settlement.push({
             "clinic" : this.prev_clinic,
             "settlement" : this.clinic_total,
-            // "settlement_ref": s_ref,
+            "settlement_ref": s_ref,
             "clinic_name": c_name,
             "apps": app_list
           });
@@ -205,7 +211,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
           //     console.log(e);
           //   }
           // });
-          // your_update_function(esult[i]['id'], s_ref);
+          // your_update_function(result[i]['id'], s_ref);
         }
 
         this.prev_clinic = this.current_clinic;
@@ -213,7 +219,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
       this.clinic_settlement.push({
         "clinic" : this.prev_clinic,
         "settlement" : this.clinic_total,
-        // "settlement_ref": s_ref,
+        "settlement_ref": s_ref,
         "clinic_name": c_name,
         "apps": app_list
       });
@@ -305,13 +311,46 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     });
   }
 
-  generateSheet(){
-    console.log();
-    this.dialog.open(ConfirmAddingSettlementrefComponent,{
-      data:{
-        settlementList:this.selectedSettlementList
-      }
-    });
+  //Open dialog to confirm generating settlement sheet
+  generateSettlementsSheet(){
+    if(this.selectedSettlementList==0){
+      this.snackBar.open('Select clinic settlements to download settlements sheet!','OK');
+      this.btndisabled=true;
+    }
+    else{
+      this.dialog.open(ConfirmAddingSettlementrefComponent,{
+        data:{
+          settlementList:this.selectedSettlementList
+        }
+      });
+    }
+  }
+
+  //Open all the appoitnments of selected settlement list
+  openAppointmentsList(){
+    if(this.selectedSettlementList==0){
+      this.snackBar.open('Select clinic settlements to download appointment list!','OK');
+      this.btndisabled=true;
+    }
+    else{
+      // this.downloadbtnDisabled=false;
+      this.allAppointments=[];
+      this.selectedSettlementList.forEach((settlement:any) => {
+        settlement.apps.forEach((appointment:any) => {
+          this.allAppointments.push(appointment);
+        });
+      });
+      this.dialog.open(AppointmentListComponent,{
+        data:{
+          appointmentList:this.allAppointments
+        }
+      });
+    }
+  } 
+
+  //Open snackbar 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
   }
     
 }

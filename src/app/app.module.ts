@@ -24,6 +24,7 @@ import { ConfirmAppRefundsComponent } from './refunds/appointment-refunds/confir
 import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sales-agent.component';
 import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+import { AppointmentListComponent } from './settlements/clinic-settlements/appointment-list/appointment-list.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { ProgressSpinnerComponent } from './components/progress-spinner/progress
     EditSalesAgentComponent,
     ConfirmAddingSettlementrefComponent,
     ProgressSpinnerComponent,
+    AppointmentListComponent,
   ],
   imports: [
     BrowserModule,

@@ -252,6 +252,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
       error:(e)=>this.spinner.hide()
     });
    }
+   this.spinner.hide();
   }
 
   //Set appointment settings
@@ -286,7 +287,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
       // error:(e)=>console.log(e)
     },
     );
-    
+    this.spinner.hide();
   }
 
   // searchMobile(event:any){
@@ -331,3 +332,10 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
       this.snackbar.open(message, action);
     }
 }
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ import {MatSort} from '@angular/material/sort';
 import {DatePipe} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
+import {SelectionModel} from '@angular/cdk/collections';
 import {PaymentService} from '../../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from '../clinic-settlements-info/clinic-settlements-info.component';
 import {UpdateClinicSettlementsComponent} from '../update-clinic-settlements/update-clinic-settlements.component';
@@ -35,9 +36,12 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
 
   trans_pre = "drc";
 
+  selectedSettlementList:any=[];
+  btndisabled=true;
 
-  displayedColumns: string[] = ['clinic','clinic_name','settlement', 'details'];
+  displayedColumns: string[] = ['select','clinic','clinic_name','settlement_ref','settlement', 'details'];
   dataSource: MatTableDataSource<SettlementInfo> = new MatTableDataSource();
+  selection = new SelectionModel<SettlementInfo>(true, []);
   
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -60,28 +64,32 @@ calculateNotPaidSettlements(){
     next:(res:any)=>{
       // console.log(res);
       this.sortedAppointments=res;
-    
+    // console.log(res);
     var result = this.sortedAppointments;
     var app_list=[];
     var c_name = "none";
+    var s_ref="";
+
   if(result.length > 0){
     this.current_clinic = result[0]['clinic'];
     this.prev_clinic = result[0]['clinic'];
     c_name = result[0]['clinic_name'];
+    s_ref=result[0]['settlement_ref'];
     // console.log(c_name);
-    var uid = (Math.floor(Date.now() / 1000)).toString();
+    // var uid = (Math.floor(Date.now() / 1000)).toString();
     // appointment referece code
-    var s_ref = "none";
+    // var s_ref = "none";
 
     // console.log(result.length);
 
     for(var i = 0; result.length > i; i++){
       this.current_clinic = result[i]['clinic'];
-      s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
+     
       
       if(this.current_clinic === this.prev_clinic){
         this.clinic_total += result[i]['a_payment'];
         c_name = result[i]['clinic_name'];
+        s_ref = result[i]['settlement_ref'];
         app_list.push(result[i]);
         // console.log(app);
         // update appointment refernceid
@@ -105,6 +113,7 @@ calculateNotPaidSettlements(){
         this.clinic_total += result[i]['a_payment'];
         app_list.push(result[i]);
         c_name = result[i]['clinic_name'];
+        s_ref = result[i]['settlement_ref'];
 
         // update appointment refernceid
         // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
@@ -142,6 +151,47 @@ calculateNotPaidSettlements(){
     
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedSettlementList=[];
+      // console.log(this.selectedSettlementList);
+      this.btndisabled=true;
+      return;
+    }
+    else{
+      this.selectedSettlementList=this.dataSource.data;
+      // console.log(this.selectedSettlementList);
+      this.selection.select(...this.dataSource.data);
+      this.btndisabled=false;
+    }
+  }
+
+  updateList(element:any){
+    if(this.selection.isSelected(element)){
+      this.selectedSettlementList.push(element);
+      // console.log(this.selectedSettlementList);
+      this.btndisabled=false;
+    }
+    else{
+      this.selectedSettlementList.forEach((item:any,index:number) => {
+        if(item===element) {
+           this.selectedSettlementList.splice(index,1);
+        // console.log(this.selectedSettlementList);
+        this.btndisabled=false;
+        }
+      });
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -160,8 +210,12 @@ calculateNotPaidSettlements(){
   }
 
   //
-  uploadPaidSettlements(){
-    this.dialog.open(UpdateClinicSettlementsComponent);
+  updatePaidSettlements(){
+    this.dialog.open(UpdateClinicSettlementsComponent,{
+      data:{
+        settlementList:this.selectedSettlementList
+      }
+    });
   }
 
 }

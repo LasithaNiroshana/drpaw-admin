@@ -140,15 +140,15 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
     
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    let yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
+    let today = new Date();
+    today.setDate(today.getDate());
+    let todayDate:string = this.datepipe.transform(today, 'yyyy-MM-dd') as string;
     this.spinner.show();
-    this.settlementsService.getCompletedAppoitnments(yesterdayDate).subscribe({
+    this.settlementsService.getCompletedAppointments('2023-03-24').subscribe({
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{
-        // console.log(res);
+        console.log(res);
         this.sortedAppointments=res;
       
       var result = this.sortedAppointments;
@@ -170,21 +170,17 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
         // s_ref = this.trans_pre + "_" + this.prev_clinic.toString() + "_" + uid;
         
         if(this.current_clinic === this.prev_clinic){
+          if(result[i]['a_source']===0){
           this.clinic_total += result[i]['a_payment'];
           c_name = result[i]['clinic_name'];
           app_list.push(result[i]);
-          // console.log(app);
+          }
+          else{
+            this.clinic_total -=result[i]['a_charge'];
+            c_name = result[i]['clinic_name'];
+            app_list.push(result[i]);
+          }
           
-          // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe({
-          //   complete:()=>{
-          //     console.log('Updated refernce ID');
-          //   },
-          //   error:(e)=>{
-          //     console.log(e);
-          //   }
-          // });
-          // your_update_function(result[i]['id'], s_ref);
         }else{
           this.clinic_settlement.push({
             "clinic" : this.prev_clinic,
@@ -198,20 +194,19 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
           app_list = [];
           s_ref = "none";
           this.clinic_total = 0;
-          this.clinic_total += result[i]['a_payment'];
-          app_list.push(result[i]);
+          if(result[i]['a_source']===0){
+            this.clinic_total += result[i]['a_payment'];
+            c_name = result[i]['clinic_name'];
+            app_list.push(result[i]);
+            }
+            else{
+              this.clinic_total -=result[i]['a_charge']
+              c_name = result[i]['clinic_name'];  
+              app_list.push(result[i]);
+            }
+          // app_list.push(result[i]);
           c_name = result[i]['clinic_name'];
 
-          // update appointment refernceid
-          // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe({
-          //   complete:()=>{
-          //     console.log('Updated refernce ID');
-          //   },
-          //   error:(e)=>{
-          //     console.log(e);
-          //   }
-          // });
-          // your_update_function(result[i]['id'], s_ref);
         }
 
         this.prev_clinic = this.current_clinic;
@@ -223,17 +218,6 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
         "clinic_name": c_name,
         "apps": app_list
       });
-
-      // update appointment refernceid
-      // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref).subscribe({
-      //   complete:()=>{
-      //     console.log('Updated refernce ID');
-      //   },
-      //   error:(e)=>{
-      //     console.log(e);
-      //   }
-      // });
-      // your_update_function(result[result.length - 1]['id'], s_ref);
 
       this.dataSource = new MatTableDataSource(this.clinic_settlement);
       this.dataSource.paginator = this.paginator;
@@ -318,6 +302,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
       this.btndisabled=true;
     }
     else{
+      console.log(this.selectedSettlementList);
       this.dialog.open(ConfirmAddingSettlementrefComponent,{
         data:{
           settlementList:this.selectedSettlementList

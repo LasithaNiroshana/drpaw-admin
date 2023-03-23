@@ -48,7 +48,7 @@ export class PaymentService {
   }
 
   //Get completed appointments
-  public getCompletedAppoitnments(endDate:string){
+  public getCompletedAppointments(endDate:string){
     const url = this.globalService.apiURL + 'pet_appointment/?endt=' + endDate + '&cid=0';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");

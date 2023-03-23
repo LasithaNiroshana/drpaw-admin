@@ -1,6 +1,7 @@
 import { Component,AfterViewInit,ChangeDetectorRef,Inject } from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {MatDialog,MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import * as XLSX from 'xlsx';
 import {PaymentService} from '../../../common/payment.service';
 import {SpinnerService} from '../../../common/spinner.service';
@@ -32,7 +33,7 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
 
   loading$ = this.spinner.loading$;
 
-  constructor(private settlementService:PaymentService, private spinner:SpinnerService, private cdr:ChangeDetectorRef,public dialogRef:MatDialogRef<NotPaidSettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private datePipe:DatePipe){
+  constructor(private settlementService:PaymentService, private spinner:SpinnerService, private cdr:ChangeDetectorRef,public dialogRef:MatDialogRef<NotPaidSettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private datePipe:DatePipe,private snackbar:MatSnackBar){
     this.cdr.detach();
     this.selectedSettlementList=data.settlementList;
     console.log(this.selectedSettlementList);
@@ -84,22 +85,22 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
     // console.log(settlement.settlement_ref);
 
     //Add to completed settlements list
-    // this.settlementService.saveCompletedSettlement(this.settlementData).subscribe({
-    //   complete:()=>{this.spinner.hide()
-    //   console.log('Successful!')
-    //   },
-    //   error:(e)=>{this.spinner.hide();
-    //   console.log(e);
-    //   }
-    // });
+    this.settlementService.saveCompletedSettlement(this.settlementData).subscribe({
+      complete:()=>{this.spinner.hide()
+      this.openSnackBar('Successfully updated clinic settlement.','OK');
+      },
+      error:(e)=>{this.spinner.hide();
+        this.openSnackBar('Error updating clinic settlement.','OK');
+      }
+    });
 
     //Update paid date and status
     this.settlementService.updateSettlementStatus(todayDate,settlement.settlement_ref).subscribe({
       complete:()=>{this.spinner.hide();
-        console.log('Successful!');
+        // this.openSnackBar('Successfully updated status of paid settlements','OK');
         },
         error:(e)=>{this.spinner.hide();
-        console.log(e);
+          this.openSnackBar(e + ' Updating status of paid settlements was unsuccessful! Please try again.','OK');
         }
     });
     });
@@ -107,5 +108,34 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
     this.spinner.hide();
   }
 
+  // onUpdate(){
+  //     this.settlementData.refernece='drc_31_1679555505';
+  //   this.settlementData.clinic=31;
+  //   this.settlementData.amount=-2;
+  //   this.settlementData.date='2023-03-23';
+  //   this.settlementService.saveCompletedSettlement(this.settlementData).subscribe({
+  //     complete:()=>{this.spinner.hide()
+  //     console.log('Successful!')
+  //     },
+  //     error:(e)=>{this.spinner.hide();
+  //     console.log(e);
+  //     }
+  //   });
+
+
+  //     this.settlementService.updateSettlementStatus('2023-03-23','drc_31_1679555505').subscribe({
+  //     complete:()=>{this.spinner.hide();
+  //       // this.openSnackBar('Successfully updated status of paid settlements','OK');
+  //       },
+  //       error:(e)=>{this.spinner.hide();
+       
+  //       }
+  //   });
+  // }
+
+  //Open snackbar 
+openSnackBar(message: string, action: string) {
+  this.snackbar.open(message, action);
+}
  
 }

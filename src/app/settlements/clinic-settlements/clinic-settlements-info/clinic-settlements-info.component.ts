@@ -93,7 +93,7 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
   clinic_settlement:any = [];
   clinicAppointments:any=[];
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','app_ref','a_date','a_time','a_payment','a_charge'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

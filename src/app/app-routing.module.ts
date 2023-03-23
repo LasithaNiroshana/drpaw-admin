@@ -31,6 +31,7 @@ import { ClinicReportsComponent } from './reports/clinic-reports/clinic-reports.
 import { ServiceProviderReportsComponent } from './reports/service-provider-reports/service-provider-reports.component';
 import { StoreReportsComponent } from './reports/store-reports/store-reports.component';
 import { NotPaidSettlementsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements.component';
+import { CompletedSettlementsComponent } from './settlements/clinic-settlements/completed-settlements/completed-settlements.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -75,7 +76,8 @@ const routes: Routes = [
     {path:'settlements',component:SettlementsComponent,
     children:[
       {path:'clinicsettlements',component:ClinicSettlementsComponent,children:[
-        {path:'notpaid',component:NotPaidSettlementsComponent}
+        {path:'notpaid',component:NotPaidSettlementsComponent},
+        {path:'completed',component:CompletedSettlementsComponent}
       ]}
     ]
   },
@@ -128,5 +130,6 @@ export const routingComponents=[
   ClinicReportsComponent,
   ServiceProviderReportsComponent,
   StoreReportsComponent,
-  NotPaidSettlementsComponent
+  NotPaidSettlementsComponent,
+  CompletedSettlementsComponent,
 ]

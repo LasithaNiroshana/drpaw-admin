@@ -46,6 +46,7 @@ import { AppointmentListComponent } from './settlements/clinic-settlements/appoi
     ConfirmAddingSettlementrefComponent,
     ProgressSpinnerComponent,
     AppointmentListComponent,
+  
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import {MatSort} from '@angular/material/sort';
 import {DatePipe} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {SelectionModel} from '@angular/cdk/collections';
 import {PaymentService} from '../../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from '../clinic-settlements-info/clinic-settlements-info.component';
@@ -47,7 +48,7 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe){}
+  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe,private snackbar:MatSnackBar){}
 
   ngAfterViewInit(){
     this.calculateNotPaidSettlements();
@@ -87,16 +88,17 @@ calculateNotPaidSettlements(){
      
       
       if(this.current_clinic === this.prev_clinic){
-        this.clinic_total += result[i]['a_payment'];
-        c_name = result[i]['clinic_name'];
-        s_ref = result[i]['settlement_ref'];
-        app_list.push(result[i]);
-        // console.log(app);
-        // update appointment refernceid
-        // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
-        //   console.log(res);
-        // });
-        // your_update_function(esult[i]['id'], s_ref);
+        if(result[i]['a_source']===0){
+          this.clinic_total += result[i]['a_payment'];
+          c_name = result[i]['clinic_name'];
+          app_list.push(result[i]);
+          }
+          else{
+            this.clinic_total -=result[i]['a_charge'];
+            c_name = result[i]['clinic_name'];
+            app_list.push(result[i]);
+          }
+  
       }else{
         this.clinic_settlement.push({
           "clinic" : this.prev_clinic,
@@ -110,16 +112,20 @@ calculateNotPaidSettlements(){
         app_list = [];
         s_ref = "none";
         this.clinic_total = 0;
-        this.clinic_total += result[i]['a_payment'];
-        app_list.push(result[i]);
+        if(result[i]['a_source']===0){
+          this.clinic_total += result[i]['a_payment'];
+          c_name = result[i]['clinic_name'];
+          app_list.push(result[i]);
+          }
+          else{
+            this.clinic_total -=result[i]['a_charge'];
+            c_name = result[i]['clinic_name'];
+          app_list.push(result[i]);
+          }
+        // app_list.push(result[i]);
         c_name = result[i]['clinic_name'];
-        s_ref = result[i]['settlement_ref'];
+        // s_ref = result[i]['settlement_ref'];
 
-        // update appointment refernceid
-        // this.settlementsService.generateSettlementReferenceId(result[i]['id'],s_ref).subscribe((res:any)=>{
-        //   console.log(res);
-        // });
-        // your_update_function(esult[i]['id'], s_ref);
       }
 
       this.prev_clinic = this.current_clinic;
@@ -132,14 +138,8 @@ calculateNotPaidSettlements(){
       "apps": app_list
     });
 
-    // update appointment refernceid
-    // this.settlementsService.generateSettlementReferenceId(result[result.length - 1]['id'],s_ref).subscribe((res:any)=>{
-    //   console.log(res);
-    // });
-    // your_update_function(esult[result.length - 1]['id'], s_ref);
-
     // console.log(this.clinic_settlement);
-    // console.log(this.clinic_settlement);
+    console.log(this.clinic_settlement);
     this.dataSource = new MatTableDataSource(this.clinic_settlement);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -175,6 +175,7 @@ calculateNotPaidSettlements(){
     }
   }
 
+  //Update completed settlements  
   updateList(element:any){
     if(this.selection.isSelected(element)){
       this.selectedSettlementList.push(element);
@@ -209,13 +210,25 @@ calculateNotPaidSettlements(){
     });
   }
 
-  //
+  //Open updating settlements confirmation dialog
   updatePaidSettlements(){
-    this.dialog.open(UpdateClinicSettlementsComponent,{
-      data:{
-        settlementList:this.selectedSettlementList
-      }
-    });
+    if(this.selectedSettlementList==0){
+      this.openSnackBar('Please select settlements to proceeed!','OK');
+      this.btndisabled=true;
+    }
+    else{
+      this.dialog.open(UpdateClinicSettlementsComponent,{
+        data:{
+          settlementList:this.selectedSettlementList
+        }
+      });
+    }
   }
+
+  //Open snackbar 
+openSnackBar(message: string, action: string) {
+  this.snackbar.open(message, action);
+}
+
 
 }

@@ -52,12 +52,14 @@ confirmRefundRequest(){
 
 //Request refunds for discount appointments
 requestDiscountedRefund(cus: any, mob: any, app: any, amount: any){
-  this.refundsService.requestUserDiscount(cus, mob, app, amount).subscribe(
-    (result: any)=>{
-      // this.dismissLoader();
-      console.log(result);
+  this.refundsService.requestUserDiscount(cus, mob, app, amount).subscribe({
+    complete:()=>{
+      console.log('Successfully sent refund request');
+    },
+    error:(e)=>{
+      console.log(e);
     }
-  );
+  });
 }
 
 }

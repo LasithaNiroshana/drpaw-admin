@@ -110,7 +110,7 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
   openConfirmRefundDialog(){
     this.dialog.open(ConfirmAppRefundsComponent,{
       data:{
-        
+        refundAppointments:this.pendingRefunds
       }
     });
   }

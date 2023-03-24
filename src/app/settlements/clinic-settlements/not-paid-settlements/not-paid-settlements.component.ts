@@ -9,6 +9,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {PaymentService} from '../../../common/payment.service';
 import {ClinicSettlementsInfoComponent} from '../clinic-settlements-info/clinic-settlements-info.component';
 import {UpdateClinicSettlementsComponent} from '../update-clinic-settlements/update-clinic-settlements.component';
+import {NotPaidSettlementsAppointmentsComponent} from './not-paid-settlements-appointments/not-paid-settlements-appointments.component';
 
 export interface SettlementInfo{
   clinicID:number;
@@ -27,8 +28,8 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
 
   sortedAppointments:any=[];
 
-  current_clinic = 0;
-  prev_clinic = 0;
+  current_ref = 0;
+  prev_ref = 0;
   clinic_name:string='';
 
   clinic_total = 0;
@@ -69,13 +70,13 @@ calculateNotPaidSettlements(){
     var result = this.sortedAppointments;
     var app_list=[];
     var c_name = "none";
-    var s_ref="";
+    var clinic_id="";
 
   if(result.length > 0){
-    this.current_clinic = result[0]['clinic'];
-    this.prev_clinic = result[0]['clinic'];
+    this.current_ref = result[0]['settlement_ref'];
+    this.prev_ref = result[0]['settlement_ref'];
     c_name = result[0]['clinic_name'];
-    s_ref=result[0]['settlement_ref'];
+    clinic_id=result[0]['clinic'];
     // console.log(c_name);
     // var uid = (Math.floor(Date.now() / 1000)).toString();
     // appointment referece code
@@ -84,10 +85,10 @@ calculateNotPaidSettlements(){
     // console.log(result.length);
 
     for(var i = 0; result.length > i; i++){
-      this.current_clinic = result[i]['clinic'];
+      this.current_ref = result[i]['settlement_ref'];
      
       
-      if(this.current_clinic === this.prev_clinic){
+      if(this.current_ref === this.prev_ref){
         if(result[i]['a_source']===0){
           this.clinic_total += result[i]['a_payment'];
           c_name = result[i]['clinic_name'];
@@ -101,16 +102,16 @@ calculateNotPaidSettlements(){
   
       }else{
         this.clinic_settlement.push({
-          "clinic" : this.prev_clinic,
+          "clinic" : clinic_id,
           "settlement" : this.clinic_total,
-          "settlement_ref": s_ref,
+          "settlement_ref": this.prev_ref,
           "clinic_name": c_name,
           "apps": app_list
         });
 
         c_name="";
         app_list = [];
-        s_ref = "none";
+        // clinic_id = "none";
         this.clinic_total = 0;
         if(result[i]['a_source']===0){
           this.clinic_total += result[i]['a_payment'];
@@ -128,12 +129,12 @@ calculateNotPaidSettlements(){
 
       }
 
-      this.prev_clinic = this.current_clinic;
+      this.prev_ref = this.current_ref;
     }
     this.clinic_settlement.push({
-      "clinic" : this.prev_clinic,
+      "clinic" : clinic_id,
       "settlement" : this.clinic_total,
-      "settlement_ref": s_ref,
+      "settlement_ref": this.prev_ref,
       "clinic_name": c_name,
       "apps": app_list
     });
@@ -203,7 +204,7 @@ calculateNotPaidSettlements(){
   }
 
   openAppointments(appointments:any){
-    this.dialog.open(ClinicSettlementsInfoComponent,{
+    this.dialog.open(NotPaidSettlementsAppointmentsComponent,{
       data:{
         appointmentsList:appointments
       }

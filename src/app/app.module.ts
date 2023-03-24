@@ -25,6 +25,8 @@ import { EditSalesAgentComponent } from './sales-agents/edit-sales-agent/edit-sa
 import { ConfirmAddingSettlementrefComponent } from './settlements/clinic-settlements/confirm-adding-settlementref/confirm-adding-settlementref.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { AppointmentListComponent } from './settlements/clinic-settlements/appointment-list/appointment-list.component';
+import { CompletedSettlementsAppointmentsComponent } from './settlements/clinic-settlements/completed-settlements/completed-settlements-appointments/completed-settlements-appointments.component';
+import { NotPaidSettlementsAppointmentsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements-appointments/not-paid-settlements-appointments.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { AppointmentListComponent } from './settlements/clinic-settlements/appoi
     ConfirmAddingSettlementrefComponent,
     ProgressSpinnerComponent,
     AppointmentListComponent,
+    CompletedSettlementsAppointmentsComponent,
+    NotPaidSettlementsAppointmentsComponent,
   
   ],
   imports: [

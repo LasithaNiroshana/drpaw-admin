@@ -144,7 +144,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     today.setDate(today.getDate());
     let todayDate:string = this.datepipe.transform(today, 'yyyy-MM-dd') as string;
     this.spinner.show();
-    this.settlementsService.getCompletedAppointments('2023-03-24').subscribe({
+    this.settlementsService.getCompletedAppointments('2023-03-25').subscribe({
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{

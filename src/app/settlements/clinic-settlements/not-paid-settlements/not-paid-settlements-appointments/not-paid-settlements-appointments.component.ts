@@ -1,15 +1,12 @@
-import { Component,OnInit,Inject,AfterViewInit,ViewChild } from '@angular/core';
-import {DatePipe} from '@angular/common';
+import { Component,OnInit,Inject,AfterViewInit,ViewChild,AfterContentChecked } from '@angular/core';
+import {NotPaidSettlementsComponent} from '../../not-paid-settlements/not-paid-settlements.component';
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {PaymentService} from '../../../common/payment.service';
 import * as XLSX from 'xlsx';
 import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { SettlementsComponent } from '../../settlements.component';
-
 
 const doc = new jsPDF({
   orientation: "landscape",
@@ -65,65 +62,35 @@ export interface AppointmentInfo {
 }
 
 @Component({
-  selector: 'app-clinic-settlements-info',
-  templateUrl: './clinic-settlements-info.component.html',
-  providers: [DatePipe],
-  styleUrls: ['./clinic-settlements-info.component.scss']
+  selector: 'app-not-paid-settlements-appointments',
+  templateUrl: './not-paid-settlements-appointments.component.html',
+  styleUrls: ['./not-paid-settlements-appointments.component.scss']
 })
+export class NotPaidSettlementsAppointmentsComponent implements OnInit,AfterViewInit,AfterContentChecked {
 
-export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
-  clinics:any;
-  startDate=new Date(); //Starting date
-  endDate=new Date();  //Ending date
-  appointmentType:number=0;
-  appointmentSource:number=0;
-  sortedAppointments:any=[];
-  appointmentStatus=2; //Default completed appointments
-  currentDateTime:any;
-  activeStatus:number=1;
-  referenceId:any;
-  appoitmentId:any;
-  clinicSettlementList:any=[];
-  // clinicSettlementTotal:number=0;
-
-  current_clinic = 0;
-  prev_clinic = 0;
-
-  clinic_total = 0;
-  clinic_settlement:any = [];
-  clinicAppointments:any=[];
-
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','app_ref','a_date','a_time','a_payment','a_charge'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  trans_pre = "drc";
+  notPaidSettlementsAppointmentList:any=[];
 
-  appointment_list = [];
-
-  constructor(public dialogRef:MatDialogRef<SettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private datePipe:DatePipe,public datepipe: DatePipe){
-    // this.clinics=data.cid;
-    // this.appointmentType=data.appType;
-    // this.appointmentSource=data.appSource;
-    this.clinicAppointments=data.appointmentsList;
-    
+  constructor(public dialogRef:MatDialogRef<NotPaidSettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any){
+    this.notPaidSettlementsAppointmentList=data.appointmentsList;
+    console.log(this.notPaidSettlementsAppointmentList);
   }
-  ngAfterViewInit(){
-     //Converting starting and end dates
-     let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
-     let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
-  //  this.getAppointmentsList(strDate,enDate);
   
-      this.dataSource = new MatTableDataSource(this.clinicAppointments);
-       this.dataSource.paginator = this.paginator;
-       this.dataSource.sort = this.sort;
-  }
-
   ngOnInit() {}
 
-  //Export as excel
+  ngAfterViewInit(){
+    this.dataSource = new MatTableDataSource(this.notPaidSettlementsAppointmentList);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  ngAfterContentChecked() {}
+
   exportExcel(){
 
     //Converting starting and end dates
@@ -141,18 +108,14 @@ export class ClinicSettlementsInfoComponent implements OnInit,AfterViewInit{
    XLSX.utils.book_append_sheet(workbook,worksheet,'clinic_appointments')
 
    //Saving the file
-   XLSX.writeFile(workbook,'clinic_appointmemnts.xlsx');
+   XLSX.writeFile(workbook,'unpaid_clinic_settlements_appointmemnts.xlsx');
  }
 
  //Export PDF
  exportDoc(){
-   
-    //Converting starting and end dates
-    let strDate:string = this.datePipe.transform(this.startDate, 'yyyy-MM-dd') as string;
-    let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
    autoTable(doc, { html: '#appointments-list' })
-   doc.save('ClinicID'+'_'+this.clinics+'_'+'from'+'_'+strDate+'_'+'to'+'_'+enDate+'_'+'appointments.pdf');
+   doc.save('unpaid_clinic_settlements_appointments.pdf');
  }
 
  //Filter table data

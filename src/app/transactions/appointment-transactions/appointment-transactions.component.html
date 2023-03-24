@@ -154,8 +154,20 @@
               <th mat-header-cell mat-sort-header *matHeaderCellDef> Veterinarians Name </th>
               <td mat-cell *matCellDef="let appointment"> {{appointment.doctor_name}} </td>
             </ng-container> -->
+
+            <ng-container matColumnDef="appointment_source">
+              <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Source</th>
+              <td mat-cell *matCellDef="let appointment"> 
+                <p *ngIf="appointment.a_source==0">
+                  Online
+                </p> 
+                <p *ngIf="appointment.a_source==1">
+                  In House
+                </p> 
+              </td>
+            </ng-container>
         
-            <ng-container matColumnDef="appointment_type">
+            <ng-container matColumnDef="appointment_status">
               <th mat-header-cell mat-sort-header *matHeaderCellDef>Appointment Status</th>
               <td mat-cell *matCellDef="let appointment"> 
                 <p *ngIf="appointment.status==3">

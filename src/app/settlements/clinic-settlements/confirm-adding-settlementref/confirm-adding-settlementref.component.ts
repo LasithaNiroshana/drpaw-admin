@@ -53,7 +53,7 @@ export class ConfirmAddingSettlementrefComponent implements OnInit,AfterViewInit
       item.apps.forEach((app:any) => {
         // do something with each app object
    
-    console.log(s_ref);
+    // console.log(s_ref);
     // console.log(`${app.id}`);
     // console.log(s_ref);
     this.settlementService.generateSettlementReferenceId(app.id,s_ref).subscribe({

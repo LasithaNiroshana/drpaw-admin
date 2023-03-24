@@ -1,25 +1,10 @@
 <mat-toolbar color="accent">Update Completed Settlements</mat-toolbar>
 <mat-dialog-content>
-    <!-- <br>
-    <div class="custom-dropzone" ngx-dropzone [accept]="'.xlsx'" [multiple]="false" (change)="onSelect($event)">
-      <ngx-dropzone-label>
-        <div>
-          <h2>
-            <mat-label>Upload Completed Settlements:</mat-label>
-          </h2>
-        </div>
-      </ngx-dropzone-label>
-      <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-        <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
-      </ngx-dropzone-image-preview>
-    </div> -->
-    <!-- <input type="file" (change)="onChange($event)" accept=".xlsx, .xls, .csv"/>
-    <br>
-    <br>
-    <button mat-raised-button color="primary" (click)="onUpload($event)">Update Settlement Status</button> -->
-    <!-- <div class="overlay-wrapper">
-      <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
-    </div> -->
+
+<div class="overlay-wrapper">
+  <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
+</div>
+
     <h2>Are you sure you want to update the selected settlements?</h2>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

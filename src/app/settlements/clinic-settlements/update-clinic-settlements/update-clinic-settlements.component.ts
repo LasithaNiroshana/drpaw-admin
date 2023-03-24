@@ -25,7 +25,7 @@ export class UpdateClinicSettlementsComponent implements AfterViewInit {
   settlementData:CompletedSettlements={
     refernece:"",
     clinic:0,
-    amount:12000,
+    amount:0,
     date:"",
   }
 

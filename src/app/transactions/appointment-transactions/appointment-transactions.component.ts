@@ -96,7 +96,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   appointmentStatus:number=0;
 
 
-  displayedColumns: string[] = ['clinic_name','appointment_type','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

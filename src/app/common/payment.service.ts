@@ -58,7 +58,7 @@ export class PaymentService {
   }
 
   //Get payment history of a clinic
-  public getPaymentsClinic(cid:string,stdt:string,endt:string){
+  public getAppointmentsClinic(cid:string,stdt:string,endt:string){
     const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");
@@ -78,7 +78,7 @@ export class PaymentService {
   }
 
   //Get not paid settlement appointments
-  public getUnPaidSettlementAppointnments(){
+  public getNotPaidSettlementAppointnments(){
     const url = this.globalService.apiURL + 'pet_appointment/?pcid=0';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json");

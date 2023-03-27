@@ -300,6 +300,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
 
   //Registering mobile number
    addUserAccess(){
+    this.spinner.show();
     var userformdata = new FormData();
     this.clinicService.getUserAccessList().subscribe({
       next:(res:any)=>{
@@ -308,6 +309,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
           if(this.doctor.mobile===element.username){
             this.openSnackBar('Entered mobile number is already registered. Please enter user details to continue!','OK');
             this.btndisabled=true;
+            this.spinner.hide();
           }
           else{
             userformdata.append("username", this.doctor.mobile);
@@ -315,16 +317,26 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
             userformdata.append("password", this.password);
             this.clinicService.AddUserAccess(userformdata).subscribe({
               complete: () => {
-                this.openSnackBar('Successfully registered mobile number!','OK'); 
+                this.openSnackBar('Successfully registered mobile number! Please try again.','OK'); 
                 this.btndisabled=true; 
+                this.spinner.hide();
               },
-              // error: (e) => console.log(e),
+              error: (e) => {
+                this.openSnackBar('Error registering mobile number! Please try again.','OK'); 
+                this.btndisabled=false; 
+                this.spinner.hide();
+              },
             });
           }
         });
       },
-      // error:(e)=>console.log(e)
+      error:(e)=>{
+        this.openSnackBar('Please enter mobile number again again.','OK'); 
+        this.btndisabled=true; 
+        this.spinner.hide();
+      }
     });   
+    this.spinner.hide();
   }
 
     //Open snackbar 

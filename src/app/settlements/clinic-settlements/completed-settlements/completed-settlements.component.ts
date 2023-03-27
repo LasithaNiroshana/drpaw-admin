@@ -55,7 +55,7 @@ export class CompletedSettlementsComponent implements OnInit,AfterViewInit,After
       complete:()=>{},
       next:(settlements:any)=>{
         this.completedSettlements=settlements;
-        console.log(this.completedSettlements);
+        // console.log(this.completedSettlements);
         this.dataSource = new MatTableDataSource(this.completedSettlements);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -64,7 +64,7 @@ export class CompletedSettlementsComponent implements OnInit,AfterViewInit,After
   }
 
   openAppointmentList(reference:number){
-    console.log(reference);
+    // console.log(reference);
     this.dialog.open(CompletedSettlementsAppointmentsComponent,{
       data:{
         referenceID:reference

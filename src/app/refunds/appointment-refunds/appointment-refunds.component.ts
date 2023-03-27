@@ -2,6 +2,7 @@ import { Component,OnInit,AfterViewInit,ViewChild,AfterContentChecked,ChangeDete
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTableDataSource} from '@angular/material/table';
 import {RefundsService} from '../../common/refunds.service';
 import {ConfirmAppRefundsComponent} from './confirm-app-refunds/confirm-app-refunds.component';
@@ -70,7 +71,7 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private refundsService:RefundsService,private dialog:MatDialog, private spinner:SpinnerService,private cdr:ChangeDetectorRef){
+  constructor(private refundsService:RefundsService,private dialog:MatDialog, private spinner:SpinnerService,private cdr:ChangeDetectorRef, private snackbar:MatSnackBar ){
     this.cdr.detach();
   }
 
@@ -79,19 +80,26 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
   }
 
   ngAfterViewInit() {
-     //Get appointment history of all clinics
+
+     //Get appointment refunds
      this.spinner.show();
      this.refundsService.getUserRefunds().subscribe({
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.pendingRefunds=res;
 
+      if(this.pendingRefunds==0){
+        this.openSnackBar('There are no appointment refunds to show!','OK');
+      }
+      else{
       this.dataSource = new MatTableDataSource(this.pendingRefunds);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      }
    },
    error:(e)=>{
     this.spinner.hide();
+    this.openSnackBar('Error getting appointment refunds! Please try again.','OK');
    }
      });
   }
@@ -114,4 +122,10 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
       }
     });
   }
+
+  //Open snackbar 
+  openSnackBar(message: string, action: string) {
+    this.snackbar.open(message, action);
+  }
+
 }

@@ -68,7 +68,7 @@ export interface AppointmentInfo {
 })
 export class NotPaidSettlementsAppointmentsComponent implements OnInit,AfterViewInit,AfterContentChecked {
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','app_ref','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','owner_name','mobile','owner_city','app_ref','a_payment','a_charge','a_date','a_time'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -78,7 +78,7 @@ export class NotPaidSettlementsAppointmentsComponent implements OnInit,AfterView
 
   constructor(public dialogRef:MatDialogRef<NotPaidSettlementsComponent>,@Inject(MAT_DIALOG_DATA) public data:any){
     this.notPaidSettlementsAppointmentList=data.appointmentsList;
-    console.log(this.notPaidSettlementsAppointmentList);
+    // console.log(this.notPaidSettlementsAppointmentList);
   }
   
   ngOnInit() {}

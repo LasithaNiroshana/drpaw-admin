@@ -1,6 +1,7 @@
 import { Component,OnInit,AfterViewInit,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {AddSalesAgentComponent} from './add-sales-agent/add-sales-agent.component';
 import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {SalesAgentsService} from '../common/sales-agents.service';
 import {EditSalesAgentComponent} from './edit-sales-agent/edit-sales-agent.component';
 import {SpinnerService} from '../common/spinner.service';
@@ -17,7 +18,7 @@ export class SalesAgentsComponent implements OnInit,AfterViewInit,AfterContentCh
 
   loading$ = this.spinner.loading$;
 
-constructor(private dialog:MatDialog, private sales:SalesAgentsService,private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+constructor(private dialog:MatDialog, private sales:SalesAgentsService,private spinner:SpinnerService, private cdr:ChangeDetectorRef,private snackbar:MatSnackBar){
   this.cdr.detach();
 }
 
@@ -39,11 +40,16 @@ async getSalesList(){
   this.sales.getSalesAgentList().subscribe({
     complete:()=>this.spinner.hide(),
     next:(res:any)=>{
-      res.forEach((element:any) => {
-        this.salesAgentList.push(element);
-      });
+        this.salesAgentList=res;
+        if(this.salesAgentList==0){
+          this.openSnackBar('There are no sales agents to show!','OK');
+        }
+        else{
+          //
+        }
     },
     error:(e)=>{
+      this.openSnackBar('Error getting sales agents! Please try again.','OK');
       this.spinner.hide();
     }
   });
@@ -62,4 +68,10 @@ editSalesAgent(salesAgent:any){
     }
   });
 }
+
+ //Open snackbar 
+ openSnackBar(message: string, action: string) {
+  this.snackbar.open(message, action);
+}
+
 }

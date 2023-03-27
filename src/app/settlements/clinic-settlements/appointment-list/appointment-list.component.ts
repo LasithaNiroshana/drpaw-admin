@@ -71,7 +71,7 @@ export interface AppointmentInfo {
 })
 export class AppointmentListComponent implements OnInit,AfterViewInit {
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','animal_type','owner_name','mobile','owner_city','a_date','a_time','a_payment','a_charge'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','owner_name','mobile','owner_city','a_payment','a_charge','a_date','a_time'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

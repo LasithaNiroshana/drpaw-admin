@@ -1,6 +1,7 @@
 import { Component,OnInit,AfterViewInit,ViewChild,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTableDataSource} from '@angular/material/table';
 import {PetownerService} from '../common/petowner.service';
 import {SpinnerService} from '../common/spinner.service';
@@ -46,7 +47,7 @@ export class PetownersComponent implements OnInit,AfterViewInit,AfterContentChec
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private petOwner:PetownerService, private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+constructor(private petOwner:PetownerService, private spinner:SpinnerService, private cdr:ChangeDetectorRef, private snackbar:MatSnackBar){
   this.cdr.detach();
 }
 
@@ -61,7 +62,11 @@ ngAfterContentChecked() {
     complete:()=>this.spinner.hide(),
     next:(res:any)=>{
       this.petOwnersList=res;
-      this.dataSource = new MatTableDataSource(this.petOwnersList);
+      if(this.petOwnersList==0){
+        this.openSnackBar('There are no pet owners to show!','OK');
+      }
+      else{
+        this.dataSource = new MatTableDataSource(this.petOwnersList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       res.forEach((petowner:any) => {
@@ -69,9 +74,11 @@ ngAfterContentChecked() {
           this.petowners=this.petowners+1;
         }
       });
+      }
     },
     error:(e)=>{
       this.spinner.hide();
+      this.openSnackBar('Error getting pet owners! Please try again.','OK');
     }
   });
   }
@@ -87,4 +94,10 @@ applyFilter(event: Event) {
     this.dataSource.paginator.firstPage();
   }
 }
+
+//Open snackbar 
+openSnackBar(message: string, action: string) {
+  this.snackbar.open(message, action);
+}
+
 }

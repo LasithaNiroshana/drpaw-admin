@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, SortDirection} from '@angular/material/sort';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ClinicService} from '../../common/clinic.service';
 import { MatDialog } from '@angular/material/dialog';
 import {ClinicInfoComponent} from './clinic-info/clinic-info.component';
@@ -64,7 +65,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
   //   }
   // },5000);
 
-  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService){
+  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService,private snackbar:MatSnackBar){
     this.cdr.detach();
   }
 
@@ -80,6 +81,10 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.clinicList=res;
+        if(this.clinicList==0){
+          this.openSnackBar('There are no clinics to show!','OK');
+        }
+        else{
         this.dataSource = new MatTableDataSource(this.clinicList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -88,8 +93,9 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
             this.activeClinics=this.activeClinics+1;
           }
         });
+        }
       },
-      error:(e)=>{console.log(e);
+      error:(e)=>{this.openSnackBar('Error getting clincis! Please try agian.','OK');
       this.spinner.hide();
       }
     });
@@ -144,6 +150,11 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+   //Open snackbar 
+   openSnackBar(message: string, action: string) {
+    this.snackbar.open(message, action);
   }
 
 }

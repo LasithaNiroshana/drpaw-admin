@@ -136,7 +136,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
   }
 
    //Calculate Settlements of all clinics
-   calculateSettlements(){
+   async calculateSettlements(){
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
     
@@ -148,7 +148,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{
-        console.log(res);
+        // console.log(res);
         this.sortedAppointments=res;
       
       var result = this.sortedAppointments;
@@ -314,7 +314,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
   //Open all the appoitnments of selected settlement list
   openAppointmentsList(){
     if(this.selectedSettlementList==0){
-      this.snackBar.open('Select clinic settlements to download appointment list!','OK');
+      this.snackBar.open('Select clinic settlements to show appointment list!','OK');
       this.btndisabled=true;
     }
     else{

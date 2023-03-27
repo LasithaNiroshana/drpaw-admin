@@ -7,7 +7,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SelectionModel} from '@angular/cdk/collections';
 import {PaymentService} from '../../../common/payment.service';
-import {ClinicSettlementsInfoComponent} from '../clinic-settlements-info/clinic-settlements-info.component';
 import {UpdateClinicSettlementsComponent} from '../update-clinic-settlements/update-clinic-settlements.component';
 import {NotPaidSettlementsAppointmentsComponent} from './not-paid-settlements-appointments/not-paid-settlements-appointments.component';
 
@@ -62,7 +61,7 @@ calculateNotPaidSettlements(){
     todayDate.setDate(todayDate.getDate() - 1);
     let yesterdayDate:string = this.datepipe.transform(todayDate, 'yyyy-MM-dd') as string;
 
-  this.settlementsService.getUnPaidSettlementAppointnments().subscribe({
+  this.settlementsService.getNotPaidSettlementAppointnments().subscribe({
     next:(res:any)=>{
       // console.log(res);
       this.sortedAppointments=res;
@@ -140,7 +139,6 @@ calculateNotPaidSettlements(){
     });
 
     // console.log(this.clinic_settlement);
-    console.log(this.clinic_settlement);
     this.dataSource = new MatTableDataSource(this.clinic_settlement);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

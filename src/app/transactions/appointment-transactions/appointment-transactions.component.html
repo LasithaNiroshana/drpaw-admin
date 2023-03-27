@@ -35,6 +35,9 @@
           <mat-form-field class="appointment-history-field">
             <mat-label>Clinic</mat-label>
             <mat-select [(ngModel)]="this.clinicID">
+              <mat-option [value]="0" >
+                All Clinics
+              </mat-option>
               <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.id" >
                 {{clinic.id}} : {{clinic.name}},{{clinic.city}}
               </mat-option>

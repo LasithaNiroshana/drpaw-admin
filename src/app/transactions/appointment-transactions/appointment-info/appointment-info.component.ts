@@ -30,7 +30,7 @@ export class AppointmentInfoComponent implements OnInit{
 
   displayedColumns: string[] = ['appointment_id','clinic_id','clinic_name','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','settlement_status','settled_date'];
 
-  constructor(public dialogRef:MatDialogRef<AppointmentTransactionsComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private paymentService:PaymentService,private datePipe:DatePipe){
+  constructor(public dialogRef:MatDialogRef<AppointmentTransactionsComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private appointmentService:PaymentService,private datePipe:DatePipe){
     this.clinics=data.cid;
     this.appointmentStatus=data.appStatus;
   this.startDate=data.strtDate; //Starting date
@@ -46,7 +46,7 @@ export class AppointmentInfoComponent implements OnInit{
   let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
   //Obtaining appointments
-    this.paymentService.getPaymentsClinic(this.clinics,strDate,enDate).subscribe((res:any)=>{
+    this.appointmentService.getAppointmentsClinic(this.clinics,strDate,enDate).subscribe((res:any)=>{
       res.forEach((element: any) => {
         if(this.appointmentSource==element.a_source && this.appointmentType==element.a_type && this.appointmentStatus==element.status){
           this.sortedAppointments.push(element);

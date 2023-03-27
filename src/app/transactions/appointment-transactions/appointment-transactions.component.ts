@@ -3,6 +3,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTableDataSource} from '@angular/material/table';
 import {DatePipe} from '@angular/common';
 import {ClinicService} from '../../common/clinic.service';
@@ -104,7 +105,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
 
   loading$ = this.spinner.loading$;
 
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService, private cdr:ChangeDetectorRef){
+  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService, private cdr:ChangeDetectorRef, private snackbar:MatSnackBar){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
@@ -127,11 +128,18 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;
+        if(this.appointmentHistory==0){
+          this.openSnackBar('There are no appointments to show!','OK');
+        }
+        else{
         this.dataSource = new MatTableDataSource(this.appointmentHistory);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        }
       },
-      error:(e)=>{this.spinner.hide()}
+      error:(e)=>{this.spinner.hide();
+      this.openSnackBar('Error getting appointments! Please try again.','OK');
+      }
     });
   }
 
@@ -177,6 +185,11 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+   //Open snackbar 
+   openSnackBar(message: string, action: string) {
+    this.snackbar.open(message, action);
   }
 
 }

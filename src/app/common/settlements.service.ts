@@ -30,8 +30,8 @@ export class SettlementsService {
   public getCompletedSettlements(){
     const url = this.globalService.apiURL + 'clinic_complete_settlement/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -40,8 +40,8 @@ export class SettlementsService {
   public getCompletedSettlementsAppoinments(settlement_ref:string){
     const url = this.globalService.apiURL + 'pet_appointment/?fref=' + settlement_ref;
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }

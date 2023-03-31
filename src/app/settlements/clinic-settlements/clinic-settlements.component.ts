@@ -94,7 +94,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
   loading$ = this.spinner.loading$;
 
   // displayedColumns: string[] = ['clinic_name','appointment_type','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge'];
-  displayedColumns: string[] = ['select','clinic','clinic_name','settlement', 'details'];
+  displayedColumns: string[] = ['select','clinic_id','clinic_name','settlement', 'details'];
   dataSource: MatTableDataSource<SettlementInfo> = new MatTableDataSource();
   selection = new SelectionModel<SettlementInfo>(true, []);
 
@@ -141,10 +141,10 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // let enDate = '2023-03-02';
     
     let today = new Date();
-    today.setDate(today.getDate());
+    today.setDate(today.getDate() + 1);
     let todayDate:string = this.datepipe.transform(today, 'yyyy-MM-dd') as string;
     this.spinner.show();
-    this.settlementsService.getCompletedAppointments('2023-03-25').subscribe({
+    this.settlementsService.getCompletedAppointments(todayDate).subscribe({
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{
@@ -183,10 +183,10 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
           
         }else{
           this.clinic_settlement.push({
-            "clinic" : this.prev_clinic,
+            "clinic_id" : this.prev_clinic,
+            "clinic_name": c_name,
             "settlement" : this.clinic_total,
             "settlement_ref": s_ref,
-            "clinic_name": c_name,
             "apps": app_list
           });
 
@@ -212,10 +212,10 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
         this.prev_clinic = this.current_clinic;
       }
       this.clinic_settlement.push({
-        "clinic" : this.prev_clinic,
+        "clinic_id" : this.prev_clinic,
+        "clinic_name": c_name,
         "settlement" : this.clinic_total,
         "settlement_ref": s_ref,
-        "clinic_name": c_name,
         "apps": app_list
       });
 

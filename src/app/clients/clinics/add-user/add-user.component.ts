@@ -1,8 +1,11 @@
 import { Component,OnInit,AfterContentChecked, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
 import {ClinicService} from '../../../common/clinic.service';
 import {SpinnerService} from '../../../common/spinner.service';
+import {FormControl} from '@angular/forms';
+import {map, startWith} from 'rxjs/operators';
 
 // https://drpawservices.life/admin/auth/user/
 
@@ -50,6 +53,7 @@ export interface AppointmentSettings{
 
 
 export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecked{
+  myControl = new FormControl('');
   doctor:DoctorDetails={
     clinic:0,
     login:0,
@@ -98,6 +102,8 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
 
   loading$ = this.spinner.loading$;
 
+  filteredOptions!: Observable<string[]>;
+
   constructor(private dialog:MatDialog,private clinicService:ClinicService,private snackbar:MatSnackBar, private cdr:ChangeDetectorRef, private spinner:SpinnerService){
     this.cdr.detach();
   }
@@ -108,9 +114,11 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
 
   ngAfterViewInit() {
     this.getClinics();
+    
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   getClinics(){
     this.clinicService.GetClinics().subscribe((res:any)=>{
@@ -343,6 +351,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
     openSnackBar(message: string, action: string) {
       this.snackbar.open(message, action);
     }
+
 }
 
 

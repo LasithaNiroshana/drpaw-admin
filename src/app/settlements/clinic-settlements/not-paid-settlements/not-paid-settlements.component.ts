@@ -9,6 +9,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {PaymentService} from '../../../common/payment.service';
 import {UpdateClinicSettlementsComponent} from '../update-clinic-settlements/update-clinic-settlements.component';
 import {NotPaidSettlementsAppointmentsComponent} from './not-paid-settlements-appointments/not-paid-settlements-appointments.component';
+import {SpinnerService} from '../../../common/spinner.service';
 
 export interface SettlementInfo{
   clinicID:number;
@@ -44,11 +45,12 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
   dataSource: MatTableDataSource<SettlementInfo> = new MatTableDataSource();
   selection = new SelectionModel<SettlementInfo>(true, []);
   
+  loading$ = this.spinner.loading$;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe,private snackbar:MatSnackBar){}
+  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe,private snackbar:MatSnackBar,private spinner:SpinnerService){}
 
   ngAfterViewInit(){
     this.calculateNotPaidSettlements();
@@ -56,12 +58,12 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
 
 //Calculate Settlements of all clinics
 calculateNotPaidSettlements(){
-
+  this.spinner.show();
   let todayDate = new Date();
     todayDate.setDate(todayDate.getDate() - 1);
     let yesterdayDate:string = this.datepipe.transform(todayDate, 'yyyy-MM-dd') as string;
-
   this.settlementsService.getNotPaidSettlementAppointnments().subscribe({
+    complete:()=>this.spinner.hide(),
     next:(res:any)=>{
       // console.log(res);
       this.sortedAppointments=res;

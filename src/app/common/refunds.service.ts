@@ -33,8 +33,8 @@ export class RefundsService {
     
     // const params = new HttpParams().set('lmid', mobile);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -45,8 +45,8 @@ export class RefundsService {
     
     const params = new HttpParams().set('udiscus', cus).set('refundmob', mob).set('refundapp', app).set('udisamt', amount);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }

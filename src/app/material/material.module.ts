@@ -25,6 +25,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTreeModule} from '@angular/material/tree';
 
 const MaterialComponents=[
   MatButtonModule,
@@ -51,7 +52,8 @@ const MaterialComponents=[
   MatMenuModule,
   MatSlideToggleModule,
   MatAutocompleteModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatTreeModule
 ]
 
 @NgModule({

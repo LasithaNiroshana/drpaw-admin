@@ -63,7 +63,7 @@ export interface AppointmentInfo {
 export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   pendingRefunds:any=[]
-  displayedColumns: string[] = ['clinic_name','appointment_status','appointment_subtype','animal_type','owner_name','mobile','owner_city','s_date','s_time','a_date','a_time','a_payment','a_charge','d_amount'];
+  displayedColumns: string[] = ['clinic_name','appointment_status','appointment_subtype','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','d_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   loading$ = this.spinner.loading$;
@@ -88,7 +88,7 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
       next:(res:any)=>{
         this.pendingRefunds=res;
 
-      if(this.pendingRefunds==0){
+      if(this.pendingRefunds.length==0){
         this.openSnackBar('There are no appointment refunds to show!','OK');
       }
       else{

@@ -40,15 +40,6 @@ export class LoginService {
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
 
-  //Get auth token
-  public getToken(data: any){
-    const url = this.globalService.apiURL + 'api-token-auth/';
-    
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-
-    return this.httpClient.post(url, data, {headers}).pipe(catchError(this.handleError));
-  }
-
   //Get user info
   public getInfo(cid: string){
     const url = this.globalService.apiURL + 'get_mobile/';
@@ -80,5 +71,26 @@ export class LoginService {
     .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.put(url, login, {headers}).pipe(catchError(this.handleError));
+  }
+
+  //Get auth token
+  public getToken(user: any){
+    const url = this.globalService.apiURL + 'api-token-auth/';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json");
+
+    return this.httpClient.post(url, user, {headers}).pipe(catchError(this.handleError));
+  }
+
+  //User login
+  public loginUser(userID:any){
+    const url = this.globalService.apiURL + 'api-auth/login/';
+
+    const params = new HttpParams().set('cid', userID);
+
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
+
+    return this.httpClient.put(url, userID, {headers}).pipe(catchError(this.handleError));
   }
 }

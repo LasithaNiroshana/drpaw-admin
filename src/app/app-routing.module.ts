@@ -76,11 +76,11 @@ const routes: Routes = [
     {path:'settlements',component:SettlementsComponent,
     children:[
       {path:'clinicsettlements',component:ClinicSettlementsComponent,children:[
-        {path:'notpaid',component:NotPaidSettlementsComponent},
-        {path:'completed',component:CompletedSettlementsComponent}
-      ]}
+      ]},
     ]
   },
+  {path:'notpaid',component:NotPaidSettlementsComponent},
+  {path:'completed',component:CompletedSettlementsComponent},
   {path:'reports',component:ReportsComponent,
   children:[
     {path:'clinicreports',component:ClinicReportsComponent},

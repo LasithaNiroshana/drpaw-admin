@@ -30,9 +30,9 @@
     
         
             <!-- Clinic ID Column -->
-            <ng-container matColumnDef="clinic">
+            <ng-container matColumnDef="clinic_id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Clinic ID </th>
-              <td mat-cell *matCellDef="let settlementinfo"> {{settlementinfo.clinic}} </td>
+              <td mat-cell *matCellDef="let settlementinfo"> {{settlementinfo.clinic_id}} </td>
             </ng-container>
     
              <!-- Clinic Name Column -->
@@ -79,16 +79,6 @@
         <br>
       </mat-card-content>
     </mat-card>
-
-      <br>
-      <mat-divider></mat-divider>
-      <br>
-    <app-not-paid-settlements></app-not-paid-settlements>
-    <br>
-    <mat-divider></mat-divider>
-    <br>
-    <app-completed-settlements></app-completed-settlements>
-    <br>
 </div>
 <div class="overlay-wrapper">
   <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>

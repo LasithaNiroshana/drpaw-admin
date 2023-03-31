@@ -128,6 +128,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;
+        // console.log(this.appointmentHistory);
         if(this.appointmentHistory==0){
           this.openSnackBar('There are no appointments to show!','OK');
         }
@@ -138,9 +139,11 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
         }
       },
       error:(e)=>{this.spinner.hide();
+        console.log(e);
       this.openSnackBar('Error getting appointments! Please try again.','OK');
       }
     });
+    // this.spinner.hide();
   }
 
   ngOnInit() {

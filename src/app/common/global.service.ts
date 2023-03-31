@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class GlobalService {
   public apiURL: string = "https://drpawservices.life/";
   // public apiURL: string ="http://127.0.0.1:8000/";
-  public token: string = "";
+  public token: string = "c150a672fb334ceba70843313851d724e1002789";
 
   public store: string = "1";
   public provider: string = "1";

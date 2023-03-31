@@ -81,6 +81,7 @@ ngAfterContentChecked() {
       this.openSnackBar('Error getting pet owners! Please try again.','OK');
     }
   });
+  this.spinner.hide();
   }
 
 ngOnInit(){}

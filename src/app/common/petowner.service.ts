@@ -30,8 +30,8 @@ export class PetownerService {
   public GetPetOwners(){
     const url = this.globalService.apiURL + 'customer/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }

@@ -31,8 +31,8 @@ export class PaymentService {
   public getAppointmentList(){
     const url = this.globalService.apiURL + 'pet_appointment/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -41,8 +41,8 @@ export class PaymentService {
    public getAppointmentListfromDates(startDate:string,endDate:string){
     const url = this.globalService.apiURL + 'pet_appointment/?cid=0'+ '&stdt=' + startDate + '&endt=' + endDate;
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -51,8 +51,8 @@ export class PaymentService {
   public getCompletedAppointments(endDate:string){
     const url = this.globalService.apiURL + 'pet_appointment/?endt=' + endDate + '&cid=0';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -61,8 +61,8 @@ export class PaymentService {
   public getAppointmentsClinic(cid:string,stdt:string,endt:string){
     const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -71,8 +71,8 @@ export class PaymentService {
   public generateSettlementReferenceId(appointmentid:string,apprefcode:string){
     const url = this.globalService.apiURL + 'pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -81,8 +81,8 @@ export class PaymentService {
   public getNotPaidSettlementAppointnments(){
     const url = this.globalService.apiURL + 'pet_appointment/?pcid=0';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -91,8 +91,8 @@ export class PaymentService {
   public updateSettlementStatus(datepaid:string,apprefcode:string){
     const url = this.globalService.apiURL + 'pet_appointment/?refpdate='+ datepaid + '&updref=' + apprefcode;
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -101,9 +101,8 @@ export class PaymentService {
   public saveCompletedSettlement(clinicSettlement:any){
     const url = this.globalService.apiURL + 'clinic_complete_settlement/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.post(url, clinicSettlement, {}).pipe(catchError(this.handleError));
+    return this.httpClient.post(url, clinicSettlement, {headers}).pipe(catchError(this.handleError));
   }
 }

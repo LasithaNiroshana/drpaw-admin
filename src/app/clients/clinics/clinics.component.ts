@@ -11,6 +11,7 @@ import {ClinicInfoComponent} from './clinic-info/clinic-info.component';
 import {EditClinicComponent} from './edit-clinic/edit-clinic.component';
 import {AddUserComponent} from '../clinics/add-user/add-user.component';
 import {SpinnerService} from '../../common/spinner.service';
+import {GlobalService} from '../../common/global.service';
 
 //Interface for payment details
 export interface ClinicDetails {
@@ -65,7 +66,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
   //   }
   // },5000);
 
-  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService,private snackbar:MatSnackBar){
+  constructor(private router:Router,private clinicService:ClinicService,private dialog:MatDialog, private cdr:ChangeDetectorRef,private spinner:SpinnerService,private snackbar:MatSnackBar, public globalService:GlobalService){
     this.cdr.detach();
   }
 
@@ -81,7 +82,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.clinicList=res;
-        if(this.clinicList==0){
+        if(this.clinicList.length==0){
           this.openSnackBar('There are no clinics to show!','OK');
         }
         else{
@@ -102,7 +103,9 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
     
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    // console.log(this.globalService.token);
+  }
 
   pageNavigate(){
     this.router.navigate(['home/petowners']);

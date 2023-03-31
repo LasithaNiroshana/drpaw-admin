@@ -29,12 +29,11 @@ export class ClinicService {
     return throwError(() => error);
   }
 
-  //Save Clinic
+  //Add Clinic
   public SaveClinic(clinic: any){
     const url = this.globalService.apiURL + 'clinic/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.post(url, clinic,{}).pipe(catchError(this.handleError));
   }
@@ -43,8 +42,8 @@ export class ClinicService {
   public EditClinic(clinic: any,clinicID:number){
     const url = this.globalService.apiURL + 'clinic/' + clinicID + '/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.put(url, clinic, {}).pipe(catchError(this.handleError));
   }
@@ -55,8 +54,8 @@ export class ClinicService {
 
     const params = new HttpParams().set('did', clinic);
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
@@ -67,8 +66,8 @@ export class ClinicService {
 
     const params = new HttpParams().set('aid', clinic);
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
@@ -77,8 +76,8 @@ export class ClinicService {
   public GetClinics(){
     const url = this.globalService.apiURL + 'clinic/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -87,8 +86,8 @@ export class ClinicService {
    public getAllUsers(){
     const url = this.globalService.apiURL + 'doctor_board/';
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -97,28 +96,26 @@ export class ClinicService {
   public AddUser(doctor: any){
     const url = this.globalService.apiURL + 'doctor_board/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.post(url, doctor, {}).pipe(catchError(this.handleError));
+    return this.httpClient.post(url, doctor, {headers}).pipe(catchError(this.handleError));
   }
 
   //Register user mobile number
   public AddUserAccess(user: any){
     const url = this.globalService.apiURL + 'add_user/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.post(url, user, {}).pipe(catchError(this.handleError));
+    return this.httpClient.post(url, user, {headers}).pipe(catchError(this.handleError));
   }
 
   //Get registered mobile numbers
   public getUserAccessList(){
     const url = this.globalService.apiURL + 'add_user/';
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -127,10 +124,9 @@ export class ClinicService {
   public setDocAppoitnmentSettings(doctor:any){
     const url = this.globalService.apiURL + 'appointment_setting/';
     
-    // const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.post(url, doctor, {}).pipe(catchError(this.handleError));
+    return this.httpClient.post(url, doctor, {headers}).pipe(catchError(this.handleError));
   }
 
 
@@ -138,8 +134,8 @@ export class ClinicService {
   public EditUser(doctor: any){
     const url = this.globalService.apiURL + 'doctor_board/' + doctor.id + '/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.put(url, doctor, {headers}).pipe(catchError(this.handleError));
   }
@@ -148,8 +144,8 @@ export class ClinicService {
   public EditUserLogin(user: any, login: any){
     const url = this.globalService.apiURL + 'change_password/' + user + '/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.put(url, login, {headers}).pipe(catchError(this.handleError));
   }
@@ -160,8 +156,8 @@ export class ClinicService {
     
     const params = new HttpParams().set('uid', user).set('logid', login);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
@@ -172,8 +168,8 @@ export class ClinicService {
     
     const params = new HttpParams().set('decid', user);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
@@ -184,8 +180,8 @@ export class ClinicService {
     
     const params = new HttpParams().set('acid', user);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
@@ -197,8 +193,8 @@ export class ClinicService {
     
     const params = new HttpParams().set('adid', clinic);
 
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }

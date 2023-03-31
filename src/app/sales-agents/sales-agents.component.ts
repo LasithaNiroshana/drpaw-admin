@@ -41,7 +41,7 @@ async getSalesList(){
     complete:()=>this.spinner.hide(),
     next:(res:any)=>{
         this.salesAgentList=res;
-        if(this.salesAgentList==0){
+        if(this.salesAgentList.length==0){
           this.openSnackBar('There are no sales agents to show!','OK');
         }
         else{

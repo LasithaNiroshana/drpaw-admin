@@ -22,13 +22,13 @@
         <form class="signin-form">
             <mat-form-field class="signin-full-width">
               <mat-label>Enter username/email:</mat-label>
-                <input matInput type="email" placeholder="Ex. user@gmail.com">
+                <input matInput type="email" placeholder="Ex. user@gmail.com" [(ngModel)]="user.username" name="username" value="{{user.username}}">
                 <mat-icon matSuffix>email</mat-icon>
               </mat-form-field>
           
             <mat-form-field class="signin-full-width">
               <mat-label>Password</mat-label>
-              <input matInput type="password" name="password">
+              <input matInput type="password" [(ngModel)]="user.password" name="password" value="{{user.password}}">
               <mat-icon matSuffix>lock</mat-icon>
             </mat-form-field>
             <a>Forgot Password?</a>

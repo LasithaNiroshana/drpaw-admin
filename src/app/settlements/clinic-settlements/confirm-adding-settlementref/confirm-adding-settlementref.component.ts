@@ -58,7 +58,7 @@ export class ConfirmAddingSettlementrefComponent implements OnInit,AfterViewInit
     // console.log(s_ref);
     this.settlementService.generateSettlementReferenceId(app.id,s_ref).subscribe({
       complete:()=>{
-        this.openSnackBar('Selected settlements sent to settle successfully','OK')
+        this.openSnackBar('Selected settlements sent to settle successfully','OK');
         this.spinner.hide();
       },
       error:(e)=>{

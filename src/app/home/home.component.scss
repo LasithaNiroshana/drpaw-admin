@@ -66,3 +66,37 @@
 .list-icon {
   color: white;
 }
+
+.expansion-components{
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: auto auto ;
+}
+
+.mat-elevation-z0{
+  background-color: #6739B7;
+  color: white;
+}
+
+.expansion-header{
+  background-color: #6739B7;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expansion-title{
+  color: white;
+  // font-size: 1.02vw;
+}
+
+.expansion-icon{
+  color: white;
+  margin-top: 8px;
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.expansion-item {
+  background: #6739B7;
+  color: white;
+}

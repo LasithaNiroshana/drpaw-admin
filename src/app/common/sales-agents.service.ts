@@ -31,8 +31,8 @@ export class SalesAgentsService {
    public getSalesAgentList(){
     const url = this.globalService.apiURL + 'sales_person/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
   }
@@ -41,8 +41,8 @@ export class SalesAgentsService {
   public addSalesAgent(salesAgent: any){
     const url = this.globalService.apiURL + 'sales_person/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.post(url, salesAgent, {headers}).pipe(catchError(this.handleError));
   }
@@ -51,8 +51,8 @@ export class SalesAgentsService {
   public editSalesAgent(salesAgent: any,salesAgentID:number){
     const url = this.globalService.apiURL + 'sales_person/' + salesAgentID + '/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-    // .set("Authorization", "token " + APIStore.token);
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
 
     return this.httpClient.put(url, salesAgent, {headers}).pipe(catchError(this.handleError));
   }

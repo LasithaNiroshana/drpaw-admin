@@ -33,8 +33,11 @@
             </mat-form-field>
             <a>Forgot Password?</a>
             <br><br>
-            <a mat-raised-button class="loginbtn" target="_blank" color="primary" (click)="signIn()">LOGIN</a>
+            <a mat-raised-button class="loginbtn" target="_blank" color="primary" (click)="LogIn()">LOGIN</a>
           </form>
       </mat-card-content>
     </mat-card>
+  </div>
+  <div class="overlay-wrapper">
+    <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
   </div>

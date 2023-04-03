@@ -1,8 +1,9 @@
-import { Component,Inject } from '@angular/core';
+import { Component,Inject,OnInit,AfterViewInit } from '@angular/core';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog,MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {ClinicInfoComponent} from '../clinic-info/clinic-info.component';
+import {SalesAgentsService} from '../../../common/sales-agents.service';
 
 //Interface for payment details
 export interface ClinicDetails {
@@ -35,7 +36,7 @@ export interface ClinicDetails {
 })
 
 
-export class EditClinicComponent {
+export class EditClinicComponent implements OnInit,AfterViewInit{
 
   clinic:any=[];
   clinicInfo:any=[];
@@ -43,9 +44,13 @@ export class EditClinicComponent {
   files: File[] = [];
   image:any;
 
-  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,public dialogRef:MatDialogRef<ClinicInfoComponent>,@Inject(MAT_DIALOG_DATA) public data:any){
+  constructor(private clinicService:ClinicService,private snackbar:MatSnackBar,private dialog:MatDialog,public dialogRef:MatDialogRef<ClinicInfoComponent>,@Inject(MAT_DIALOG_DATA) public data:any,private salesAgentService:SalesAgentsService){
     this.clinic=data.clinic;
   }
+  ngAfterViewInit(){
+    this.getSalesAgents();
+  }
+  ngOnInit() {}
 
   clinicDetails:ClinicDetails={
     name: "",
@@ -86,6 +91,18 @@ export class EditClinicComponent {
         console.log(this.clinic.logo);
     };
   }
+
+  //Get sales agents
+  getSalesAgents(){
+     this.salesAgentService.getSalesAgentList().subscribe({
+      next:(res:any)=>{
+        this.salesA=res;
+      },
+      error:(e)=>{
+        // console.log(e);
+      }
+    });
+  } 
 
 //Adding a clinic
 async onSubmit(){

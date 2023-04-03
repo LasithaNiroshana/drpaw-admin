@@ -51,14 +51,12 @@ export class ConfirmAddingSettlementrefComponent implements OnInit,AfterViewInit
       var uid = (Math.floor(Date.now() / 1000)).toString();
       var s_ref = this.trans_pre + "_" + item.clinic + "_" + uid;
       item.apps.forEach((app:any) => {
-        // do something with each app object
-   
-    // console.log(s_ref);
-    // console.log(`${app.id}`);
-    // console.log(s_ref);
+
+
+        // Adding reference to each app object
     this.settlementService.generateSettlementReferenceId(app.id,s_ref).subscribe({
       complete:()=>{
-        this.openSnackBar('Selected settlements sent to settle successfully','OK');
+        // this.openSnackBar('Selected settlements sent to settle successfully','OK');
         this.spinner.hide();
       },
       error:(e)=>{

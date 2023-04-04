@@ -40,6 +40,7 @@ interface ExampleFlatNode {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  showFiller = false;
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,

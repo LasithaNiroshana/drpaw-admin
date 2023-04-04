@@ -55,13 +55,24 @@
             <mat-icon matSuffix>event_available</mat-icon>
           </div>
         </a>
-        <!-- <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="settlements">
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active"(click)="showFiller = !showFiller">
           <div class="listitem">
             <p>Settlements</p>
             <mat-icon matSuffix>paid</mat-icon>
           </div>
-        </a> -->
-        <div class="expansion-components">
+        </a>
+        <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p> -->
+        <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="settlements" *ngIf="showFiller">
+          <p class="expansion-item">Upcoming Settlements</p>
+      </a>
+      <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="notpaid" *ngIf="showFiller">
+          <p class="expansion-item">Requested Settlements</p>
+      </a>
+      <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="completed" *ngIf="showFiller">
+          <p class="expansion-item">Completed Settlements</p>
+      </a>
+
+        <!-- <div class="expansion-components">
           <mat-expansion-panel hideToggle class="mat-elevation-z0">
             <mat-expansion-panel-header class="expansion-header">
               <p>Settlements</p>
@@ -77,7 +88,7 @@
             </a>
           </mat-expansion-panel>
           <mat-icon class="expansion-icon">paid</mat-icon>
-        </div>
+        </div> -->
           
          
         <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="refunds">

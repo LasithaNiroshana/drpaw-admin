@@ -96,7 +96,8 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
         });
         }
       },
-      error:(e)=>{this.openSnackBar('Error getting clincis! Please try agian.','OK');
+      error:(e)=>{
+      this.openSnackBar('Error getting clincis! Please try agian.','OK');
       this.spinner.hide();
       }
     });

@@ -44,21 +44,34 @@
             </mat-select>
           </mat-form-field>
 
+          <!-- <mat-form-field class="appointment-history-field"  *ngIf="this.clinics.length > 0">
+            <mat-label>Clinic</mat-label>
+            <input type="text" matInput [matAutocomplete]="auto" [formControl]="myControl"/>
+           <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.name" >
+              {{clinic.name}}
+            </mat-option>
+           </mat-autocomplete>
+          </mat-form-field> -->
+
+          <!-- <mat-form-field class="appointment-history-field">
+            <mat-label>Number</mat-label>
+            <input type="text"
+                   placeholder="Pick one"
+                   aria-label="Number"
+                   matInput
+                   [formControl]="myControl"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+
           <mat-form-field class="appointment-history-field">
             <mat-label>Select Appointment Status</mat-label>
             <mat-select [(ngModel)]="this.appointmentStatus">
-              <!-- <mat-option value=0>
-                Pending Appointment
-              </mat-option>
-              <mat-option value=1>
-                Waiting for Confirmation
-              </mat-option>
-              <mat-option value=2>
-                Waiting for Payment
-              </mat-option>
-              <mat-option value=3>
-                Paid
-              </mat-option> -->
               <mat-option value=3>
                 Incomplete
               </mat-option>

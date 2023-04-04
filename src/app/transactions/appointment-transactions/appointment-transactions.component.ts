@@ -11,6 +11,9 @@ import {PaymentService} from '../../common/payment.service';
 import {SpinnerService} from '../../common/spinner.service';
 import { tap } from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 import {AppointmentInfoComponent} from './appointment-info/appointment-info.component';
 
 export interface AppointmentInfo {
@@ -96,6 +99,9 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   appointmentSource:number=0;
   appointmentStatus:number=0;
 
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions!: Observable<string[]>;
 
   displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
@@ -121,9 +127,10 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   }
 
   ngAfterViewInit() {
-    this.getClinicList();
+    
     // this.getAppointments()
     this.spinner.show();
+    
     this.appointmentService.getAppointmentList().subscribe({
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
@@ -147,6 +154,17 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   }
 
   ngOnInit() {
+    this.getClinicList();
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.clinics.filter((clinic:string)=> clinic.toLowerCase().includes(filterValue));
   }
 
     //Get appointment history of all clinics
@@ -193,6 +211,10 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
    //Open snackbar 
    openSnackBar(message: string, action: string) {
     this.snackbar.open(message, action);
+  }
+
+  displayFn(clinicName:any){
+    return clinicName?clinicName.clinic_name:undefined;
   }
 
 }

@@ -32,6 +32,7 @@ import { ServiceProviderReportsComponent } from './reports/service-provider-repo
 import { StoreReportsComponent } from './reports/store-reports/store-reports.component';
 import { NotPaidSettlementsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements.component';
 import { CompletedSettlementsComponent } from './settlements/clinic-settlements/completed-settlements/completed-settlements.component';
+import { AppointmentTransactionsFilterFormComponent } from './transactions/appointment-transactions/appointment-transactions-filter-form/appointment-transactions-filter-form.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -58,7 +59,11 @@ const routes: Routes = [
       {path:'appointments',component:AppointmentTransactionsComponent,
       children:[
         {path:'',component:AllAppointmentsComponent},
-        {path:'allappointments',component:AllAppointmentsComponent}
+        {path:'allappointments',component:AllAppointmentsComponent,
+      children:[
+        {path:'appointmentfilter',component: AppointmentTransactionsFilterFormComponent,}
+      ]
+      }
       ]
     },
       {path:'servicetransactions',component:ServiceTransactionsComponent},
@@ -132,4 +137,5 @@ export const routingComponents=[
   StoreReportsComponent,
   NotPaidSettlementsComponent,
   CompletedSettlementsComponent,
+  AppointmentTransactionsFilterFormComponent,
 ]

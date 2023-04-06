@@ -1,0 +1,138 @@
+<mat-card>
+    <mat-card-content>
+        <!-- Form fields -->
+<div class="input-fields-container">
+    <!-- <mat-form-field class="payment-history-field">
+        <mat-label>Clinic Name</mat-label>
+        <input type="text" matInput placeholder="ABC Clinic" [(ngModel)]="this.clinicID" name="clinic_id" value="{{this.clinicID}}">
+      </mat-form-field> -->
+
+     <!-- <mat-form-field class="appointment-history-field">
+      <input matInput type="text" [matAutocomplete]="auto" [(ngModel)]="this.clinicID">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.id">
+          {{clinic.id}} : {{clinic.name}},{{clinic.city}}
+        </mat-option>
+      </mat-autocomplete>
+     </mat-form-field> -->
+
+      <!-- <mat-form-field class="appointment-history-field">
+        <mat-label>Select Appointment Type</mat-label>
+        <mat-select [(ngModel)]="this.appointmentType">
+          <mat-option value=0>
+            Clinic Visit
+          </mat-option>
+          <mat-option value=1>
+            Home Visit
+          </mat-option>
+          <mat-option value=2>
+            Remote Consulation
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <mat-form-field class="appointment-history-field">
+        <mat-label>Clinic</mat-label>
+        <mat-select [(ngModel)]="this.clinicID">
+          <mat-option [value]="0" >
+            All Clinics
+          </mat-option>
+          <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.id" >
+            {{clinic.id}} : {{clinic.name}},{{clinic.city}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-form-field class="appointment-history-field"  *ngIf="this.clinics.length > 0">
+        <mat-label>Clinic</mat-label>
+        <input type="text" matInput [matAutocomplete]="auto" [formControl]="myControl"/>
+       <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let clinic of this.clinics" [value]="clinic.name" >
+          {{clinic.name}}
+        </mat-option>
+       </mat-autocomplete>
+      </mat-form-field> -->
+
+      <!-- <mat-form-field class="appointment-history-field">
+        <mat-label>Number</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+
+      <mat-form-field class="appointment-history-field">
+        <mat-label>Select Appointment Status</mat-label>
+        <mat-select [(ngModel)]="this.appointmentStatus">
+          <mat-option value=3>
+            Incomplete
+          </mat-option>
+          <mat-option value=4>
+            Completed
+          </mat-option>
+          <mat-option value=5>
+            Doctor Declined
+          </mat-option>
+          <mat-option value=6>
+            Pet Owner Declined
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="appointment-history-field">
+        <mat-label>Select Appointment Source</mat-label>
+        <mat-select [(ngModel)]="this.appointmentSource">
+          <mat-option value=0>
+            Online
+          </mat-option>
+          <mat-option value=1>
+            In-House
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="appointment-history-field">
+        <mat-label>Select Appointment Sub Type</mat-label>
+        <mat-select [(ngModel)]="this.appointmentType">
+          <mat-option value=0>
+            Clinic
+          </mat-option>
+          <mat-option value=1>
+            Home
+          </mat-option>
+          <mat-option value=2>
+            Remote
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="appointment-history-field">
+        <mat-label>Choose a starting date</mat-label>
+        <input matInput  [matDatepicker]="picker" [(ngModel)]="this.startDate" name="start_date">
+        <mat-hint>YYYY-MM-DD</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="appointment-history-field">
+        <mat-label>Choose an end date</mat-label>
+        <input matInput [min]="minDate2" [matDatepicker]="picker1" [(ngModel)]="this.endDate" name="end_id">
+        <mat-hint>YYYY-MM-DD</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+</div>
+  <button mat-raised-button (click)="getAppointmentHistory(this.clinicID,this.appointmentStatus,this.appointmentSource,this.appointmentType,this.startDate,this.endDate)" color="primary" class="appointment-history-button">
+        <mat-icon>history</mat-icon>
+    View Appointment History
+</button>
+  <button mat-raised-button (click)="resetForm()" color="warn">Reset</button>
+    </mat-card-content>
+</mat-card>

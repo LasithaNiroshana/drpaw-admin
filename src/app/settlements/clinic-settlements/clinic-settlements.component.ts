@@ -140,11 +140,11 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
     
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    let  yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
+    // let yesterday = new Date();
+    // yesterday.setDate(yesterday.getDate() - 1);
+    // let  yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
     this.spinner.show();
-    this.settlementsService.getCompletedAppointments(yesterdayDate).subscribe({
+    this.settlementsService.getCompletedAppointments("2023-04-07").subscribe({
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{

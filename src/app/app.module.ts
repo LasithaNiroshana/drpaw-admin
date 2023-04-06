@@ -29,6 +29,7 @@ import { CompletedSettlementsAppointmentsComponent } from './settlements/clinic-
 import { NotPaidSettlementsAppointmentsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements-appointments/not-paid-settlements-appointments.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

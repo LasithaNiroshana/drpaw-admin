@@ -29,7 +29,7 @@ export class RefundsService {
 
   //Accept non-discount user refunds
   public getUserRefunds(){
-    const url = this.globalService.apiURL + 'pet_appointment/?udecline=0';
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?udecline=0';
     
     // const params = new HttpParams().set('lmid', mobile);
 

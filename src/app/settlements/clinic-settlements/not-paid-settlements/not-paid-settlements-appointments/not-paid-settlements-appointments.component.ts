@@ -68,7 +68,7 @@ export interface AppointmentInfo {
 })
 export class NotPaidSettlementsAppointmentsComponent implements OnInit,AfterViewInit,AfterContentChecked {
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','owner_name','mobile','owner_city','app_ref','a_payment','a_charge','a_date','a_time'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_type','owner_name','mobile','app_ref','a_payment','a_charge','a_date','a_time'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -1,4 +1,7 @@
 import { Component,OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 import {PaymentService} from '../../../common/payment.service';
 import {ClinicService} from '../../../common/clinic.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -31,6 +34,11 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
   }
+
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions!: Observable<string[]>;
+
   ngOnInit() {
     this.clinicService.GetClinics().subscribe({
       complete:()=>{},
@@ -39,6 +47,11 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
       },
       error:(e)=>{}
     });
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
   }
 
   //Get appointment history of a clinic
@@ -56,5 +69,11 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
     }
 
   resetForm(){}
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
 
 }

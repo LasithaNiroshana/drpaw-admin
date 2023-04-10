@@ -61,6 +61,7 @@ export interface SettlementInfo{
 export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   clinics:any=[];
+  clinicDetailsList:any=[];
   appointmentHistory:any=[];
   clinicID:any;  //ClinicID
   startDate=new Date(); //Starting date
@@ -129,6 +130,7 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // })
     
     this.calculateSettlements();
+    this.getBankDetails();
   }
 
   ngOnInit() {
@@ -140,11 +142,11 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
     // let strDate = '2022-01-01';
     // let enDate = '2023-03-02';
     
-    // let yesterday = new Date();
-    // yesterday.setDate(yesterday.getDate() - 1);
-    // let  yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    let  yesterdayDate:string = this.datepipe.transform(yesterday, 'yyyy-MM-dd') as string;
     this.spinner.show();
-    this.settlementsService.getCompletedAppointments("2023-04-07").subscribe({
+    this.settlementsService.getCompletedAppointments(yesterdayDate).subscribe({
       complete:()=>this.spinner.hide(),
       error:(e)=>{this.spinner.hide()},
       next:(res:any)=>{
@@ -185,9 +187,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
           this.clinic_settlement.push({
             "clinic_id" : this.prev_clinic,
             "clinic_name": c_name,
-            "settlement" : this.clinic_total,
             "settlement_ref": s_ref,
-            "apps": app_list
+            "settlement" : this.clinic_total,
+            "apps": app_list,
           });
 
           c_name="";
@@ -214,9 +216,9 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
       this.clinic_settlement.push({
         "clinic_id" : this.prev_clinic,
         "clinic_name": c_name,
-        "settlement" : this.clinic_total,
         "settlement_ref": s_ref,
-        "apps": app_list
+        "settlement" : this.clinic_total,
+        "apps": app_list,
       });
 
       this.dataSource = new MatTableDataSource(this.clinic_settlement);
@@ -227,6 +229,18 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
       
     });
     }
+
+    //Get bank details of clinics
+    getBankDetails(){
+      this.clinicService.getBankDetailsClinics().subscribe(
+        {
+          next:(res:any)=>{
+            this.clinicDetailsList=res;
+            console.log(this.clinicDetailsList);
+          }
+        }
+      );
+    } 
 
   //Get clinic list
   async getClinicList(){
@@ -297,11 +311,24 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
 
   //Open dialog to confirm generating settlement sheet
   generateSettlementsSheet(){
+    var clinicsList=this.clinicDetailsList;
     if(this.selectedSettlementList==0){
       this.snackBar.open('Select clinic settlements to download settlements sheet!','OK');
       this.btndisabled=true;
     }
     else{
+      // console.log(clinicsList);
+      this.selectedSettlementList.forEach((settlement:any) => {
+        const clinicID = settlement.clinic_id;
+        const matchingClinic = clinicsList.find((clinic:any) => clinic.id === clinicID);
+        if (matchingClinic) {
+          settlement.bank_acc_holder = matchingClinic.bank_acc_holder;
+          settlement.bank_name = matchingClinic.bank_name;
+          settlement.bank_acc_no=matchingClinic.bank_acc_no;
+          settlement.bank_branch=matchingClinic.bank_branch;
+          settlement.bank_branch_code=matchingClinic.bank_branch_code;
+        }
+      });
       console.log(this.selectedSettlementList);
       this.dialog.open(ConfirmAddingSettlementrefComponent,{
         data:{
@@ -309,7 +336,8 @@ export class ClinicSettlementsComponent implements OnInit,AfterViewInit,AfterCon
         }
       });
     }
-  }
+    }
+  
 
   //Open all the appoitnments of selected settlement list
   openAppointmentsList(){

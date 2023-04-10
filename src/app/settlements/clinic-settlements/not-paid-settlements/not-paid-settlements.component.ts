@@ -1,4 +1,4 @@
-import {Component, ViewChild,AfterViewInit} from '@angular/core';
+import {Component, ViewChild,AfterViewInit, AfterContentChecked,ChangeDetectorRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {DatePipe} from '@angular/common';
@@ -24,7 +24,7 @@ export interface SettlementInfo{
   styleUrls: ['./not-paid-settlements.component.scss']
 })
 
-export class NotPaidSettlementsComponent implements AfterViewInit {
+export class NotPaidSettlementsComponent implements AfterViewInit,AfterContentChecked {
 
   sortedAppointments:any=[];
 
@@ -50,7 +50,13 @@ export class NotPaidSettlementsComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe,private snackbar:MatSnackBar,private spinner:SpinnerService){}
+  constructor(private settlementsService:PaymentService,private dialog:MatDialog,private datepipe:DatePipe,private snackbar:MatSnackBar,private spinner:SpinnerService,private cdr:ChangeDetectorRef){
+    this.cdr.detach();
+  }
+  
+  ngAfterContentChecked(){
+      this.cdr.detectChanges();
+  }
 
   ngAfterViewInit(){
     this.calculateNotPaidSettlements();

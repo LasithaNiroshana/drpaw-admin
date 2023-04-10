@@ -49,7 +49,7 @@ export class ConfirmAddingSettlementrefComponent implements OnInit,AfterViewInit
     let settlement_ref = "";
     result.forEach((item:any) => {
       var uid = (Math.floor(Date.now() / 1000)).toString();
-      var s_ref = this.trans_pre + "_" + item.clinic + "_" + uid;
+      var s_ref = this.trans_pre + "_" + item.clinic_id + "_" + uid;
       item.apps.forEach((app:any) => {
 
 
@@ -91,6 +91,16 @@ this.spinner.hide();
 XLSX.writeFile(workbook,yesterdayDate + '_'+'clinic_settlements.xlsx');
 
 }
+
+// generateSettlementSheet(){
+//   var result=this.settlementList;
+//   result.forEach((element:any) => {
+//     console.log(element.clinic_id);
+//     element.apps.forEach((app:any)=>{
+//       console.log()
+//     });
+//   });
+// }
 
 //Open snackbar 
 openSnackBar(message: string, action: string) {

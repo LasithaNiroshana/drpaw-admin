@@ -28,8 +28,8 @@ export class PaymentService {
   }
 
   //Get appointment history of all the clinics
-  public getAppointmentList(){
-    const url = this.globalService.apiURL + 'pet_appointment/';
+  public getAppointmentList(startDate:string,endDate:string){
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?clinic_trans=0' + '&stdt=' + startDate + '&endt=' + endDate;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -39,7 +39,7 @@ export class PaymentService {
 
    //Get appointment history of all the clinics
    public getAppointmentListfromDates(startDate:string,endDate:string){
-    const url = this.globalService.apiURL + 'pet_appointment/?cid=0'+ '&stdt=' + startDate + '&endt=' + endDate;
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?cid=0'+ '&stdt=' + startDate + '&endt=' + endDate;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -49,7 +49,7 @@ export class PaymentService {
 
   //Get completed appointments
   public getCompletedAppointments(endDate:string){
-    const url = this.globalService.apiURL + 'pet_appointment/?endt=' + endDate + '&cid=0';
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?endt=' + endDate + '&cid=0';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -59,7 +59,7 @@ export class PaymentService {
 
   //Get payment history of a clinic
   public getAppointmentsClinic(cid:string,stdt:string,endt:string){
-    const url = this.globalService.apiURL + 'pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;
+    const url = this.globalService.apiURL + 'admin_pet_appointment/' + '?cid=' + cid + '&stdt=' + stdt + '&endt=' + endt;
     
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -69,7 +69,7 @@ export class PaymentService {
 
   //Generate settlement reference id for appointment 
   public generateSettlementReferenceId(appointmentid:string,apprefcode:string){
-    const url = this.globalService.apiURL + 'pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?appref='+ appointmentid + '&apprefcode=' + apprefcode;
 
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -79,7 +79,7 @@ export class PaymentService {
 
   //Get not paid settlement appointments
   public getNotPaidSettlementAppointnments(){
-    const url = this.globalService.apiURL + 'pet_appointment/?pcid=0';
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?pcid=0';
     
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);
@@ -89,7 +89,7 @@ export class PaymentService {
 
   //Update paid status of appointments/settlements
   public updateSettlementStatus(datepaid:string,apprefcode:string){
-    const url = this.globalService.apiURL + 'pet_appointment/?refpdate='+ datepaid + '&updref=' + apprefcode;
+    const url = this.globalService.apiURL + 'admin_pet_appointment/?refpdate='+ datepaid + '&updref=' + apprefcode;
 
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);

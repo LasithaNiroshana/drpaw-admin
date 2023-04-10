@@ -42,6 +42,7 @@ LogIn(){
       next:(res:any)=>{
         tkn=res.token;
         localStorage.setItem('token',tkn);
+        this.router.navigate(['/home']);
       },
       error:(e)=>{
         this.openSnackBar('Error while logging in!','OK');
@@ -49,7 +50,6 @@ LogIn(){
       },
       complete:()=>{
         this.spinner.hide();
-         this.router.navigate(['/home']);
         //  console.log(this.globalService.token);
       }
     });

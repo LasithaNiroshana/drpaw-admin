@@ -140,16 +140,9 @@
               <td mat-cell *matCellDef="let appointment"> {{appointment.a_charge}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="no_show">
-              <th mat-header-cell mat-sort-header *matHeaderCellDef>No Show</th>
-              <td mat-cell *matCellDef="let appointment">
-                <p *ngIf="appointment.no_show==0">
-                  No
-                </p> 
-                <p *ngIf="appointment.no_show==1">
-                  Yes
-                </p>   
-              </td>
+            <ng-container matColumnDef="no_show_amount">
+              <th mat-header-cell mat-sort-header *matHeaderCellDef>No Show Amount</th>
+              <td mat-cell *matCellDef="let appointment"> {{appointment.no_show_amount}} </td>
             </ng-container>
         
             <!-- <ng-container matColumnDef="info">

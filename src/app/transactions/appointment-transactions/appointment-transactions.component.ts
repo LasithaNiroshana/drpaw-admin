@@ -103,7 +103,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions!: Observable<string[]>;
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -111,13 +111,14 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
 
   loading$ = this.spinner.loading$;
 
-  constructor(private datePipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService, private cdr:ChangeDetectorRef, private snackbar:MatSnackBar){
+  constructor(private datepipe:DatePipe,private clinicService:ClinicService,private appointmentService:PaymentService,private dialog:MatDialog,private spinner:SpinnerService, private cdr:ChangeDetectorRef, private snackbar:MatSnackBar){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
     this.maxDate1 = new Date(currentYear - 0, 0, 19);
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
+
 
     this.cdr.detach();
   }
@@ -127,11 +128,18 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   }
 
   ngAfterViewInit() {
+    let startday = new Date();
+    startday.setDate(startday.getDate() - 10);
+    let  startDate:string = this.datepipe.transform(startday, 'yyyy-MM-dd') as string;
+
+    let endday = new Date();
+    endday.setDate(endday.getDate());
+    let  endDate:string = this.datepipe.transform(endday, 'yyyy-MM-dd') as string;
     
     // this.getAppointments()
     this.spinner.show();
     
-    this.appointmentService.getAppointmentList().subscribe({
+    this.appointmentService.getAppointmentList(startDate,endDate).subscribe({
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;

@@ -99,6 +99,7 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
    },
    error:(e)=>{
     this.spinner.hide();
+    console.log(e);
     this.openSnackBar('Error getting appointment refunds! Please try again.','OK');
    }
      });

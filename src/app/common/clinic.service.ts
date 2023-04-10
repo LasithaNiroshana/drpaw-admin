@@ -198,4 +198,14 @@ export class ClinicService {
 
     return this.httpClient.get(url, {params, headers}).pipe(catchError(this.handleError));
   }
+
+   //Get bank details of
+   public getBankDetailsClinics(){
+    const url = this.globalService.apiURL + 'clinic/?clist=0';
+    
+    const headers = new HttpHeaders().set("Content-Type", "application/json")
+    .set("Authorization", "token " + this.globalService.token);
+
+    return this.httpClient.get(url, {headers}).pipe(catchError(this.handleError));
+  }
 }

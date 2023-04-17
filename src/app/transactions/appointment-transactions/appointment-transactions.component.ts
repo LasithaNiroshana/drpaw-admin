@@ -129,11 +129,11 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
 
   ngAfterViewInit() {
     let startday = new Date();
-    startday.setDate(startday.getDate() - 10);
+    startday.setDate(startday.getDate() - 14);
     let  startDate:string = this.datepipe.transform(startday, 'yyyy-MM-dd') as string;
 
     let endday = new Date();
-    endday.setDate(endday.getDate());
+    endday.setDate(endday.getDate()+14);
     let  endDate:string = this.datepipe.transform(endday, 'yyyy-MM-dd') as string;
     
     // this.getAppointments()
@@ -143,7 +143,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;
-        console.log(this.appointmentHistory);
+        // console.log(this.appointmentHistory);
         if(this.appointmentHistory==0){
           this.openSnackBar('There are no appointments to show!','OK');
         }
@@ -161,33 +161,12 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
     // this.spinner.hide();
   }
 
-  ngOnInit() {
-    this.getClinicList();
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
+  ngOnInit() {}
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.clinics.filter((clinic:string)=> clinic.toLowerCase().includes(filterValue));
-  }
 
     //Get appointment history of all clinics
   getAppointments(){
    
-  }
-
-      //Get clinic list
-  getClinicList(){
-     this.clinicService.GetClinics().subscribe({
-      next:(res:any)=>{
-        this.clinics=res;
-    },
-    error:(e)=>console.log(e)
-     });
   }
 
   //Get appointment history of a clinic

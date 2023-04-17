@@ -8,9 +8,14 @@
   <button mat-icon-button class="settings-icon favorite-icon">
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-icon-button class="person-icon">
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="person-icon">
     <mat-icon>person</mat-icon>
   </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="confirmLogout()">
+      <mat-icon>logout</mat-icon>
+      LOGOUT</button>
+  </mat-menu>
 </mat-toolbar>
 <!-- Toolbar ends here -->
 
@@ -55,7 +60,7 @@
             <mat-icon matSuffix>event_available</mat-icon>
           </div>
         </a>
-        <a mat-list-item class="listitem" routerLinkActive="list-item-active"(click)="showFiller = !showFiller">
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" (click)="showFiller = !showFiller">
           <div class="listitem">
             <p>Settlements</p>
             <mat-icon matSuffix>paid</mat-icon>
@@ -91,12 +96,23 @@
         </div> -->
           
          
-        <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="refunds">
+        <a mat-list-item class="listitem" routerLinkActive="list-item-active" (click)="showRefundsFiller = !showRefundsFiller">
           <div class="listitem">
             <p>Refunds</p>
             <mat-icon matSuffix>currency_exchange</mat-icon>
           </div>
         </a>
+
+        <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="settlements" *ngIf="showRefundsFiller">
+          <p class="expansion-item">Pending Refunds</p>
+      </a>
+      <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="notpaid" *ngIf="showRefundsFiller">
+          <p class="expansion-item">Requested Refunds</p>
+      </a>
+      <a mat-list-item class="expansion-item" routerLinkActive="list-item-active" routerLink="completed" *ngIf="showRefundsFiller">
+          <p class="expansion-item">Accepted Refunds</p>
+      </a>
+
         <a mat-list-item class="listitem" routerLinkActive="list-item-active" routerLink="salesagents">
           <div class="listitem">
             <p>Sales Agents</p>

@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,OnDestroy } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -7,13 +7,39 @@ import {ClinicService} from '../../../common/clinic.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AppointmentInfoComponent} from '../appointment-info/appointment-info.component';
 
+//Interface for payment details
+export interface ClinicDetails {
+  id:number;
+  name: string;
+  clinic_type:string;
+  nic:string;
+  address:string;
+  city:string;
+  logo:string;
+  active:number;
+  created_on:string;
+  province:string;
+  district:string;
+  br_no:string;
+  contact_person:string;
+  landline:string;
+  mobile: string;
+  email:string;
+  website:string;
+  bank_name:string;
+  bank_acc_holder:string;
+  bank_acc_no:string;
+  bank_branch:string;
+  bank_branch_code:string;
+  sale:number;
+}
+
 @Component({
   selector: 'app-appointment-transactions-filter-form',
   templateUrl: './appointment-transactions-filter-form.component.html',
   styleUrls: ['./appointment-transactions-filter-form.component.scss']
 })
-export class AppointmentTransactionsFilterFormComponent implements OnInit {
-  clinics:any=[];
+export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDestroy {
   appointmentHistory:any=[];
   clinicID:any;  //ClinicID
   startDate=new Date(); //Starting date
@@ -26,6 +52,11 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
   appointmentSource:number=0;
   appointmentStatus:number=0;
 
+  myControl = new FormControl<string | ClinicDetails>('');
+  clinics: ClinicDetails[] = []; // Initialize as an empty array
+  filteredOptions!: Observable<ClinicDetails[]>;
+
+
   constructor(private dialog:MatDialog, private clinicService:ClinicService){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
@@ -34,24 +65,26 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
   }
-
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions!: Observable<string[]>;
+  ngOnDestroy(){
+  }
 
   ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name ? this._filter(name as string) : this.clinics.slice(); // Use this.users instead of options
+      }),
+    );
+
     this.clinicService.GetClinics().subscribe({
       complete:()=>{},
       next:(res:any)=>{
         this.clinics=res;
+        console.log(this.clinics)
       },
       error:(e)=>{}
     });
-
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
   }
 
   //Get appointment history of a clinic
@@ -70,10 +103,15 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit {
 
   resetForm(){}
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  displayFn(clinic: ClinicDetails): string {
+    return clinic && clinic.name ? clinic.name : '';
   }
 
+  private _filter(name: string): ClinicDetails[] {
+    const filterValue = name.toLowerCase();
+    var clinicList=this.clinics;
+
+    return clinicList.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+  
 }

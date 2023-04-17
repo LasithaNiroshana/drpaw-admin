@@ -35,17 +35,16 @@ export class ClinicService {
     
     const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.post(url, clinic,{}).pipe(catchError(this.handleError));
+    return this.httpClient.post(url, clinic,{headers}).pipe(catchError(this.handleError));
   }
 
   //Edit clinic
   public EditClinic(clinic: any,clinicID:number){
     const url = this.globalService.apiURL + 'clinic/' + clinicID + '/';
     
-    const headers = new HttpHeaders().set("Content-Type", "application/json")
-    .set("Authorization", "token " + this.globalService.token);
+    const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
 
-    return this.httpClient.put(url, clinic, {}).pipe(catchError(this.handleError));
+    return this.httpClient.put(url, clinic, {headers}).pipe(catchError(this.handleError));
   }
 
   //Deactivating clinic

@@ -27,6 +27,7 @@ import { ProgressSpinnerComponent } from './components/progress-spinner/progress
 import { AppointmentListComponent } from './settlements/clinic-settlements/appointment-list/appointment-list.component';
 import { CompletedSettlementsAppointmentsComponent } from './settlements/clinic-settlements/completed-settlements/completed-settlements-appointments/completed-settlements-appointments.component';
 import { NotPaidSettlementsAppointmentsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements-appointments/not-paid-settlements-appointments.component';
+import { ConfirmLogoutComponent } from './home/confirm-logout/confirm-logout.component';
 
 
 
@@ -51,6 +52,7 @@ import { NotPaidSettlementsAppointmentsComponent } from './settlements/clinic-se
     AppointmentListComponent,
     CompletedSettlementsAppointmentsComponent,
     NotPaidSettlementsAppointmentsComponent,
+    ConfirmLogoutComponent,
   
   ],
   imports: [

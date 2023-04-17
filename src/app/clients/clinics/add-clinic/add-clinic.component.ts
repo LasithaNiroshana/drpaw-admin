@@ -168,8 +168,8 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
       this.clinic.bank_acc_no!=""
       &&
       this.clinic.bank_branch!=""
-      &&
-      this.clinic.bank_branch_code!=""
+      // &&
+      // this.clinic.bank_branch_code!=""
       &&
       this.clinic.province!=""
       &&

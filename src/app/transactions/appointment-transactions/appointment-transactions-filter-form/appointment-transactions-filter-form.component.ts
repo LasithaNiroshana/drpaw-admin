@@ -1,6 +1,7 @@
-import { Component,OnInit,OnDestroy } from '@angular/core';
+import { Component,OnInit,OnDestroy,AfterViewInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
+import { DatePipe } from '@angular/common';
 import {map, startWith} from 'rxjs/operators';
 import {PaymentService} from '../../../common/payment.service';
 import {ClinicService} from '../../../common/clinic.service';
@@ -39,36 +40,49 @@ export interface ClinicDetails {
   templateUrl: './appointment-transactions-filter-form.component.html',
   styleUrls: ['./appointment-transactions-filter-form.component.scss']
 })
-export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDestroy {
+export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDestroy,AfterViewInit {
+  today = new Date();
   appointmentHistory:any=[];
-  clinicID:any;  //ClinicID
-  startDate=new Date(); //Starting date
-  endDate=new Date();  //Ending date
   minDate1: Date; //minDate
   maxDate1: Date; //maxDate
   minDate2: Date; //minDate
   maxDate2: Date; //maxDate
+  clinicID:number=0;  //ClinicID
   appointmentType:number=0;
   appointmentSource:number=0;
   appointmentStatus:number=0;
+
+  isChecked: boolean = false;
+  customValue: string = 'customValue';
 
   myControl = new FormControl<string | ClinicDetails>('');
   clinics: ClinicDetails[] = []; // Initialize as an empty array
   filteredOptions!: Observable<ClinicDetails[]>;
 
+  startDate = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
+  endDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 
-  constructor(private dialog:MatDialog, private clinicService:ClinicService){
+  constructor(private dialog:MatDialog, private clinicService:ClinicService,private datePipe: DatePipe){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);
     this.maxDate1 = new Date(currentYear - 0, 0, 19);
     this.minDate2 = new Date(currentYear - 1, 0, 1);
     this.maxDate2 = new Date(currentYear - 0, 0, 0);
+    this.datePipe.transform(this.today, 'yyyy-MM-dd');
+    this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
+    this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
   }
-  ngOnDestroy(){
-  }
+  ngAfterViewInit() {
+    //Get clinic list
+    this.clinicService.GetClinics().subscribe({
+      complete:()=>{},
+      next:(res:any)=>{
+        this.clinics=res;
+      },
+      error:(e)=>{}
+    });
 
-  ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -76,15 +90,12 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
         return name ? this._filter(name as string) : this.clinics.slice(); // Use this.users instead of options
       }),
     );
+  }
+  ngOnDestroy(){
+  }
 
-    this.clinicService.GetClinics().subscribe({
-      complete:()=>{},
-      next:(res:any)=>{
-        this.clinics=res;
-        console.log(this.clinics)
-      },
-      error:(e)=>{}
-    });
+  ngOnInit() {
+   
   }
 
   //Get appointment history of a clinic
@@ -102,6 +113,16 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
     }
 
   resetForm(){}
+
+  // Method to handle appointment source change event
+  onAppSourceChange(value: number) {
+    this.appointmentSource = value;
+  }
+
+  // Method to handle appointment sub type change event
+  onAppTypeChange(value: number) {
+    this.appointmentType = value;
+  }
 
   displayFn(clinic: ClinicDetails): string {
     return clinic && clinic.name ? clinic.name : '';

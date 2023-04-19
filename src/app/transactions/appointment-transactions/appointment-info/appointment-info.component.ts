@@ -37,6 +37,7 @@ export class AppointmentInfoComponent implements OnInit{
   this.endDate=data.enDate;  //Ending date
   this.appointmentType=data.appType;
   this.appointmentSource=data.appSource;
+  console.log(this.clinics.id);
   }
 
   ngOnInit(){
@@ -46,7 +47,7 @@ export class AppointmentInfoComponent implements OnInit{
   let enDate:string = this.datePipe.transform(this.endDate, 'yyyy-MM-dd') as string;
 
   //Obtaining appointments
-    this.appointmentService.getAppointmentsClinic(this.clinics,strDate,enDate).subscribe((res:any)=>{
+    this.appointmentService.getAppointmentsClinic(this.clinics.id,strDate,enDate).subscribe((res:any)=>{
       res.forEach((element: any) => {
         if(this.appointmentSource==element.a_source && this.appointmentType==element.a_type && this.appointmentStatus==element.status){
           this.sortedAppointments.push(element);

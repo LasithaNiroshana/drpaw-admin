@@ -31,7 +31,7 @@
         </mat-select>
       </mat-form-field> -->
 
-      <mat-form-field class="appointment-history-field">
+      <!-- <mat-form-field class="appointment-history-field">
         <mat-label>Clinic</mat-label>
         <mat-select [(ngModel)]="this.clinicID">
           <mat-option [value]="0" >
@@ -41,7 +41,7 @@
             {{clinic.id}} : {{clinic.name}},{{clinic.city}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <!-- <mat-form-field class="appointment-history-field"  *ngIf="this.clinics.length > 0">
         <mat-label>Clinic</mat-label>
@@ -55,15 +55,15 @@
 
       <mat-form-field class="appointment-history-field">
         <mat-label>Clinic Name</mat-label>
-        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="this.appointmentStatus">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
-            {{option.name}}
-          </mat-option>
-        </mat-autocomplete>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="this.clinicID">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="appointment-history-field">
+      <!-- <mat-form-field class="appointment-history-field">
         <mat-label>Select Appointment Status</mat-label>
         <mat-select [(ngModel)]="this.appointmentStatus">
           <mat-option value=3>
@@ -79,9 +79,24 @@
             Pet Owner Declined
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
+      <section class="appointment-history-field">
+        <h5>Select Appointment Source:</h5>
+        <mat-checkbox class="example-margin" [checked]="appointmentSource === 0" (change)="onAppSourceChange(0)">Online</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="appointmentSource === 1" (change)="onAppSourceChange(1)">In-House</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="appointmentSource === 2" (change)="onAppSourceChange(2)">All</mat-checkbox>
+      </section>
 
-      <mat-form-field class="appointment-history-field">
+      <section class="appointment-history-field">
+        <h5>Select Appointment Type:</h5>
+        <mat-checkbox class="example-margin" [checked]="appointmentType === 0" (change)="onAppTypeChange(0)">Clinic</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="appointmentType === 1" (change)="onAppTypeChange(1)">Home</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="appointmentType === 2" (change)="onAppTypeChange(2)">Remote</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="appointmentType === 3" (change)="onAppTypeChange(3)">All</mat-checkbox>
+      </section>
+  
+
+      <!-- <mat-form-field class="appointment-history-field">
         <mat-label>Select Appointment Source</mat-label>
         <mat-select [(ngModel)]="this.appointmentSource">
           <mat-option value=0>
@@ -91,9 +106,9 @@
             In-House
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field class="appointment-history-field">
+      <!-- <mat-form-field class="appointment-history-field">
         <mat-label>Select Appointment Sub Type</mat-label>
         <mat-select [(ngModel)]="this.appointmentType">
           <mat-option value=0>
@@ -106,7 +121,7 @@
             Remote
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field appearance="fill" class="appointment-history-field">
         <mat-label>Choose a starting date</mat-label>
@@ -118,7 +133,7 @@
 
       <mat-form-field appearance="fill" class="appointment-history-field">
         <mat-label>Choose an end date</mat-label>
-        <input matInput [min]="minDate2" [matDatepicker]="picker1" [(ngModel)]="this.endDate" name="end_id">
+        <input matInput [min]="minDate2" [matDatepicker]="picker1" [(ngModel)]="this.endDate" name="end_date">
         <mat-hint>YYYY-MM-DD</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>

@@ -87,6 +87,7 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.pendingRefunds=res;
+        console.log(this.pendingRefunds);
 
       if(this.pendingRefunds.length==0){
         this.openSnackBar('There are no appointment refunds to show!','OK');

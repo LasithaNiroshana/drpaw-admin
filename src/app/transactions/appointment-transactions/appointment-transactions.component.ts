@@ -103,7 +103,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions!: Observable<string[]>;
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show_amount'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','owner_address','mobile','created_on','a_date','a_time','a_payment','a_charge','no_show_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -143,7 +143,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;
-        // console.log(this.appointmentHistory);
+        console.log(this.appointmentHistory);
         if(this.appointmentHistory==0){
           this.openSnackBar('There are no appointments to show!','OK');
         }

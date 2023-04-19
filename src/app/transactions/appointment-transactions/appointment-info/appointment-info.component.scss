@@ -1,5 +1,4 @@
 // .appointment-transactions{
-//     height: 10000px;
 //     overflow:auto;
 // }
 
@@ -33,4 +32,9 @@ td,th {
 
 th.mat-header-cell {
     text-align: center !important;
+  }
+
+  .filter-form-field {
+    font-size: 14px;
+    width: 100%;
   }

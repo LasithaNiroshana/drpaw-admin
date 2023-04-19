@@ -48,8 +48,8 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
   minDate2: Date; //minDate
   maxDate2: Date; //maxDate
   clinicID:number=0;  //ClinicID
-  appointmentType:number=0;
-  appointmentSource:number=0;
+  appointmentSource:number=2;
+  appointmentType:number=3;
   appointmentStatus:number=0;
 
   isChecked: boolean = false;
@@ -62,7 +62,7 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
   startDate = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
   endDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 
-  constructor(private dialog:MatDialog, private clinicService:ClinicService,private datePipe: DatePipe){
+  constructor(private dialog:MatDialog, private clinicService:ClinicService, private datePipe: DatePipe){
     const currentYear = new Date().getFullYear();
   //Setting up minimum and maximum dates for calendars
     this.minDate1 = new Date(currentYear - 1, 0, 1);

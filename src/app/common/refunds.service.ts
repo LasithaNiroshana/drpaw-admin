@@ -40,10 +40,10 @@ export class RefundsService {
   }
 
   //Accept refund of discount customers
-  public requestUserDiscount(cus: any, mob: any, app: any, amount: any){
-    const url = this.globalService.apiURL + 'pet_appointment/';
+  public requestRefunds(transactionId: any,refundAmount: any){
+    const url = this.globalService.apiURL + 'admin_request_refund/';
     
-    const params = new HttpParams().set('udiscus', cus).set('refundmob', mob).set('refundapp', app).set('udisamt', amount);
+    const params = new HttpParams().set('tid', transactionId).set('ref_amount', refundAmount);
 
     const headers = new HttpHeaders().set("Content-Type", "application/json")
     .set("Authorization", "token " + this.globalService.token);

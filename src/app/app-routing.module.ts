@@ -33,6 +33,8 @@ import { StoreReportsComponent } from './reports/store-reports/store-reports.com
 import { NotPaidSettlementsComponent } from './settlements/clinic-settlements/not-paid-settlements/not-paid-settlements.component';
 import { CompletedSettlementsComponent } from './settlements/clinic-settlements/completed-settlements/completed-settlements.component';
 import { AppointmentTransactionsFilterFormComponent } from './transactions/appointment-transactions/appointment-transactions-filter-form/appointment-transactions-filter-form.component';
+import { PaymentPendingSettlementsComponent } from './settlements/payment-pending-settlements/payment-pending-settlements.component';
+import { PaymentCompletedSettlementsComponent } from './settlements/payment-completed-settlements/payment-completed-settlements.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -84,6 +86,8 @@ const routes: Routes = [
       ]},
     ]
   },
+  {path:'paymentpendingsettlements',component:PaymentPendingSettlementsComponent},
+  {path:'paymentcompletedsettlements',component:PaymentCompletedSettlementsComponent},
   {path:'notpaid',component:NotPaidSettlementsComponent},
   {path:'completed',component:CompletedSettlementsComponent},
   {path:'reports',component:ReportsComponent,
@@ -138,4 +142,6 @@ export const routingComponents=[
   NotPaidSettlementsComponent,
   CompletedSettlementsComponent,
   AppointmentTransactionsFilterFormComponent,
+  PaymentPendingSettlementsComponent,
+  PaymentCompletedSettlementsComponent
 ]

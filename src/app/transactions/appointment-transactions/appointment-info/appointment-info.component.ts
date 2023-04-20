@@ -78,7 +78,7 @@ export class AppointmentInfoComponent implements OnInit{
   sortedAppointments:any=[];
   appointmentStatus:number=0;
 
-  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','animal_type','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','no_show_amount'];
+  displayedColumns: string[] = ['clinic_name','appointment_source','appointment_status','appointment_sub_type','owner_name','mobile','created_on','a_date','a_time','a_payment','a_charge','no_show_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -1,6 +1,7 @@
 import { Component,OnInit,AfterViewInit,ViewChild,AfterContentChecked,ChangeDetectorRef } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTableDataSource} from '@angular/material/table';
@@ -63,10 +64,14 @@ export interface AppointmentInfo {
 export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   pendingRefunds:any=[]
-  displayedColumns: string[] = ['clinic_name','appointment_status','appointment_subtype','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','d_amount'];
+  displayedColumns: string[] = ['select','clinic_name','appointment_status','appointment_subtype','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','d_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
+  selection = new SelectionModel<AppointmentInfo>(true, []);
 
   loading$ = this.spinner.loading$;
+
+  btndisabled=true;
+  selectedRefundsList:any=[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -87,8 +92,6 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.pendingRefunds=res;
-        console.log(this.pendingRefunds);
-
       if(this.pendingRefunds.length==0){
         this.openSnackBar('There are no appointment refunds to show!','OK');
       }
@@ -118,16 +121,63 @@ export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterCo
   }
 
   openConfirmRefundDialog(){
-    this.dialog.open(ConfirmAppRefundsComponent,{
-      data:{
-        refundAppointments:this.pendingRefunds
-      }
-    });
+    if(this.selectedRefundsList==0){
+      this.btndisabled=true;
+      this.openSnackBar('Please select appointment transactions to send refund request!','OK')
+    }
+    else{
+      this.dialog.open(ConfirmAppRefundsComponent,{
+        data:{
+          refundAppointments:this.selectedRefundsList
+        }
+      });
+    }
   }
 
   //Open snackbar 
   openSnackBar(message: string, action: string) {
     this.snackbar.open(message, action);
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedRefundsList=[];
+      // console.log(this.selectedRefundsList);
+      this.btndisabled=true;
+      return;
+    }
+    else{
+      this.selectedRefundsList=this.dataSource.data;
+      // console.log(this.selectedRefundsList);
+      this.selection.select(...this.dataSource.data);
+      this.btndisabled=false;
+    }
+  }
+
+  updateList(element:any){
+    if(this.selection.isSelected(element)){
+      this.selectedRefundsList.push(element);
+      // console.log(this.selectedRefundsList);
+      this.btndisabled=false;
+    }
+    else{
+      this.selectedRefundsList.forEach((item:any,index:number) => {
+        if(item===element) {
+           this.selectedRefundsList.splice(index,1);
+        // console.log(this.selectedRefundsList);
+        this.btndisabled=false;
+        }
+      });
+    }
   }
 
 }

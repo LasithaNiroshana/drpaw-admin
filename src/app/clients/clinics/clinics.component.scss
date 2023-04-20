@@ -77,12 +77,13 @@
       // background: rgba(56, 70, 134, 0.5);
     }
 
-//   td, th {
-//     text-align: center !important;
-//     vertical-align: middle !important;
-// }
+  td, th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
 
 
-// th.mat-header-cell {
-//   text-align: center !important;
-// }
+th.mat-header-cell {
+  align-items: center;
+  text-align: center !important;
+}

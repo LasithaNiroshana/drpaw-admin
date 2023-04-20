@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import {RefundsService} from '../../../common/refunds.service';
+import {MatDialog,MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {AppointmentRefundsComponent} from '../appointment-refunds.component';
 
 @Component({
   selector: 'app-confirm-app-refunds',
@@ -9,27 +11,25 @@ import {RefundsService} from '../../../common/refunds.service';
 export class ConfirmAppRefundsComponent {
   refundApps:any=[];
 
-constructor(private refundsService:RefundsService){}
+constructor(private refundsService:RefundsService, private dialog:MatDialog,public dialogRef:MatDialogRef<AppointmentRefundsComponent>,@Inject(MAT_DIALOG_DATA) public data:any,){
+  this.refundApps=data.refundAppointments;
+}
 
 // Send refund request
 confirmRefundRequest(){
-  this.refundsService.getUserRefunds().subscribe({
-    next:(res:any)=>{
-      this.refundApps=res;
       this.refundApps.forEach((refundApp:any) => {
-        this.refundsService.requestRefunds(refundApp.transaction_id,refundApp.transaction_paid_amount).subscribe({
-          complete:()=>{
-            console.log('Successfully sent refund request');
-          },
-          error:(e)=>{
-            console.log(e);
-          },
-          next:(msg:any)=>{
-            console.log(msg);
-          }
-        });
-      });
-    }
+        // this.refundsService.requestRefunds(refundApp.transaction_id,refundApp.transaction_paid_amount).subscribe({
+        //   complete:()=>{
+        //     // console.log('Successfully sent refund request');
+        //   },
+        //   error:(e)=>{
+        //     console.log(e);
+        //   },
+        //   next:(msg:any)=>{
+        //     console.log(msg);
+        //   }
+        // });
+        console.log(refundApp);
   }
   );
     

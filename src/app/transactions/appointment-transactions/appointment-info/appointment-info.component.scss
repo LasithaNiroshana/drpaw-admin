@@ -1,6 +1,7 @@
-// .appointment-transactions{
-//     overflow:auto;
-// }
+.appointment-transactions{
+    overflow:auto;
+    max-height: 720px;
+}
 
 .app-count{
     height: 80px;
@@ -34,7 +35,7 @@ th.mat-header-cell {
     text-align: center !important;
   }
 
-  .filter-form-field {
+.filter-form-field {
     font-size: 14px;
     width: 100%;
-  }
+}

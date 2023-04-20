@@ -53,6 +53,9 @@ onSubmit(formValues:JSON){
   this.salesAgent.active!=null 
   ){
     this.salesService.editSalesAgent(formValues,this.salesAgent.id).subscribe({
+      next:(msg:any)=>{
+        console.log(msg);
+      },
       complete: () => this.openSnackBar('Successfully edited sales agent.','OK'),
       error: (e) => this.openSnackBar('Error occured while editing sales agent!'+ e,'OK'),
     });

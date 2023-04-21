@@ -108,8 +108,11 @@ export class EditClinicComponent implements OnInit,AfterViewInit{
 async onSubmit(){
   var formdata = new FormData();
 
-  const response = await fetch(this.clinic.logo);
+  if(this.image=null){
+    const response = await fetch(this.clinic.logo);
     const blob = await response.blob();
+    formdata.append("logo",blob,this.image.name);
+  }
 
   formdata.append("name", this.clinic.name);
   formdata.append("address", this.clinic.address);
@@ -119,7 +122,6 @@ async onSubmit(){
   formdata.append("mobile", this.clinic.mobile);
   formdata.append("email", this.clinic.email);
   formdata.append("website", this.clinic.website);
-  formdata.append("logo",blob,this.image.name);
   formdata.append("province", this.clinic.province);
   formdata.append("district", this.clinic.district);
   formdata.append("br_no", this.clinic.br_no);
@@ -139,6 +141,10 @@ async onSubmit(){
     &&
     this.clinic.city!=""
     &&
+    this.clinic.province!=""
+    &&
+    this.clinic.district!=""
+    &&
     this.clinic.mobile!=""
     &&
     this.clinic.email!=""
@@ -150,14 +156,8 @@ async onSubmit(){
     this.clinic.bank_acc_holder!=""
     &&
     this.clinic.bank_acc_no!=""
-    &&
-    this.clinic.bank_branch!=""
-    &&
-    this.clinic.bank_branch_code!=""
-    &&
-    this.clinic.province!=""
-    &&
-    this.clinic.district!=""
+    // &&
+    // this.clinic.bank_branch!=""
   ){
     this.clinicService.SaveClinic(formdata).subscribe({
       complete: () => this.openSnackBar('Editing clinic was successful','OK'),

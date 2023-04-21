@@ -124,8 +124,11 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
   async onSubmit(){
     var formdata = new FormData();
 
-    const response = await fetch(this.clinic.logo);
+    if(this.image!=null){
+      const response = await fetch(this.clinic.logo);
       const blob = await response.blob();
+      formdata.append("logo",blob,this.image.name);
+    }
 
     formdata.append("name", this.clinic.name);
     formdata.append("address", this.clinic.address);
@@ -135,7 +138,6 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
     formdata.append("mobile", this.clinic.mobile);
     formdata.append("email", this.clinic.email);
     formdata.append("website", this.clinic.website);
-    formdata.append("logo",blob,this.image.name);
     formdata.append("province", this.clinic.province);
     formdata.append("district", this.clinic.district);
     formdata.append("br_no", this.clinic.br_no);
@@ -155,6 +157,10 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
       &&
       this.clinic.city!=""
       &&
+      this.clinic.district!=""
+      &&
+      this.clinic.province!=""
+      &&
       this.clinic.mobile!=""
       &&
       this.clinic.email!=""
@@ -170,10 +176,6 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
       this.clinic.bank_branch!=""
       // &&
       // this.clinic.bank_branch_code!=""
-      &&
-      this.clinic.province!=""
-      &&
-      this.clinic.district!=""
     ){
       this.clinicService.SaveClinic(formdata).subscribe({
         complete: () => this.openSnackBar('New clinic added successfully','OK'),

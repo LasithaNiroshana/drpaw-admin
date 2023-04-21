@@ -11,7 +11,7 @@
               Basic Details
             </h4>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Clinic Name</mat-label>
+              <mat-label>Clinic Name*</mat-label>
               <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.name" name="name" value="{{clinic.name}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
@@ -27,7 +27,7 @@
               <input type="text" matInput placeholder="BSE5667" [(ngModel)]="clinic.nic" name="nic" value="{{clinic.nic}}">
             </mat-form-field> -->
             <mat-form-field appearance="fill" class="add-clinic-field">
-              <mat-label>Clinic Type</mat-label>
+              <mat-label>Clinic Type*</mat-label>
               <mat-select [(ngModel)]="clinic.is_multi_doc" name="is_multi_doc">
                 <mat-option [value]=0>
                   Single Doctor
@@ -42,7 +42,7 @@
               Address
             </h4>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Address</mat-label>
+              <mat-label>Address*</mat-label>
               <input type="text" matInput placeholder="123" [(ngModel)]="clinic.address" name="address" value="{{clinic.address}}">
             </mat-form-field>
             <!-- <mat-form-field class="add-clinic-field">
@@ -50,16 +50,16 @@
               <input type="text" matInput placeholder="Highlevel Rd"  [(ngModel)]="clinic.address_ln2" name="address_ln2" value="{{clinic.address_ln2}}">
             </mat-form-field> -->
             <mat-form-field class="add-clinic-field">
-              <mat-label>City</mat-label>
+              <mat-label>City*</mat-label>
               <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="clinic.city" name="city" value="{{clinic.city}}">
             </mat-form-field>
             <br>
             <mat-form-field class="add-clinic-field">
-              <mat-label>District</mat-label>
+              <mat-label>District*</mat-label>
               <input type="text" matInput placeholder="Colombo" [(ngModel)]="clinic.district" name="district" value="{{clinic.district}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Province</mat-label>
+              <mat-label>Province*</mat-label>
               <input type="text" matInput placeholder="Western" [(ngModel)]="clinic.province" name="district" value="{{clinic.province}}">
             </mat-form-field>
             
@@ -72,7 +72,7 @@
               Contact Details
             </h4>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Contact Person</mat-label>
+              <mat-label>Contact Person*</mat-label>
               <input type="text" matInput placeholder="John" [(ngModel)]="clinic.contact_person" name="contact_person" value="{{clinic.contact_person}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
@@ -80,7 +80,7 @@
               <input type="tel" matInput [maxLength]="10" placeholder="0111234567" [(ngModel)]="clinic.landline" name="landline" value="{{clinic.landline}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Mobile Number</mat-label>
+              <mat-label>Mobile Number*</mat-label>
               <input type="tel" matInput [maxLength]="10" placeholder="0711234567" [(ngModel)]="clinic.mobile" name="mobile" value="{{clinic.mobile}}">
             </mat-form-field>
             <br>
@@ -93,7 +93,7 @@
               <input type="email" matInput placeholder="abc@gmail.com" [(ngModel)]="clinic.email" name="email" value="{{clinic.email}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
-              <mat-label>On Boarded By:</mat-label>
+              <mat-label>On Boarded By:*</mat-label>
               <mat-select [(ngModel)]="clinic.sale" name="sale">
                 <mat-option *ngFor="let salesAgent of this.salesA" [value]="salesAgent.id" >
                   {{salesAgent.id}} : {{salesAgent.name}}
@@ -111,20 +111,20 @@
            <!-- Bank Account Details step -->
            <mat-step label="Bank Account Details">
             <mat-form-field class="add-clinic-field">
-              <mat-label>Bank Name</mat-label>
+              <mat-label>Bank Name*</mat-label>
               <input type="text" matInput placeholder="Peoples Bank" [(ngModel)]="clinic.bank_name" name="bank_name" value="{{clinic.bank_name}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Bank Account Name</mat-label>
+              <mat-label>Bank Account Name*</mat-label>
               <input type="text" matInput placeholder="John" [(ngModel)]="clinic.bank_acc_holder" name="bank_acc_holder" value="{{clinic.bank_acc_holder}}">
             </mat-form-field>
             <br>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Bank Account No.</mat-label>
+              <mat-label>Bank Account No.*</mat-label>
               <input type="text" matInput placeholder="155576743566" [(ngModel)]="clinic.bank_acc_no" name="bank_acc_no" value="{{clinic.bank_acc_no}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">
-              <mat-label>Branch</mat-label>
+              <mat-label>Branch*</mat-label>
               <input type="text" matInput placeholder="Kelaniya" [(ngModel)]="clinic.bank_branch" name="bank_branch" value="{{clinic.bank_branch}}">
             </mat-form-field>
             <mat-form-field class="add-clinic-field">

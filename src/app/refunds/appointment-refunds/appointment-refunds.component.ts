@@ -64,7 +64,7 @@ export interface AppointmentInfo {
 export class AppointmentRefundsComponent implements OnInit,AfterViewInit,AfterContentChecked{
 
   pendingRefunds:any=[]
-  displayedColumns: string[] = ['select','clinic_name','appointment_status','appointment_subtype','owner_name','mobile','owner_city','created_on','a_date','a_time','a_payment','a_charge','d_amount'];
+  displayedColumns: string[] = ['select','clinic_name','appointment_status','appointment_subtype','owner_name','mobile','created_on','a_date','a_time','a_payment','a_charge','d_amount'];
   dataSource: MatTableDataSource<AppointmentInfo> = new MatTableDataSource();
   selection = new SelectionModel<AppointmentInfo>(true, []);
 

@@ -120,6 +120,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
   ngOnInit() {
   }
 
+  //Get clinic list
   getClinics(){
     this.clinicService.GetClinics().subscribe((res:any)=>{
       this.clinicList=res;
@@ -237,25 +238,13 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
 
   //Searching the entered mobile number already exist 
   searchMobile(event:any){
+    this.spinner.show();
    if(event.length==10){
     this.clinicService.getAllUsers().subscribe({
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.clinicUsers=res;
-        if(this.clinicUsers=[]){
-          this.btndisabled=false;
-        }
-        else{
-          this.clinicUsers.forEach((element:any) => {
-            if(this.doctor.mobile==element.mobile){
-              this.btndisabled=true;
-              this.openSnackBar('Entered mobile number already exists. Please enter another mobile number!','OK');
-            }
-            else{
-              this.btndisabled=false;
-            }
-          });
-        }
+        console.log(this.clinicUsers)
       },
       error:(e)=>this.spinner.hide()
     });
@@ -312,36 +301,7 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
     var userformdata = new FormData();
     this.clinicService.getUserAccessList().subscribe({
       next:(res:any)=>{
-        this.userAccessList=res;
-        this.userAccessList.forEach((element:any) => {
-          if(this.doctor.mobile===element.username){
-            this.openSnackBar('Entered mobile number is already registered. Please enter user details to continue!','OK');
-            this.btndisabled=true;
-            this.spinner.hide();
-          }
-          else{
-            userformdata.append("username", this.doctor.mobile);
-            this.password="drpaw_vet" + this.doctor.mobile;
-            userformdata.append("password", this.password);
-            this.clinicService.AddUserAccess(userformdata).subscribe({
-              complete: () => {
-                this.openSnackBar('Successfully registered mobile number! Please try again.','OK'); 
-                this.btndisabled=true; 
-                this.spinner.hide();
-              },
-              error: (e) => {
-                this.openSnackBar('Error registering mobile number! Please try again.','OK'); 
-                this.btndisabled=false; 
-                this.spinner.hide();
-              },
-            });
-          }
-        });
-      },
-      error:(e)=>{
-        this.openSnackBar('Please enter mobile number again again.','OK'); 
-        this.btndisabled=true; 
-        this.spinner.hide();
+        console.log(res);
       }
     });   
     this.spinner.hide();

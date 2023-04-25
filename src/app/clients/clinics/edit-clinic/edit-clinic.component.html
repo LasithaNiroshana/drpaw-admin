@@ -141,7 +141,10 @@
         </div> -->
         <input type="file" (change)="onFileChanged($event)">
        </mat-step>
-    
+       <mat-form-field class="edit-clinic-hidden-field">
+        <mat-label>Clinic ID</mat-label>
+        <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="clinic.id" name="id" value="{{clinic.id}}">
+      </mat-form-field>
       </mat-stepper>
 
     </form>

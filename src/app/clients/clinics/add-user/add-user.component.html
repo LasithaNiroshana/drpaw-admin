@@ -18,11 +18,11 @@
             <input type="text" matInput placeholder="ABC Animal Clinic" [(ngModel)]="doctor.clinic" name="name" value="{{doctor.clinic}}">
           </mat-form-field> -->
           <mat-form-field class="add-user-field">
-            <mat-label>Name</mat-label>
+            <mat-label>Name*</mat-label>
             <input type="text" matInput placeholder="John Doe" [(ngModel)]="doctor.name" name="name" value="{{doctor.name}}">
           </mat-form-field>
           <mat-form-field class="add-user-field">
-            <mat-label>Clinic</mat-label>
+            <mat-label>Clinic*</mat-label>
             <mat-select [(ngModel)]="doctor.clinic" name="clinic">
               <mat-option *ngFor="let vetclinic of this.clinicList" [value]="vetclinic.id" >
                  {{vetclinic.name}},{{vetclinic.city}}
@@ -51,7 +51,7 @@
             <input type="text" matInput placeholder="Highlevel Rd" name="address_ln2">
           </mat-form-field> -->
           <mat-form-field class="add-user-field">
-            <mat-label>City</mat-label>
+            <mat-label>City*</mat-label>
             <input type="text" matInput placeholder="Nugegoda" [(ngModel)]="doctor.city" name="city" value="{{doctor.city}}">
           </mat-form-field>
           <br>
@@ -66,7 +66,7 @@
         </h4>
         <div class="contact-details-step">
           <mat-form-field class="add-user-field">
-            <mat-label>Mobile Number</mat-label>
+            <mat-label>Mobile Number*</mat-label>
             <input type="tel" matInput [maxlength]="10" placeholder="0711234567" [(ngModel)]="doctor.mobile" name="mobile" value="{{doctor.mobile}}" (ngModelChange)="searchMobile($event)">
           </mat-form-field>
           <button mat-raised-button disabled="{{this.btndisabled}}" color="primary" class="register-btn" (click)="addUserAccess()">Register Mobile</button>
@@ -136,7 +136,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field class="add-user-field">
-            <mat-label>SLVA No.</mat-label>
+            <mat-label>SLVA No.*</mat-label>
             <input type="text" matInput placeholder="123456" [(ngModel)]="doctor.slva_reg_no" name="website" value="{{doctor.slva_reg_no}}">
           </mat-form-field>
         </div>
@@ -196,7 +196,7 @@
                          placeholder="10:00"
                          readonly />
                   <mat-icon matSuffix
-                            (click)="pickerA.open()">
+                            (click)="pickerB.open()">
                       watch_later
                   </mat-icon>
                 </mat-form-field>
@@ -220,7 +220,7 @@
                          placeholder="16:00"
                          readonly />
                   <mat-icon matSuffix
-                            (click)="pickerA.open()">
+                            (click)="pickerC.open()">
                       watch_later
                   </mat-icon>
                 </mat-form-field>
@@ -238,7 +238,7 @@
                          placeholder="18:00"
                          readonly />
                   <mat-icon matSuffix
-                            (click)="pickerA.open()">
+                            (click)="pickerD.open()">
                       watch_later
                   </mat-icon>
                 </mat-form-field>

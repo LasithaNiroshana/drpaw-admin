@@ -39,7 +39,7 @@ export class ClinicService {
   }
 
   //Edit clinic
-  public EditClinic(clinic: any,clinicID:number){
+  public EditClinic(clinicID:number,clinic: any){
     const url = this.globalService.apiURL + 'clinic/' + clinicID + '/';
     
     const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);
@@ -92,7 +92,7 @@ export class ClinicService {
   }
 
   //Add user to a clinic
-  public AddUser(doctor: any){
+  public AddClinicUser(doctor: any){
     const url = this.globalService.apiURL + 'doctor_board/';
     
     const headers = new HttpHeaders().set("Authorization", "token " + this.globalService.token);

@@ -7,6 +7,7 @@ import {SalesAgentsService} from '../../../common/sales-agents.service';
 
 //Interface for payment details
 export interface ClinicDetails {
+  id:number,
   name: string;
   is_multi_doc:number;
   address:string;
@@ -53,6 +54,7 @@ export class EditClinicComponent implements OnInit,AfterViewInit{
   ngOnInit() {}
 
   clinicDetails:ClinicDetails={
+    id:0,
     name: "",
     is_multi_doc:0,
     address:"",
@@ -120,18 +122,18 @@ async onSubmit(){
   formdata.append("active",this.clinic.active.toString());
   formdata.append("sale",this.clinic.sale.toString());
   formdata.append("mobile", this.clinic.mobile);
-  formdata.append("email", this.clinic.email);
-  formdata.append("website", this.clinic.website);
+  formdata.append("email", this.clinic.email ? this.clinic.email : "");
+  formdata.append("website", this.clinic.website ? this.clinic.website : "");
   formdata.append("province", this.clinic.province);
   formdata.append("district", this.clinic.district);
-  formdata.append("br_no", this.clinic.br_no);
+  formdata.append("br_no", this.clinic.br_no ? this.clinic.br_no : "");
   formdata.append("contact_person", this.clinic.contact_person);
-  formdata.append("landline", this.clinic.landline);
+  formdata.append("landline", this.clinic.landline ? this.clinic.landline : "");
   formdata.append("bank_acc_holder", this.clinic.bank_acc_holder);
   formdata.append("bank_name", this.clinic.bank_name);
   formdata.append("bank_acc_no", this.clinic.bank_acc_no);
   formdata.append("bank_branch", this.clinic.city);
-  formdata.append("bank_branch_code", this.clinic.bank_branch_code);
+  formdata.append("bank_branch_code", this.clinic.bank_branch_code ? this.clinic.bank_branch_code : "");
   formdata.append("is_multi_doc", this.clinic.is_multi_doc.toString());
 
       if(
@@ -159,7 +161,7 @@ async onSubmit(){
     // &&
     // this.clinic.bank_branch!=""
   ){
-    this.clinicService.SaveClinic(formdata).subscribe({
+    this.clinicService.EditClinic(this.clinic.id,formdata).subscribe({
       complete: () => this.openSnackBar('Editing clinic was successful','OK'),
       error: (e) => this.openSnackBar('Error occured while editing clinic!'+ e,'OK'),
     });

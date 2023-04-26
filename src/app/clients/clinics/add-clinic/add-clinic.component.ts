@@ -162,8 +162,8 @@ export class AddClinicComponent implements OnInit,AfterViewInit,AfterContentChec
       this.clinic.province!=""
       &&
       this.clinic.mobile!=""
-      &&
-      this.clinic.email!=""
+      // &&
+      // this.clinic.email!=""
       &&
       this.clinic.active!=null
       &&

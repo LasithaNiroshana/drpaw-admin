@@ -297,6 +297,14 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
       complete:()=>{
         this.spinner.hide();
         this.openSnackBar('Successfully registered the user. Please enter other details to continue.','OK');
+        this.clinicService.getUserAccessList().subscribe({
+          next:(res:any)=>{
+            this.userAccessList=res;
+          },
+          complete:()=>{
+            console.log(this.userAccessList);
+          }
+        });
         this.btndisabled=true;
       },
       error:(e)=>{

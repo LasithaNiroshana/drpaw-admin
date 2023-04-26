@@ -38,6 +38,18 @@
               </mat-select>
             </mat-form-field>
             <br>
+            <mat-form-field class="add-clinic-field">
+              <mat-label>Active Status</mat-label>
+              <mat-select [(ngModel)]="clinic.active" name="active">
+                <mat-option  [value]="0">
+                  Yes
+                </mat-option>
+                <mat-option  [value]="1">
+                  No
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
             <h4>
               Address
             </h4>
@@ -101,10 +113,10 @@
               </mat-select>
             </mat-form-field>
             <br>
-            <mat-form-field class="add-clinic-hidden-field">
+            <!-- <mat-form-field class="add-clinic-hidden-field">
               <mat-label>Active Status</mat-label>
               <input type="text" matInput [(ngModel)]="clinic.active" name="active" value=0>
-            </mat-form-field>
+            </mat-form-field> -->
   
            </mat-step>
 

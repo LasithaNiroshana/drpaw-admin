@@ -107,7 +107,7 @@
   
           <ng-container matColumnDef="created_on">
             <th mat-header-cell mat-sort-header *matHeaderCellDef>Created On</th>
-            <td mat-cell *matCellDef="let appointment"> {{appointment.created_on}} </td>
+            <td mat-cell *matCellDef="let appointment"> {{appointment.created_on | date:'yyyy-MM-dd'}} </td>
           </ng-container>
   
           <!-- <ng-container matColumnDef="s_time">

@@ -34,6 +34,7 @@ constructor(private router:Router,private clinicService:ClinicService,private di
     complete:()=>this.spinner.hide(),
     next:(res:any)=>{
       this.userList=res;
+      // console.log(this.userList);
     },
     error:(e)=>{this.spinner.hide()},
   });

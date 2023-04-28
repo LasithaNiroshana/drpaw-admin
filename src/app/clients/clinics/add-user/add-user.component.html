@@ -67,7 +67,7 @@
         <div class="contact-details-step">
           <mat-form-field class="add-user-field">
             <mat-label>Mobile Number*</mat-label>
-            <input type="tel" matInput [maxlength]="10" placeholder="0711234567" [(ngModel)]="doctor.mobile" name="mobile" value="{{doctor.mobile}}" (ngModelChange)="searchMobile($event)">
+            <input type="tel" matInput [minlength]="10" [maxlength]="10" placeholder="0711234567" [(ngModel)]="doctor.mobile" name="mobile" value="{{doctor.mobile}}" (ngModelChange)="searchMobile($event)">
           </mat-form-field>
           <button mat-raised-button disabled="{{this.btndisabled}}" color="primary" class="register-btn" (click)="addUserAccess()">Register Mobile</button>
           <mat-form-field class="add-user-field">

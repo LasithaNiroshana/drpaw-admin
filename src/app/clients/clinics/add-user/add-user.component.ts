@@ -161,8 +161,8 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
     doctorFormdata.append("slva_reg_no", this.doctor.slva_reg_no);
 
     if(
-      // this.btndisabled===true
-      // &&
+      this.btndisabled===true
+      &&
       this.doctor.name!=""
       &&
       this.doctor.clinic!=null
@@ -174,8 +174,8 @@ export class AddUserComponent implements OnInit,AfterViewInit,AfterContentChecke
       this.doctor.address!=""
       &&
       this.doctor.city!=""
-      &&
-      this.doctor.slva_reg_no!=""
+      // &&
+      // this.doctor.slva_reg_no!=""
       // &&
       // this.doctor.clinic_name!=""
       // &&

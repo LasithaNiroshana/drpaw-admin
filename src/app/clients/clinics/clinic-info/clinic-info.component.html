@@ -71,10 +71,13 @@
         <th mat-header-cell mat-sort-header *matHeaderCellDef>User Type</th>
         <td mat-cell *matCellDef="let user">
           <p *ngIf="user.user_type==0">
-            Doctor
+            Admin
           </p>  
-          <p *ngIf="user.user_type==1">
+          <p *ngIf="user.user_type==3">
             Staff
+          </p>   
+          <p *ngIf="user.user_type==2">
+            Doctor
           </p>   
         </td>
       </ng-container>

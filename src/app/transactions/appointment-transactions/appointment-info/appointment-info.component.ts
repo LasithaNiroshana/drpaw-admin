@@ -1,7 +1,6 @@
 import { Component, OnInit,Inject,ViewChild } from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {AppointmentTransactionsComponent} from '../appointment-transactions.component';
 import {PaymentService} from '../../../common/payment.service';
 import * as XLSX from 'xlsx';
 import {jsPDF} from 'jspdf';
@@ -10,6 +9,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTableDataSource} from '@angular/material/table';
+import {AppointmentTransactionsFilterFormComponent} from '../appointment-transactions-filter-form/appointment-transactions-filter-form.component';
 
 export interface AppointmentInfo {
   id: number;
@@ -84,7 +84,7 @@ export class AppointmentInfoComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialogRef:MatDialogRef<AppointmentTransactionsComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private appointmentService:PaymentService,private datePipe:DatePipe){
+  constructor(public dialogRef:MatDialogRef<AppointmentTransactionsFilterFormComponent>,@Inject(MAT_DIALOG_DATA) public data:any, private appointmentService:PaymentService,private datePipe:DatePipe){
     this.clinics=data.cid;
     this.appointmentStatus=data.appStatus;
   this.startDate=data.strtDate; //Starting date
@@ -104,13 +104,26 @@ export class AppointmentInfoComponent implements OnInit{
     this.appointmentService.getAppointmentList(strDate,enDate).subscribe({
       next:(res:any)=>{
         this.sortedAppointments=res;
-        this.dataSource = new MatTableDataSource(this.sortedAppointments);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       },
       complete:()=>{
         var apps=this.sortedAppointments;
-        console.log(apps);
+        // console.log(apps);
+        // Filter the appointments array based on clinic type, appointment source, and appointment sub-type and store the filtered appointments in a new array
+        if(this.clinics === 0 && this.appointmentSource === 2 && this.appointmentType === 3){
+        //   this.dataSource = new MatTableDataSource(apps);
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+        console.log('xvnf,vnf');
+        }
+        else{
+        let filteredAppointments = apps.filter((appointment:any) => 
+        (this.clinics === 0 || appointment.clinic === this.clinics) &&
+        (this.appointmentSource === 2 || appointment.app_source === this.appointmentSource) &&
+        (this.appointmentType === 3 || appointment.a_sub_type === this.appointmentType));   
+        this.dataSource = new MatTableDataSource(filteredAppointments);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
       }
     }
     );

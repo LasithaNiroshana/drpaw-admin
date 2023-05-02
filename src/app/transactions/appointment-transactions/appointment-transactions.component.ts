@@ -143,7 +143,7 @@ export class AppointmentTransactionsComponent implements OnInit,AfterViewInit,Af
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.appointmentHistory=res;
-        console.log(this.appointmentHistory);
+        // console.log(this.appointmentHistory);
         if(this.appointmentHistory==0){
           this.openSnackBar('There are no appointments to show!','OK');
         }

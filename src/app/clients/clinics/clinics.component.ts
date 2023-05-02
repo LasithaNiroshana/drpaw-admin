@@ -82,6 +82,7 @@ export class ClinicsComponent implements OnInit,AfterViewInit,AfterContentChecke
       complete:()=>this.spinner.hide(),
       next:(res:any)=>{
         this.clinicList=res;
+        console.log(this.clinicList);
         if(this.clinicList.length==0){
           this.openSnackBar('There are no clinics to show!','OK');
         }

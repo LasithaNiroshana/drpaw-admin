@@ -31,6 +31,7 @@ import { ConfirmLogoutComponent } from './home/confirm-logout/confirm-logout.com
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,6 @@ import { ConfirmLogoutComponent } from './home/confirm-logout/confirm-logout.com
     CompletedSettlementsAppointmentsComponent,
     NotPaidSettlementsAppointmentsComponent,
     ConfirmLogoutComponent,
-  
   ],
   imports: [
     BrowserModule,

@@ -35,6 +35,9 @@ import { CompletedSettlementsComponent } from './settlements/clinic-settlements/
 import { AppointmentTransactionsFilterFormComponent } from './transactions/appointment-transactions/appointment-transactions-filter-form/appointment-transactions-filter-form.component';
 import { PaymentPendingSettlementsComponent } from './settlements/payment-pending-settlements/payment-pending-settlements.component';
 import { PaymentCompletedSettlementsComponent } from './settlements/payment-completed-settlements/payment-completed-settlements.component';
+import { RequestedAppointmentRefundsComponent } from './refunds/appointment-refunds/requested-appointment-refunds/requested-appointment-refunds.component';
+import { AcceptedAppointmentRefundsComponent } from './refunds/appointment-refunds/accepted-appointment-refunds/accepted-appointment-refunds.component';
+import { DeclinedAppointmentRefundsComponent } from './refunds/appointment-refunds/declined-appointment-refunds/declined-appointment-refunds.component';
 
 const routes: Routes = [
   {path:'',component:LoginpageComponent},
@@ -79,6 +82,9 @@ const routes: Routes = [
     {path:'appointmentrefunds',component: AppointmentRefundsComponent}
   ]
 },
+{path:'requestedrefunds',component:RequestedAppointmentRefundsComponent},
+{path:'acceptedrefunds',component:AcceptedAppointmentRefundsComponent},
+{path:'declinedrefunds',component:DeclinedAppointmentRefundsComponent},
     {path:'petowners',component:PetownersComponent},
     {path:'settlements',component:SettlementsComponent,
     children:[
@@ -143,5 +149,8 @@ export const routingComponents=[
   CompletedSettlementsComponent,
   AppointmentTransactionsFilterFormComponent,
   PaymentPendingSettlementsComponent,
-  PaymentCompletedSettlementsComponent
+  PaymentCompletedSettlementsComponent,
+  RequestedAppointmentRefundsComponent,
+  AcceptedAppointmentRefundsComponent,
+  DeclinedAppointmentRefundsComponent
 ]

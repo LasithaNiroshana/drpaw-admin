@@ -47,7 +47,7 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
   maxDate1: Date; //maxDate
   minDate2: Date; //minDate
   maxDate2: Date; //maxDate
-  clinicID:number=0;  //ClinicID
+  clinicID:any=[{id:0}];  //ClinicID
   appointmentSource:number=2;
   appointmentType:number=3;
   appointmentStatus:number=0;
@@ -99,10 +99,10 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
   }
 
   //Get appointment history of a clinic
-  getAppointmentHistory(clinicid:number,appointmentStatus:number,appointmentSource:number,appointmentType:number,stdt:any,endt:any){
+  getAppointmentHistory(clinic:any,appointmentStatus:number,appointmentSource:number,appointmentType:number,stdt:any,endt:any){
     this.dialog.open(AppointmentInfoComponent,{
       data:{
-        cid:clinicid,
+        cid:clinic,
         appStatus:appointmentStatus,
         appSource:appointmentSource,
         appType:appointmentType,
@@ -110,6 +110,7 @@ export class AppointmentTransactionsFilterFormComponent implements OnInit,OnDest
         enDate:endt
       }
     });
+    console.log(clinic.id);
     }
 
   resetForm(){}
